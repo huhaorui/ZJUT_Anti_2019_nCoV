@@ -24,7 +24,7 @@ public class Controller extends HttpServlet {
 //        response.getWriter().write();
         try {
             var sql = conn.prepareStatement("create table test(a int)");
-
+            sql.execute();
         } catch (SQLException e) {
             e.printStackTrace();
         }
