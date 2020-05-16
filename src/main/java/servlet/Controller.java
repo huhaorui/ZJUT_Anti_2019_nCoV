@@ -21,9 +21,8 @@ public class Controller extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Connection conn = DatabaseProvider.getConn();
         response.getWriter().write("hello world");
-//        response.getWriter().write();
         try {
-            var sql = conn.prepareStatement("create table test(a int)");
+            var sql = conn.prepareStatement("insert into collage (id, name) values ('0606', '计算机科学与技术学院、软件学院')");
             sql.execute();
         } catch (SQLException e) {
             e.printStackTrace();
