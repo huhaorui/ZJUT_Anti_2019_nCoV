@@ -56,12 +56,17 @@ public class GetQrCode extends HttpServlet {
         response.setHeader("Pragma", "No-cache");
         response.setHeader("Cache-Control", "no-cache");
         response.setDateHeader("Expires", 0);
-        response.setContentType("image/jpeg");
+        response.setContentType("image/png");
         int black = 0xFF02c39a;
         int white = 0xFFFFFFFF;
         int width = 400;
         int height = 400;
-        String text = request.getParameter("text");
+        String text;
+        if (request.getParameter("text") != null) {
+            text = request.getParameter("text");
+        } else {
+            text = "";
+        }
         String format = "png";
         if (request.getParameter("black") != null) {
             black = Integer.parseInt(request.getParameter("black"), 16);

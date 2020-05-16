@@ -65,6 +65,50 @@
         </div>
     </div>
 </div>
+<div class="mdui-col-md12 mdui-hidden-md-down" style="height: 64px">
+
+</div>
+<div class="mdui-col-md-1 mdui-col-sm-12 ">
+
+</div>
+<div class=" mdui-col-md-4 mdui-col-sm-12" style="margin-top: 16px">
+    <div class="mdui-card">
+        <div class="mdui-card-media">
+            <img src="image/card.jpg"/>
+            <div class="mdui-card-media-covered">
+                <div class="mdui-card-primary">
+                    <div class="mdui-card-primary-title">管理员</div>
+                    <div class="mdui-card-primary-subtitle">Administrator</div>
+                </div>
+            </div>
+        </div>
+        <div class="mdui-card-actions">
+            <button class="mdui-btn mdui-ripple" onclick="window.location.assign('login.jsp?user=admin')">登陆</button>
+        </div>
+    </div>
+</div>
+<div class="mdui-col-md-1 mdui-col-sm-12">
+
+</div>
+<div class="mdui-col-md-4 mdui-col-sm-12" style="margin-top: 16px">
+    <div class="mdui-card">
+        <div class="mdui-card-media">
+            <img src="image/card.jpg"/>
+            <div class="mdui-card-media-covered">
+                <div class="mdui-card-primary">
+                    <div class="mdui-card-primary-title">教师/学生</div>
+                    <div class="mdui-card-primary-subtitle">Teacher/Student</div>
+                </div>
+            </div>
+        </div>
+        <div class="mdui-card-actions">
+            <button class="mdui-btn mdui-ripple" onclick="window.location.assign('login.jsp?user=teacher')">登陆</button>
+        </div>
+    </div>
+</div>
+<div class="mdui-col-md-1 mdui-col-sm-12">
+
+</div>
 </body>
 <script>const $$ = mdui.JQ;</script>
 <script src="js/script.js"></script>
