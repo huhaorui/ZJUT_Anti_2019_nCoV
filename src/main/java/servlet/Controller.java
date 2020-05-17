@@ -15,7 +15,7 @@ import java.sql.SQLException;
  * @author wcf
  */
 
-@WebServlet(name = "controller", urlPatterns = { "/action" })
+@WebServlet(name = "controller", urlPatterns = {"/action"})
 public class Controller extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
