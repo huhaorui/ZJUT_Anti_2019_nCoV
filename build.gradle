@@ -22,6 +22,8 @@ dependencies {
     compile 'org.apache.poi:poi:4.1.2'
     compile 'javax.servlet:javax.servlet-api:4.0.1'
     compile 'javax.servlet.jsp:javax.servlet.jsp-api:2.3.3'
-    compile 'org.apache.commons:commons-lang3:3.3.2'
     compile 'com.google.code.gson:gson:2.8.6'
+    compile 'javax.activation:activation:1.1.1'
+    compile 'javax.mail:javax.mail-api:1.6.2'
+    compile 'com.sun.mail:javax.mail:1.6.2'
 }

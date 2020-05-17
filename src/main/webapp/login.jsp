@@ -95,7 +95,7 @@
 <div class="mdui-col-md-4 mdui-col-sm-12  mdui-typo">
     <h1 class="mdui-center mdui-text-color-theme mdui-text-center">管理员登陆</h1>
     <div class="mdui-container-fluid mdui-center" id="content" style="margin: 64px">
-        <form action="LoginServlet" method="post">
+        <form action="login" method="post">
             <div class="mdui-textfield mdui-textfield-floating-label">
                 <i class="mdui-icon material-icons">account_circle</i>
                 <label class="mdui-textfield-label">工号</label>
@@ -106,6 +106,7 @@
                 <label class="mdui-textfield-label">密码</label>
                 <input class="mdui-textfield-input" name="password" type="password"/>
             </div>
+            <input type="hidden" name="user" value="admin">
             <button class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent mdui-center"
                     style="margin-top: 32px" onclick="return login()">登陆
             </button>
@@ -121,7 +122,7 @@
 <div class="mdui-col-md-4 mdui-col-sm-12  mdui-typo">
     <h1 class="mdui-center mdui-text-color-theme mdui-text-center">师生登陆</h1>
     <div class="mdui-container-fluid mdui-center" id="" style="margin: 64px">
-        <form action="LoginServlet" method="post">
+        <form action="login" method="post">
             <div class="mdui-textfield mdui-textfield-floating-label">
                 <i class="mdui-icon material-icons">account_circle</i>
                 <label class="mdui-textfield-label">姓名</label>
@@ -138,6 +139,7 @@
                 <input class="mdui-textfield-input" name="password" type="password"/>
                 <div class="mdui-textfield-helper">密码为身份证后八位</div>
             </div>
+            <input type="hidden" name="user" value="user">
             <button class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent mdui-center"
                     style="margin-top: 32px" onclick="return login()">登陆
             </button>
