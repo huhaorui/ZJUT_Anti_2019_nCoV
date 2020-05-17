@@ -19,7 +19,7 @@ import java.util.UUID;
 public class ForgetPasswordServlet extends HttpServlet {
     String getResetLink(String email, HttpServletRequest request) {
         String id = null, token = null;
-        String URL = "https://" + request.getServerName() + "/resetPassword?";
+        String URL = "https://javaweb.huhaorui.com/" + request.getContextPath() + "/resetPassword?";
         Connection conn = DatabaseProvider.getConn();
         try {
             PreparedStatement sql = conn.prepareStatement("select id from admin where email=?");

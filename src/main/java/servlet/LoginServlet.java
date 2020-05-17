@@ -25,25 +25,27 @@ public class LoginServlet extends HttpServlet {
         if (request.getParameter("user") != null && request.getParameter("user").equals("admin")) {
             if (request.getParameter("id") != null) {
                 id = request.getParameter("id");
+                response.getWriter().println(id);
             }
             if (request.getParameter("password") != null) {
                 password = request.getParameter("password");
+                response.getWriter().println(password);
+
             }
+            PreparedStatement sql = null;
             try {
-                PreparedStatement sql = conn.prepareStatement("select * from admin where id=? and password=?");
+                sql = conn.prepareStatement("select * from admin where id=? and password=?");
                 sql.setString(1, id);
                 sql.setString(2, password);
                 ResultSet result = sql.executeQuery();
                 result.next();
-                response.getWriter().write(result.getString(1) + " " + result.getString(2) + " " + result.getString(3) + " " +
-                        result.getString(4) + " " + result.getString(5));
-
                 response.getWriter().write(result.getString(1));
-                response.getWriter().write("OK");
-
-            } catch (SQLException throwable) {
-                throwable.printStackTrace();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
             }
+
+            response.getWriter().write("OK");
+
         } else {
 
         }
