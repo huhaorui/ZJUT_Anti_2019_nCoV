@@ -1,5 +1,6 @@
 package model;
 
+@Model("health_info")
 public class HealthInfo {
     public HealthInfo(Person person, String tel, boolean danger14, boolean abroad14, boolean touchIllness14, boolean ill, int status) {
         this.person = person;
@@ -12,11 +13,26 @@ public class HealthInfo {
     }
 
     private Person person;
+
+    @Field("uid")
+    private String uid;
+
+    @Field("tel")
     private String tel;
+
+    @Field("if_danger_14")
     private boolean danger14;
+
+    @Field("if_abroad_14")
     private boolean abroad14;
+
+    @Field("if_touch_illness_14")
     private boolean touchIllness14;
+
+    @Field("if_ill")
     private boolean ill;
+
+    @Field("status")
     private Status status;
 
     public CodeColor getCodeColor() {

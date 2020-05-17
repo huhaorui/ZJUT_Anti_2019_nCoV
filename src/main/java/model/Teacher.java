@@ -1,7 +1,7 @@
 package model;
 
 public class Teacher extends Person {
-
+    @Field("collage")
     private Collage collage;
 
     public Teacher(String uid, String name, String personId, Collage collage) {

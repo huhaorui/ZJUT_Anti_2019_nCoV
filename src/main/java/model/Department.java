@@ -1,7 +1,10 @@
 package model;
 
 public class Department {
+    @Field("id")
     private String id;
+
+    @Field("name")
     private String name;
 
     public Department(String id, String name) {

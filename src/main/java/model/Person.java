@@ -1,22 +1,25 @@
 package model;
 
-public class Person implements HealthCodeTester {
+public class Person implements HealthCodeTester, Queryable {
+    @Field("id")
     private String uid;
+    @Field("name")
     private String name;
-    private String PersonId;
+    @Field("person_id")
+    private String personId;
 
     public Person(String uid, String name, String personId) {
         this.uid = uid;
         this.name = name;
-        PersonId = personId;
+        this.personId = personId;
     }
 
     public String getPersonId() {
-        return PersonId;
+        return personId;
     }
 
     public void setPersonId(String personId) {
-        PersonId = personId;
+        this.personId = personId;
     }
 
     public String getUid() {
@@ -45,7 +48,7 @@ public class Person implements HealthCodeTester {
         var punchRecords = getPunchRecords();
 
         for (var record : punchRecords) {
-            
+
         }
 
         return null;
@@ -54,12 +57,17 @@ public class Person implements HealthCodeTester {
     @Override
     public HealthInfo getHealthInfo() {
         // TODO: 2020/5/17
+
         return null;
     }
 
     @Override
     public PunchRecord[] getPunchRecords() {
         // TODO: 2020/5/17
+        return new PunchRecord[0];
+    }
+
+    public Boolean login(String id, String name, String password) {
         if (this instanceof Student) {
 
         } else if (this instanceof Teacher) {
@@ -67,6 +75,17 @@ public class Person implements HealthCodeTester {
         } else {
 
         }
-        return new PunchRecord[0];
+
+        return false;
     }
+
+    @Override
+    public Person getById(String id) {
+
+        return null;
+    }
+}
+
+interface Queryable {
+    Person getById(String id);
 }

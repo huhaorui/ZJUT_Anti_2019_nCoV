@@ -1,7 +1,9 @@
 package model;
 
+@Model(table = "major")
 public class Major extends Department {
 
+    @Field(column = "collage")
     private Collage collage;
 
     public Major(String id, String name, Collage collage) {
