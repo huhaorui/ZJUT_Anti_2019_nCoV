@@ -12,10 +12,8 @@ public class HealthInfo {
         this.status = new Status(status);
     }
 
-    private Person person;
-
     @Field("uid")
-    private String uid;
+    private Person person;
 
     @Field("tel")
     private String tel;

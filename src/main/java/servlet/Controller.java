@@ -1,6 +1,7 @@
 package servlet;
 
 import conn.DatabaseProvider;
+import model.*;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -9,7 +10,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.Connection;
-import java.sql.SQLException;
 
 /**
  * @author wcf
@@ -21,12 +21,15 @@ public class Controller extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Connection conn = DatabaseProvider.getConn();
         response.getWriter().write("hello world");
-        try {
-            var sql = conn.prepareStatement("insert into collage (id, name) values ('0606', '计算机科学与技术学院、软件学院')");
-            sql.execute();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        new SQL().query(Teacher.class, "000000");
+        new SQL().query(Student.class, "000000");
+        new SQL().query(Admin.class, "000000");
+        new SQL().query(Major.class, "000000");
+        new SQL().query(Collage.class, "000000");
+        new SQL().query(Clazz.class, "000000");
+        new SQL().query(PunchRecord.class, "000000");
+        new SQL().query(HealthInfo.class, "000000");
+
     }
 
     @Override

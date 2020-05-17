@@ -1,5 +1,6 @@
 package model;
 
+@Model("teacher")
 public class Teacher extends Person {
     @Field("collage")
     private Collage collage;
@@ -15,5 +16,10 @@ public class Teacher extends Person {
 
     public void setCollage(Collage collage) {
         this.collage = collage;
+    }
+
+    @Override
+    public String toString() {
+        return "Teacher{" + "collage=" + collage + '}' + super.toString();
     }
 }

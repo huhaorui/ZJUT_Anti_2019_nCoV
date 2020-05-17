@@ -1,6 +1,6 @@
 package model;
 
-public class Person implements HealthCodeTester, Queryable {
+public class Person implements HealthCodeTester {
     @Field("id")
     private String uid;
     @Field("name")
@@ -80,12 +80,11 @@ public class Person implements HealthCodeTester, Queryable {
     }
 
     @Override
-    public Person getById(String id) {
-
-        return null;
+    public String toString() {
+        return "Person{" +
+                "uid='" + uid + '\'' +
+                ", name='" + name + '\'' +
+                ", personId='" + personId + '\'' +
+                '}';
     }
-}
-
-interface Queryable {
-    Person getById(String id);
 }

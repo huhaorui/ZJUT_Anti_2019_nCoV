@@ -1,11 +1,20 @@
 package model;
 
+@Model("admin")
 public class Admin {
     @Field("id")
     private String id;
+
+    @Field("level")
     private String level;
+
+    @Field("target")
     private String target;
+
+    @Field("password")
     private String password;
+
+    @Field("email")
     private String email;
 
     public Admin(String id, String level, String target, String password, String email) {

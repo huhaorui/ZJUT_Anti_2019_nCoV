@@ -2,17 +2,16 @@ package model;
 
 @Model("class")
 public class Clazz extends Department {
+    @Field("major")
     private Major major;
 
-    @Field("major")
-    private String majorId;
-
     @Field("collage")
-    private String collageId;
+    private Collage collage;
 
     public Clazz(String id, String name, Major major) {
         super(id, name);
         this.major = major;
+        this.collage = major.getCollage();
     }
 
     public Major getMajor() {
@@ -21,5 +20,13 @@ public class Clazz extends Department {
 
     public void setMajor(Major major) {
         this.major = major;
+    }
+
+    public Collage getCollage() {
+        return collage;
+    }
+
+    public void setCollage(Collage collage) {
+        this.collage = collage;
     }
 }

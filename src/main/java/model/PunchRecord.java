@@ -3,10 +3,19 @@ package model;
 import java.sql.Date;
 import java.sql.Time;
 
+@Model("punch_record")
 public class PunchRecord {
+
+    @Field("uid")
     private Person person;
+
+    @Field("date")
     private Date date;
+
+    @Field("time")
     private Time time;
+
+    @Field("status")
     private Status status;
 
     public PunchRecord(Person person, Date date, Time time, int status) {

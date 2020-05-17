@@ -1,19 +1,17 @@
 package model;
 
-import java.lang.annotation.Inherited;
+import java.lang.annotation.*;
 
+@Retention(RetentionPolicy.RUNTIME)
+@Target({ElementType.TYPE})
+@Inherited
 @interface Model {
     String value();
 }
 
+@Retention(RetentionPolicy.RUNTIME)
+@Target({ElementType.FIELD})
 @Inherited
 @interface Field {
     String value();
-}
-
-class SQL<T> {
-    T get(String id) {
-        
-        return null;
-    }
 }
