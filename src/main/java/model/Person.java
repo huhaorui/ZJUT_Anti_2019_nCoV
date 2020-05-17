@@ -3,20 +3,20 @@ package model;
 public class Person implements HealthCodeTester {
     private String uid;
     private String name;
-    private String PersonId;
+    private String personId;
 
     public Person(String uid, String name, String personId) {
         this.uid = uid;
         this.name = name;
-        PersonId = personId;
+        this.personId = personId;
     }
 
     public String getPersonId() {
-        return PersonId;
+        return personId;
     }
 
     public void setPersonId(String personId) {
-        PersonId = personId;
+        this.personId = personId;
     }
 
     public String getUid() {
