@@ -1,3 +1,17 @@
+create table admin
+(
+    id       varchar(16) not null,
+    level    int         not null,
+    target   varchar(16) not null,
+    password varchar(32) not null,
+    email    varchar(64) not null,
+    constraint admin_id_uindex
+        unique (id)
+);
+
+alter table admin
+    add primary key (id);
+
 create table collage
 (
     id   varchar(16) not null,
