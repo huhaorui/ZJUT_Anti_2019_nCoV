@@ -18,6 +18,24 @@
     <script src="js/mdui.min.js"></script>
 </head>
 <body class="mdui-appbar-with-toolbar  mdui-loaded mdui-theme-primary-indigo  mdui-theme-accent-deep-purple">
+<%
+    if (request.getParameter("error") != null && request.getParameter("error").equals("true")) {
+%>
+<script type="text/javascript">
+    window.onload = function () {
+        mdui.dialog({
+            title: '邮箱验证失败',
+            buttons: [
+                {
+                    text: '确认',
+                }
+            ]
+        });
+    }
+</script>
+<%
+    }
+%>
 <header class="mdui-appbar mdui-appbar-fixed" id="header">
     <div class="mdui-toolbar mdui-color-theme">
         <span class="mdui-btn mdui-btn-icon mdui-ripple mdui-ripple-white" onclick="history.back()">

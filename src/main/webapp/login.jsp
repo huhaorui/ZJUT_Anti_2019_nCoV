@@ -18,7 +18,17 @@
             alert("工号或密码不能为空")
             return false
         }
-        return true
+        password = md5(password + "wcfnb") //wcf is salt
+        document.getElementsByName("password")[0].value = password
+    }
+
+    function check() {
+        let id = document.getElementsByName("id")[0].value;
+        let password = document.getElementsByName("password")[0].value;
+        if (id.length === 0 || password.length === 0) {
+            alert("工号或密码不能为空")
+            return false
+        }
     }
 </script>
 <%
@@ -62,7 +72,7 @@
             </div>
             <input type="hidden" name="user" value="admin">
             <button class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent mdui-center"
-                    style="margin-top: 32px" onclick="return login()">登陆
+                    style="margin-top: 32px" onclick="return  login()">登陆
             </button>
         </form>
         <button class="mdui-btn mdui-ripple mdui-center" onclick="window.location.assign('ForgetPassword.jsp')">
@@ -95,7 +105,7 @@
             </div>
             <input type="hidden" name="user" value="user">
             <button class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent mdui-center"
-                    style="margin-top: 32px" onclick="return login()">登陆
+                    style="margin-top: 32px" onclick="return check()">登陆
             </button>
         </form>
 

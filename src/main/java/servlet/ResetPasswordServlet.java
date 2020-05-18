@@ -23,13 +23,17 @@ public class ResetPasswordServlet extends HttpServlet {
             sql.setString(2, token);
             ResultSet result = sql.executeQuery();
             if (result.next()) {
+                result.close();
+                sql.close();
                 sql = conn.prepareStatement("update admin set password=? where id=?");
                 sql.setString(1, password);
                 sql.setString(2, id);
                 sql.execute();
+                sql.close();
                 sql = conn.prepareStatement("delete from password_reset where id=?");
                 sql.setString(1, id);
                 sql.execute();
+                sql.close();
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -48,6 +52,8 @@ public class ResetPasswordServlet extends HttpServlet {
             if (result.next()) {
                 request.getRequestDispatcher("resetPassword.jsp").forward(request, response);
             }
+            result.close();
+            sql.close();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }

@@ -18,6 +18,17 @@
     <script src="js/mdui.min.js"></script>
 </head>
 <script type="text/javascript">
+    window.onload = function () {
+        mdui.dialog({
+            title: '密码错误',
+            buttons: [
+                {
+                    text: '确认',
+                }
+            ]
+        });
+    }
+
     function login() {
         let id = document.getElementsByName("id")[0].value;
         let password = document.getElementsByName("password")[0].value;
@@ -57,7 +68,6 @@
 
     </div>
 </header>
-
 <div class="mdui-col-md-4 mdui-col-sm-12">
 
 </div>
@@ -65,7 +75,7 @@
     if (admin) {
 %>
 <div class="mdui-col-md-4 mdui-col-sm-12  mdui-typo">
-    <h1 class="mdui-center mdui-text-color-theme mdui-text-center">你输入的密码有误</h1>
+    <h1 class="mdui-center mdui-text-color-theme mdui-text-center">管理员登陆</h1>
     <div class="mdui-container-fluid mdui-center" id="content" style="margin: 64px">
         <form action="login" method="post">
             <div class="mdui-textfield mdui-textfield-floating-label">
@@ -92,7 +102,7 @@
 } else {
 %>
 <div class="mdui-col-md-4 mdui-col-sm-12  mdui-typo">
-    <h1 class="mdui-center mdui-text-color-theme mdui-text-center">你输入的密码有误</h1>
+    <h1 class="mdui-center mdui-text-color-theme mdui-text-center">师生登陆</h1>
     <div class="mdui-container-fluid mdui-center" id="" style="margin: 64px">
         <form action="login" method="post">
             <div class="mdui-textfield mdui-textfield-floating-label">

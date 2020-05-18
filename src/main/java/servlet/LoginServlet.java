@@ -43,6 +43,8 @@ public class LoginServlet extends HttpServlet {
                 } else {
                     response.sendRedirect("error.jsp?user=admin");
                 }
+                result.close();
+                sql.close();
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
@@ -72,6 +74,8 @@ public class LoginServlet extends HttpServlet {
                 } else {
                     response.sendRedirect("error.jsp?user=user");
                 }
+                result.close();
+                sql.close();
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }

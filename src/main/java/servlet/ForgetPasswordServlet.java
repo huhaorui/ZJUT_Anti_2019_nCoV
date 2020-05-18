@@ -30,13 +30,17 @@ public class ForgetPasswordServlet extends HttpServlet {
                 token = UUID.randomUUID().toString().replace("-", "");
                 URL += "id=" + id + "&token=" + token;
             }
+            result.close();
+            sql.close();
             sql = conn.prepareStatement("delete from password_reset where id=?");
             sql.setString(1, id);
             sql.execute();
+            sql.close();
             sql = conn.prepareStatement("insert into password_reset(id, token) values(?,?)");
             sql.setString(1, id);
             sql.setString(2, token);
             sql.execute();
+            sql.close();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -53,14 +57,16 @@ public class ForgetPasswordServlet extends HttpServlet {
             sql.setString(2, email);
             ResultSet result = sql.executeQuery();
             if (!result.next()) {
-                response.getWriter().write("error");
+                response.sendRedirect("ForgetPassword.jsp?error=true");
             } else {
                 if (Mail.mail(getResetLink(email, request), email)) {
-                    response.getWriter().write("OK");
+                    response.sendRedirect("");
                 } else {
-                    response.getWriter().write("error");
+                    response.sendRedirect("ForgetPassword.jsp?error=true");
                 }
             }
+            result.close();
+            sql.close();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
