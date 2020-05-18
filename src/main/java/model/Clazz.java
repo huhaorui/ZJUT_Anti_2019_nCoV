@@ -8,6 +8,8 @@ public class Clazz extends Department {
     @Field("collage")
     private Collage collage;
 
+    public Clazz() { }
+
     public Clazz(String id, String name, Major major) {
         super(id, name);
         this.major = major;

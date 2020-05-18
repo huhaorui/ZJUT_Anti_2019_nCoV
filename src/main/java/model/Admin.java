@@ -17,6 +17,19 @@ public class Admin {
     @Field("email")
     private String email;
 
+    public Admin() {
+    }
+
+    @Override
+    public String toString() {
+        return "Admin{" +
+                "id='" + id + '\'' +
+                ", level='" + level + '\'' +
+                ", target='" + target + '\'' +
+                ", email='" + email + '\'' +
+                '}';
+    }
+
     public Admin(String id, String level, String target, String password, String email) {
         this.id = id;
         this.level = level;

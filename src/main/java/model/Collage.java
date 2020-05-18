@@ -7,8 +7,10 @@ public class Collage extends Department {
         super(id, name);
     }
 
+    public Collage() { }
+
     @Override
     public String toString() {
-        return "Collage{} " + super.toString();
+        return super.toString();
     }
 }

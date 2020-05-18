@@ -8,6 +8,10 @@ public class Person implements HealthCodeTester {
     @Field("person_id")
     private String personId;
 
+    public Person() {
+
+    }
+
     public Person(String uid, String name, String personId) {
         this.uid = uid;
         this.name = name;
