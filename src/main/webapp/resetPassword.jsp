@@ -51,12 +51,12 @@
     <h1 class="mdui-center mdui-text-color-theme mdui-text-center">找回密码</h1>
     <div class="mdui-container-fluid mdui-center" id="content" style="margin: 64px">
         <form action="resetPassword" method="post">
-            <div class="mdui-textfield">
+            <div class="mdui-textfield mdui-textfield-floating-label">
                 <i class="mdui-icon material-icons">lock</i>
                 <label class="mdui-textfield-label">请输入新密码</label>
                 <input class="mdui-textfield-input" id="password" name="password" type="password"/>
             </div>
-            <div class="mdui-textfield">
+            <div class="mdui-textfield mdui-textfield-floating-label">
                 <i class="mdui-icon material-icons">lock</i>
                 <label class="mdui-textfield-label">请再输入一次</label>
                 <input class="mdui-textfield-input" id="password2" name="password2" type="password"/>

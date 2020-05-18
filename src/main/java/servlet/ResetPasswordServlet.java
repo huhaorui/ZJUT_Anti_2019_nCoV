@@ -38,11 +38,15 @@ public class ResetPasswordServlet extends HttpServlet {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
+        response.sendRedirect("login.jsp?reset=ok&user=admin");
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String id = request.getParameter("id");
         String token = request.getParameter("token");
+        if (id == null || token == null) {
+            response.sendRedirect("ForgetPassword.jsp");
+        }
         Connection conn = DatabaseProvider.getConn();
         try {
             PreparedStatement sql = conn.prepareStatement("select * from password_reset where id=? and token=?");

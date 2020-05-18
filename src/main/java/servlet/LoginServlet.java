@@ -16,13 +16,10 @@ import java.sql.SQLException;
 @WebServlet(name = "LoginServlet", urlPatterns = "/login")
 public class LoginServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        doGet(request, response);
-    }
-
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String id = null, password = null, name = null;
-        Connection conn = DatabaseProvider.getConn();
         request.setCharacterEncoding("UTF-8");
+        response.setCharacterEncoding("UTF-8");
+        Connection conn = DatabaseProvider.getConn();
         if (request.getParameter("user") != null && request.getParameter("user").equals("admin")) {
             if (request.getParameter("id") != null) {
                 id = request.getParameter("id");
@@ -70,7 +67,7 @@ public class LoginServlet extends HttpServlet {
                 sql.setString(3, name);
                 ResultSet result = sql.executeQuery();
                 if (result.next()) {
-                    request.getRequestDispatcher("main.jsp").forward(request, response);
+                    response.sendRedirect("main.jsp");
                 } else {
                     response.sendRedirect("error.jsp?user=user");
                 }
@@ -80,5 +77,9 @@ public class LoginServlet extends HttpServlet {
                 throwables.printStackTrace();
             }
         }
+    }
+
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.sendRedirect("login.jsp");
     }
 }

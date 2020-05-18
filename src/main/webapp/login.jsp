@@ -10,6 +10,7 @@
     <script src="js/md5.min.js"></script>
     <script src="js/mdui.min.js"></script>
 </head>
+
 <script type="text/javascript">
     function login() {
         let id = document.getElementsByName("id")[0].value;
@@ -100,7 +101,7 @@
             <div class="mdui-textfield mdui-textfield-floating-label">
                 <i class="mdui-icon material-icons">lock</i>
                 <label class="mdui-textfield-label">密码</label>
-                <input class="mdui-textfield-input" name="password" type="password"/>
+                <input class="mdui-textfield-input" maxlength="8" minlength="8" name="password" type="password"/>
                 <div class="mdui-textfield-helper">密码为身份证后八位</div>
             </div>
             <input type="hidden" name="user" value="user">
@@ -108,7 +109,6 @@
                     style="margin-top: 32px" onclick="return check()">登陆
             </button>
         </form>
-
     </div>
 </div>
 
@@ -120,4 +120,23 @@
 </body>
 <script>const $$ = mdui.JQ;</script>
 <script src="js/script.js"></script>
+<%
+    if (request.getParameter("reset") != null && request.getParameter("reset").equals("ok")) {
+%>
+<script type="text/javascript">
+    window.onload = function () {
+        mdui.dialog({
+            title: "重置密码成功",
+            history: false,
+            buttons: [
+                {
+                    text: '确认',
+                }
+            ]
+        })
+    }
+</script>
+<%
+    }
+%>
 </html>

@@ -62,7 +62,7 @@
                 <input class="mdui-textfield-input" name="id" type="text"/>
             </div>
             <div class="mdui-textfield mdui-textfield-floating-label">
-                <i class="mdui-icon material-icons">lock</i>
+                <i class="mdui-icon material-icons">mail</i>
                 <label class="mdui-textfield-label">邮箱</label>
                 <input class="mdui-textfield-input" name="email" type="email"/>
             </div>

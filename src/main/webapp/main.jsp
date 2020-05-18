@@ -36,24 +36,7 @@
 
 </div>
 <div class="mdui-col-md-4 mdui-col-sm-12  mdui-typo">
-    <h1 class="mdui-center mdui-text-color-theme mdui-text-center">找回密码</h1>
-    <div class="mdui-container-fluid mdui-center" id="content" style="margin: 64px">
-        <form action="forgetPassword" method="post">
-            <div class="mdui-textfield">
-                <i class="mdui-icon material-icons">account_circle</i>
-                <label class="mdui-textfield-label">工号</label>
-                <input class="mdui-textfield-input" name="id" type="text"/>
-            </div>
-            <div class="mdui-textfield">
-                <i class="mdui-icon material-icons">lock</i>
-                <label class="mdui-textfield-label">邮箱</label>
-                <input class="mdui-textfield-input" name="email" type="email"/>
-            </div>
-            <button class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent mdui-center"
-                    style="margin-top: 32px">重置密码
-            </button>
-        </form>
-    </div>
+    <h1 class="mdui-center mdui-text-color-theme mdui-text-center">主页</h1>
 </div>
 <div class="mdui-col-md-4 mdui-col-sm-12">
 </div>

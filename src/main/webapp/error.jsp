@@ -118,7 +118,7 @@
             <div class="mdui-textfield mdui-textfield-floating-label">
                 <i class="mdui-icon material-icons">lock</i>
                 <label class="mdui-textfield-label">密码</label>
-                <input class="mdui-textfield-input" name="password" type="password"/>
+                <input class="mdui-textfield-input" maxlength="8" minlength="8" name="password" type="password"/>
                 <div class="mdui-textfield-helper">密码为身份证后八位</div>
             </div>
             <input type="hidden" name="user" value="user">
