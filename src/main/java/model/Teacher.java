@@ -5,6 +5,10 @@ public class Teacher extends Person {
     @Field("collage")
     private Collage collage;
 
+    public Teacher() {
+
+    }
+
     public Teacher(String uid, String name, String personId, Collage collage) {
         super(uid, name, personId);
         this.collage = collage;

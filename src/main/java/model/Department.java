@@ -7,6 +7,18 @@ public class Department {
     @Field("name")
     private String name;
 
+    public Department() {
+        super();
+    }
+
+    @Override
+    public String toString() {
+        return "Department{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                '}';
+    }
+
     public Department(String id, String name) {
         this.id = id;
         this.name = name;

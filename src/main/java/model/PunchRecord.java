@@ -18,6 +18,10 @@ public class PunchRecord {
     @Field("status")
     private Status status;
 
+    public PunchRecord() {
+
+    }
+
     public PunchRecord(Person person, Date date, Time time, int status) {
         this.person = person;
         this.date = date;

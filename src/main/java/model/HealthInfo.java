@@ -33,6 +33,10 @@ public class HealthInfo {
     @Field("status")
     private Status status;
 
+    public HealthInfo() {
+
+    }
+
     public CodeColor getCodeColor() {
         var codeColor = CodeColor.GREEN;
         var abnormalCount = getStatus().getAbnormalCount();
