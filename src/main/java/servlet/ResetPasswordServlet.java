@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.sql.*;
 
 @WebServlet(name = "resetPasswordServlet", urlPatterns = "/resetPassword")
-public class resetPasswordServlet extends HttpServlet {
+public class ResetPasswordServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String id = request.getParameter("id");
         String token = request.getParameter("token");
