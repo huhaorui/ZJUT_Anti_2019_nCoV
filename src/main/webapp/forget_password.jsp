@@ -47,7 +47,8 @@
                 {
                     text: '确认',
                 }
-            ]
+            ],
+            history: false,
         });
     }
 </script>

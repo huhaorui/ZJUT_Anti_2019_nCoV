@@ -1,4 +1,4 @@
-<%--
+<%@ page import="model.Person" %><%--
   Created by IntelliJ IDEA.
   User: HHR
   Date: 2020/5/18
@@ -17,6 +17,7 @@
     <script src="js/md5.min.js"></script>
     <script src="js/mdui.min.js"></script>
 </head>
+<jsp:useBean id="person" class="model.Person" scope="session"/>
 <body class="mdui-appbar-with-toolbar  mdui-loaded mdui-theme-primary-indigo   mdui-theme-accent-deep-purple">
 <header class="mdui-appbar mdui-appbar-fixed" id="header">
     <div class="mdui-toolbar mdui-color-theme">
@@ -31,16 +32,88 @@
 
     </div>
 </header>
+<%
+    if (person.equals(new Person())) {
+%>
+<script type="text/javascript">
+    window.location.assign('index.jsp')
+</script>
+<%
+    }
+%>
+<script type="text/javascript">
+    window.onload = function () {
+        mdui.snackbar({
+            message: "欢迎你, <jsp:getProperty name="person" property="name"/>"
+        });
+    }
+</script>
+<div class="mdui-container">
 
+    <div style="height: 24px"></div>
+    <div class="mdui-row">
+        <div class="mdui-col-md-6 mdui-col-sm-12 ">
+            <div class="mdui-card" onclick="window.location.assign('punch.jsp')">
+                <div class="mdui-card-media">
+                    <img src="image/card.jpg"/>
+                    <div class="mdui-card-media-covered">
+                        <div class="mdui-card-primary">
+                            <div class="mdui-card-primary-title">健康打卡</div>
+                            <div class="mdui-card-primary-subtitle">Health Punch</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="mdui-hidden-sm-up" style="height: 16px"></div>
 
-<div class="mdui-col-md-4 mdui-col-sm-12">
+        <div class="mdui-col-md-6 mdui-col-sm-12">
+            <div class="mdui-card" onclick="window.location.assign('get_health_code.jsp')">
+                <div class="mdui-card-media">
+                    <img src="image/card.jpg"/>
+                    <div class="mdui-card-media-covered">
+                        <div class="mdui-card-primary">
+                            <div class="mdui-card-primary-title">健康码申领</div>
+                            <div class="mdui-card-primary-subtitle">Get health code</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div style="height: 16px"></div>
+    <div class="mdui-row">
+        <div class="mdui-col-md-6 mdui-col-sm-12">
+            <div class="mdui-card" onclick="window.location.assign('view_health_code.jsp')">
+                <div class="mdui-card-media">
+                    <img src="image/card.jpg"/>
+                    <div class="mdui-card-media-covered">
+                        <div class="mdui-card-primary">
+                            <div class="mdui-card-primary-title">健康码查看</div>
+                            <div class="mdui-card-primary-subtitle">View health code</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="mdui-hidden-sm-up" style="height: 16px"></div>
 
+        <div class="mdui-col-md-6 mdui-col-sm-12">
+            <div class="mdui-card" onclick="window.location.assign('punch_history.jsp')">
+                <div class="mdui-card-media">
+                    <img src="image/card.jpg"/>
+                    <div class="mdui-card-media-covered">
+                        <div class="mdui-card-primary">
+                            <div class="mdui-card-primary-title">打卡历史</div>
+                            <div class="mdui-card-primary-subtitle">Punch history</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-<div class="mdui-col-md-4 mdui-col-sm-12  mdui-typo">
-    <h1 class="mdui-center mdui-text-color-theme mdui-text-center">主页</h1>
-</div>
-<div class="mdui-col-md-4 mdui-col-sm-12">
-</div>
+
 </body>
 <script>const $$ = mdui.JQ;</script>
 <script src="js/script.js"></script>

@@ -1,5 +1,7 @@
 package model;
 
+import java.util.Objects;
+
 public class Person implements HealthCodeTester {
     @Field("id")
     private String uid;
@@ -70,6 +72,17 @@ public class Person implements HealthCodeTester {
         // TODO: 2020/5/17
         return new PunchRecord[0];
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Person person = (Person) o;
+        return Objects.equals(uid, person.uid) &&
+                Objects.equals(name, person.name) &&
+                Objects.equals(personId, person.personId);
+    }
+
 
     public Boolean login(String id, String name, String password) {
         if (this instanceof Student) {
