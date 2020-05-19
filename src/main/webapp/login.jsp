@@ -16,7 +16,15 @@
         let id = document.getElementsByName("id")[0].value;
         let password = document.getElementsByName("password")[0].value;
         if (id.length === 0 || password.length === 0) {
-            alert("工号或密码不能为空")
+            mdui.dialog({
+                title: '工号和密码不能为空',
+                buttons: [
+                    {
+                        text: '确认',
+                    }
+                ],
+                history: false,
+            });
             return false
         }
         password = md5(password + "wcfnb") //wcf is salt
@@ -27,7 +35,15 @@
         let id = document.getElementsByName("id")[0].value;
         let password = document.getElementsByName("password")[0].value;
         if (id.length === 0 || password.length === 0) {
-            alert("工号或密码不能为空")
+            mdui.dialog({
+                title: '学号，姓名及密码不能为空',
+                buttons: [
+                    {
+                        text: '确认',
+                    }
+                ],
+                history: false,
+            });
             return false
         }
     }
@@ -51,7 +67,8 @@
         <div class="mdui-toolbar-spacer"></div>
     </div>
 </header>
-
+<div class="mdui-col-md12 mdui-hidden-md-down" style="height: 64px">
+</div>
 <div class="mdui-col-md-4 mdui-col-sm-12">
 
 </div>
@@ -110,6 +127,9 @@
                     style="margin-top: 32px" onclick="return check()">登陆
             </button>
         </form>
+        <button class="mdui-btn mdui-ripple mdui-center" onclick="window.location.assign('login.jsp?user=admin')">
+            后台管理
+        </button>
     </div>
 </div>
 

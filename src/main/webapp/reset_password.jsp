@@ -49,6 +49,8 @@
 
     </div>
 </header>
+<div class="mdui-col-md12 mdui-hidden-md-down" style="height: 64px">
+</div>
 <div class="mdui-col-md-4 mdui-col-sm-12">
 
 </div>
