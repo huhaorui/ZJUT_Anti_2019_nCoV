@@ -20,8 +20,9 @@
 <body class="mdui-appbar-with-toolbar  mdui-loaded mdui-theme-primary-indigo   mdui-theme-accent-deep-purple">
 <header class="mdui-appbar mdui-appbar-fixed" id="header">
     <div class="mdui-toolbar mdui-color-theme">
-        <span class="mdui-btn mdui-btn-icon mdui-ripple mdui-ripple-white" onclick="history.back()">
-            <i class="mdui-icon material-icons">arrow_back</i>
+       <span class="mdui-btn mdui-btn-icon mdui-ripple mdui-ripple-white"
+             onclick="window.location.assign('index.jsp')">
+            <i class="mdui-icon material-icons">home</i>
         </span>
         <a href="" class="mdui-typo-headline mdui-hidden-xs"
            style="font-weight: inherit">浙江工业大学</a>

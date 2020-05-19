@@ -1,8 +1,8 @@
 <%--
   Created by IntelliJ IDEA.
   User: HHR
-  Date: 2020/5/16
-  Time: 12:33
+  Date: 2020/5/17
+  Time: 19:16
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -17,29 +17,30 @@
     <script src="js/md5.min.js"></script>
     <script src="js/mdui.min.js"></script>
 </head>
-<body class="mdui-appbar-with-toolbar  mdui-loaded mdui-theme-primary-indigo  mdui-theme-accent-deep-purple">
-<%
-    if (request.getParameter("error") != null && request.getParameter("error").equals("true")) {
-%>
 <script type="text/javascript">
     window.onload = function () {
-        mdui.dialog({
-            title: '邮箱验证失败',
-            buttons: [
-                {
-                    text: '确认',
-                }
-            ]
-        });
+        checkIfEmpty();
+    }
+
+    function check() {
+        let password = document.getElementById("password").value;
+        let password1 = document.getElementById("password2").value;
+        if (password !== password1) {
+            alert("两次输入的密码不同")
+            return false
+        }
+        password = md5(password + "wcfnb") //wcf is salt
+        document.getElementById("password").value = password
+        document.getElementById("password2").value = password
+        return true
     }
 </script>
-<%
-    }
-%>
+<body class="mdui-appbar-with-toolbar  mdui-loaded mdui-theme-primary-indigo  mdui-theme-accent-deep-purple">
 <header class="mdui-appbar mdui-appbar-fixed" id="header">
     <div class="mdui-toolbar mdui-color-theme">
-        <span class="mdui-btn mdui-btn-icon mdui-ripple mdui-ripple-white" onclick="history.back()">
-            <i class="mdui-icon material-icons">arrow_back</i>
+       <span class="mdui-btn mdui-btn-icon mdui-ripple mdui-ripple-white"
+             onclick="window.location.assign('index.jsp')">
+            <i class="mdui-icon material-icons">home</i>
         </span>
         <a href="" class="mdui-typo-headline mdui-hidden-xs"
            style="font-weight: inherit">浙江工业大学</a>
@@ -48,26 +49,27 @@
 
     </div>
 </header>
-
 <div class="mdui-col-md-4 mdui-col-sm-12">
 
 </div>
 <div class="mdui-col-md-4 mdui-col-sm-12  mdui-typo">
     <h1 class="mdui-center mdui-text-color-theme mdui-text-center">找回密码</h1>
     <div class="mdui-container-fluid mdui-center" id="content" style="margin: 64px">
-        <form action="forgetPassword" method="post">
+        <form action="resetPassword" method="post">
             <div class="mdui-textfield mdui-textfield-floating-label">
-                <i class="mdui-icon material-icons">account_circle</i>
-                <label class="mdui-textfield-label">工号</label>
-                <input class="mdui-textfield-input" name="id" type="text"/>
+                <i class="mdui-icon material-icons">lock</i>
+                <label class="mdui-textfield-label">请输入新密码</label>
+                <input class="mdui-textfield-input" id="password" name="password" type="password"/>
             </div>
             <div class="mdui-textfield mdui-textfield-floating-label">
-                <i class="mdui-icon material-icons">mail</i>
-                <label class="mdui-textfield-label">邮箱</label>
-                <input class="mdui-textfield-input" name="email" type="email"/>
+                <i class="mdui-icon material-icons">lock</i>
+                <label class="mdui-textfield-label">请再输入一次</label>
+                <input class="mdui-textfield-input" id="password2" name="password2" type="password"/>
             </div>
+            <input type="hidden" name="id" value="<%=request.getParameter("id")%>">
+            <input type="hidden" name="token" value="<%=request.getParameter("token")%>">
             <button class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent mdui-center"
-                    style="margin-top: 32px">重置密码
+                    style="margin-top: 32px" onclick="return check()">重置密码
             </button>
         </form>
     </div>

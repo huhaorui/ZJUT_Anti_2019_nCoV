@@ -57,12 +57,12 @@ public class ForgetPasswordServlet extends HttpServlet {
             sql.setString(2, email);
             ResultSet result = sql.executeQuery();
             if (!result.next()) {
-                response.sendRedirect("ForgetPassword.jsp?error=true");
+                response.sendRedirect("forget_password.jsp?reset=error");
             } else {
                 if (Mail.mail(getResetLink(email, request), email)) {
-                    response.sendRedirect("");
+                    response.sendRedirect("forget_password.jsp?reset=ok");
                 } else {
-                    response.sendRedirect("ForgetPassword.jsp?error=true");
+                    response.sendRedirect("forget_password.jsp?reset=error");
                 }
             }
             result.close();
@@ -73,6 +73,6 @@ public class ForgetPasswordServlet extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        response.sendRedirect("ForgetPassword.jsp");
+        response.sendRedirect("forget_password.jsp");
     }
 }

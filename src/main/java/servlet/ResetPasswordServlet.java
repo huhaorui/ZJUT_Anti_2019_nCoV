@@ -45,7 +45,7 @@ public class ResetPasswordServlet extends HttpServlet {
         String id = request.getParameter("id");
         String token = request.getParameter("token");
         if (id == null || token == null) {
-            response.sendRedirect("ForgetPassword.jsp");
+            response.sendRedirect("forget_password.jsp");
         }
         Connection conn = DatabaseProvider.getConn();
         try {
@@ -54,7 +54,9 @@ public class ResetPasswordServlet extends HttpServlet {
             sql.setString(2, token);
             ResultSet result = sql.executeQuery();
             if (result.next()) {
-                request.getRequestDispatcher("resetPassword.jsp").forward(request, response);
+                request.getRequestDispatcher("reset_password.jsp").forward(request, response);
+            } else {
+                response.sendRedirect("forget_password.jsp");
             }
             result.close();
             sql.close();

@@ -20,7 +20,6 @@ class SQL {
     }
 
     fun <T> query(clazz: Class<T>, col: String, value: String): T? {
-        // FIXME
         val models = clazz.getAnnotationsByType(Model::class.java)
         if (models.isEmpty()) {
             return null

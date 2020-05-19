@@ -8,10 +8,16 @@
     <link rel="stylesheet" type="text/css" href="css/mdui.min.css">
     <script src="js/mdui.min.js"></script>
 </head>
+<script type="text/javascript">
+    window.onload = function () {
+        checkIfEmpty();
+    }
+</script>
 <body class="mdui-appbar-with-toolbar  mdui-loaded mdui-theme-primary-indigo mdui-theme-accent-pink">
 <header class="mdui-appbar mdui-appbar-fixed" id="header">
     <div class="mdui-toolbar mdui-color-theme">
-        <span class="mdui-btn mdui-btn-icon mdui-ripple mdui-ripple-white" onclick="">
+        <span class="mdui-btn mdui-btn-icon mdui-ripple mdui-ripple-white"
+              onclick="window.location.assign('index.jsp')">
             <i class="mdui-icon material-icons">home</i>
         </span>
         <a href="" class="mdui-typo-headline mdui-hidden-xs"
