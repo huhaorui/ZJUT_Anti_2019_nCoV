@@ -78,11 +78,12 @@ public class UploadPunchServlet extends HttpServlet {
             sql.setString(3, name);
             ResultSet result = sql.executeQuery();
             if (!result.next()) {
+                //Fixme
                 response.sendRedirect("main.jsp");
                 return;
             }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
         int problemNumber = 0;
         if ("true".equals(problem)) {

@@ -49,15 +49,17 @@ from student,
      collage
 where (student.class, class.major, major.collage) = (class.id, major.id, collage.id);
 
-# create view view_health_info as
-# select student.id,
-#        student.name,
-#        student.person_id,
-#        health_info.,
-#        if(health_info.if_ill = 0, '是', '否') 是否确诊,
-#        cast(health_info.status as BINARY)   健康状况
-# from health_info,
-#      student;
+create view view_health_info as
+select student.id,
+       student.name,
+       student.person_id,
+       health_info.if_danger_14 是否去过危险地区,
+       health_info.if_abroad_14 是否出国,
+       health_info.if_touch_illness 是否接触确诊或疑似病例,
+       if(health_info.if_ill = 0, '是', '否') 是否确诊,
+#        (cast(health_info.status as BINARY), 8)   健康状况
+from health_info,
+     student;
 
 create view view_teacher_student_full as
 select '学生' type, collage collage, major major, class class, id id, name name, person_id person_id
