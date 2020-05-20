@@ -11,7 +11,6 @@ public class Person implements HealthCodeTester {
     private String personId;
 
     public Person() {
-
     }
 
     public Person(String uid, String name, String personId) {

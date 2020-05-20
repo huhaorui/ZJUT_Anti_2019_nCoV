@@ -24,7 +24,7 @@ public class HealthInfo {
     @Field("if_abroad_14")
     private boolean abroad14;
 
-    @Field("if_touch_illness_14")
+    @Field("if_touch_illness")
     private boolean touchIllness14;
 
     @Field("if_ill")
@@ -33,8 +33,10 @@ public class HealthInfo {
     @Field("status")
     private Status status;
 
-    public HealthInfo() {
+    @Field("color")
+    private String color;
 
+    public HealthInfo() {
     }
 
     public CodeColor getCodeColor() {
@@ -107,6 +109,28 @@ public class HealthInfo {
     public void setPerson(Person person) {
         this.person = person;
     }
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
+
+    @Override
+    public String toString() {
+        return "HealthInfo{" +
+                "person=" + person +
+                ", tel='" + tel + '\'' +
+                ", danger14=" + danger14 +
+                ", abroad14=" + abroad14 +
+                ", touchIllness14=" + touchIllness14 +
+                ", ill=" + ill +
+                ", status=" + status +
+                ", color='" + color + '\'' +
+                '}';
+    }
 }
 
 class Status {
@@ -118,7 +142,7 @@ class Status {
     private boolean soreThroat = false;
     private boolean diarrhea = false;
 
-    public Status(int status) {
+    public Status(Integer status) {
         if ((status & 0b1000000) == 0b1000000) fever = true;
 
         if ((status & 0b0100000) == 0b0100000) weak = true;
@@ -145,6 +169,19 @@ class Status {
         if (diarrhea) count++;
 
         return count;
+    }
+
+    @Override
+    public String toString() {
+        return "Status{" +
+                "fever=" + fever +
+                ", weak=" + weak +
+                ", cough=" + cough +
+                ", stuffyNose=" + stuffyNose +
+                ", runnyNose=" + runnyNose +
+                ", soreThroat=" + soreThroat +
+                ", diarrhea=" + diarrhea +
+                '}';
     }
 }
 

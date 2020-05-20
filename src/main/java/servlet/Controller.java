@@ -21,17 +21,17 @@ public class Controller extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("utf-8");
         response.setContentType("text/html;charset=UTF-8");
-        Connection conn = DatabaseProvider.getConn();
         var out = response.getWriter();
-        var teacher = new SQL().query(Teacher.class, "id", "000000");
+        var teacher = new SQL().query(Teacher.class, "id", "000001");
         var student = new SQL().query(Student.class, "id", "201806061108");
-        var admin = new SQL().query(Admin.class, "id", "00000");
-        var major = new SQL().query(Major.class, "id", "000000");
-        var collage = new SQL().query(Collage.class, "id", "000000");
-        var clazz = new SQL().query(Clazz.class, "id", "000000");
-        var punchRecord = new SQL().query(PunchRecord.class, "id", "000000");
-        var healthInfo = new SQL().query(HealthInfo.class, "id", "000000");
-        out.write(String.format("%s<br>%s<br>%s<br>%s<br>%s<br>%s<br>%s<br>%s<br>", teacher, student, admin, major, collage, clazz, punchRecord, healthInfo));
+        var admin = new SQL().query(Admin.class, "id", 1);
+        var major = new SQL().query(Major.class, "id", 2);
+        var collage = new SQL().query(Collage.class, "id", 1);
+        var clazz = new SQL().query(Clazz.class, "id", 5);
+        var punchRecord = new SQL().query(PunchRecord.class, "uid", "201806061108");
+        var healthInfo = new SQL().query(HealthInfo.class, "uid", "201806061108");
+        var collages = new SQL().query(Collage.class);
+        out.write(String.format("%s<br>%s<br>%s<br>%s<br>%s<br>%s<br>%s<br>%s<br>%s<br>", teacher, student, admin, major, collage, clazz, punchRecord, healthInfo, collages));
     }
 
     @Override

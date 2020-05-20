@@ -6,11 +6,9 @@ public class Major extends Department {
     @Field("collage")
     private Collage collage;
 
-    public Major() {
+    public Major() { }
 
-    }
-
-    public Major(String id, String name, Collage collage) {
+    public Major(Integer id, String name, Collage collage) {
         super(id, name);
         this.collage = collage;
     }

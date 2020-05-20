@@ -18,9 +18,17 @@ public class PunchRecord {
     @Field("status")
     private Status status;
 
-    public PunchRecord() {
-
+    @Override
+    public String toString() {
+        return "PunchRecord{" +
+                "person=" + person +
+                ", date=" + date +
+                ", time=" + time +
+                ", status=" + status +
+                '}';
     }
+
+    public PunchRecord() { }
 
     public PunchRecord(Person person, Date date, Time time, int status) {
         this.person = person;
