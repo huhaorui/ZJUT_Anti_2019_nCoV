@@ -1,5 +1,7 @@
 package model;
 
+import java.text.MessageFormat;
+
 public class Department {
     @Field("id")
     private Integer id;
@@ -13,10 +15,7 @@ public class Department {
 
     @Override
     public String toString() {
-        return "Department{" +
-                "id='" + id + '\'' +
-                ", name='" + name + '\'' +
-                '}';
+        return MessageFormat.format("'{'id={0}, name=''{1}'''}'", id, name);
     }
 
     public Department(Integer id, String name) {

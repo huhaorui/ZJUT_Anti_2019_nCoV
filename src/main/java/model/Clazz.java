@@ -1,11 +1,14 @@
 package model;
 
+import java.text.MessageFormat;
+
 @Model("class")
 public class Clazz extends Department {
     @Field("major")
     private Major major;
 
-    public Clazz() { }
+    public Clazz() {
+    }
 
     public Clazz(Integer id, String name, Major major) {
         super(id, name);
@@ -18,5 +21,10 @@ public class Clazz extends Department {
 
     public void setMajor(Major major) {
         this.major = major;
+    }
+
+    @Override
+    public String toString() {
+        return MessageFormat.format("Clazz'{'major={0}'}' {1}", major, super.toString());
     }
 }

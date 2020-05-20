@@ -16,7 +16,7 @@ public class PunchRecord {
     private Time time;
 
     @Field("status")
-    private Status status;
+    private Integer status;
 
     @Override
     public String toString() {
@@ -25,16 +25,16 @@ public class PunchRecord {
                 ", date=" + date +
                 ", time=" + time +
                 ", status=" + status +
-                '}';
+                "}<br>";
     }
 
     public PunchRecord() { }
 
-    public PunchRecord(Person person, Date date, Time time, int status) {
+    public PunchRecord(Person person, Date date, Time time, Integer status) {
         this.person = person;
         this.date = date;
         this.time = time;
-        this.status = new Status(status);
+        this.status = status;
     }
 
     public Person getPerson() {
@@ -62,10 +62,10 @@ public class PunchRecord {
     }
 
     public Status getStatus() {
-        return status;
+        return new Status(status);
     }
 
-    public void setStatus(Status status) {
+    public void setStatus(Integer status) {
         this.status = status;
     }
 }

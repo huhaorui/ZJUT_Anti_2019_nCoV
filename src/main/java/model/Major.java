@@ -1,12 +1,15 @@
 package model;
 
+import java.text.MessageFormat;
+
 @Model("major")
 public class Major extends Department {
 
     @Field("collage")
     private Collage collage;
 
-    public Major() { }
+    public Major() {
+    }
 
     public Major(Integer id, String name, Collage collage) {
         super(id, name);
@@ -19,5 +22,10 @@ public class Major extends Department {
 
     public void setCollage(Collage collage) {
         this.collage = collage;
+    }
+
+    @Override
+    public String toString() {
+        return MessageFormat.format("Major'{'collage={0}'}' {1}", collage, super.toString());
     }
 }

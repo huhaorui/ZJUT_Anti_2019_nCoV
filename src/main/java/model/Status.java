@@ -37,4 +37,17 @@ public class Status {
 
         return count;
     }
+
+    @Override
+    public String toString() {
+        return "Status{" +
+                "fever=" + fever +
+                ", weak=" + weak +
+                ", cough=" + cough +
+                ", stuffyNose=" + stuffyNose +
+                ", runnyNose=" + runnyNose +
+                ", soreThroat=" + soreThroat +
+                ", diarrhea=" + diarrhea +
+                '}';
+    }
 }

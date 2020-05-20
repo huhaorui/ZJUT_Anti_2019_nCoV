@@ -1,6 +1,6 @@
 package servlet;
 
-import conn.DatabaseProvider;
+import kotlin.Pair;
 import model.*;
 
 import javax.servlet.ServletException;
@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.sql.Connection;
 
 /**
  * @author wcf
@@ -22,15 +21,15 @@ public class Controller extends HttpServlet {
         request.setCharacterEncoding("utf-8");
         response.setContentType("text/html;charset=UTF-8");
         var out = response.getWriter();
-        var teacher = new SQL().query(Teacher.class, "id", "000001");
-        var student = new SQL().query(Student.class, "id", "201806061108");
-        var admin = new SQL().query(Admin.class, "id", 1);
-        var major = new SQL().query(Major.class, "id", 2);
-        var collage = new SQL().query(Collage.class, "id", 1);
-        var clazz = new SQL().query(Clazz.class, "id", 5);
-        var punchRecord = new SQL().query(PunchRecord.class, "uid", "201806061108");
-        var healthInfo = new SQL().query(HealthInfo.class, "uid", "201806061108");
-        var collages = new SQL().query(Collage.class);
+        var teacher = new SQL().query(Teacher.class, new Pair<>("id", "000001"));
+        var student = new SQL().query(Student.class, new Pair<>("id", "201806061108"));
+        var admin = new SQL().query(Admin.class, new Pair<>("id", 1));
+        var major = new SQL().query(Major.class, new Pair<>("id", 2));
+        var collage = new SQL().query(Collage.class, new Pair<>("id", 1));
+        var clazz = new SQL().query(Clazz.class, new Pair<>("id", 5));
+        var punchRecord = new SQL().queryList(PunchRecord.class, new Pair<>("uid", "201806061219"));
+        var healthInfo = new SQL().query(HealthInfo.class, "uid", "201806061219");
+        var collages = new SQL().queryList(Collage.class, null);
         out.write(String.format("%s<br>%s<br>%s<br>%s<br>%s<br>%s<br>%s<br>%s<br>%s<br>", teacher, student, admin, major, collage, clazz, punchRecord, healthInfo, collages));
     }
 

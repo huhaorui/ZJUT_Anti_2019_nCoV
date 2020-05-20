@@ -1,5 +1,7 @@
 package model;
 
+import java.text.MessageFormat;
+
 @Model("collage")
 public class Collage extends Department {
 
@@ -11,6 +13,6 @@ public class Collage extends Department {
 
     @Override
     public String toString() {
-        return super.toString();
+        return MessageFormat.format("Collage{0}", super.toString());
     }
 }

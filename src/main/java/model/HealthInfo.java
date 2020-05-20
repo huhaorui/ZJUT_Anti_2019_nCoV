@@ -2,14 +2,14 @@ package model;
 
 @Model("health_info")
 public class HealthInfo {
-    public HealthInfo(Person person, String tel, boolean danger14, boolean abroad14, boolean touchIllness14, boolean ill, int status) {
+    public HealthInfo(Person person, String tel, boolean danger14, boolean abroad14, boolean touchIllness14, boolean ill, Integer status) {
         this.person = person;
         this.tel = tel;
         this.danger14 = danger14;
         this.abroad14 = abroad14;
         this.touchIllness14 = touchIllness14;
         this.ill = ill;
-        this.status = new Status(status);
+        this.status = status;
     }
 
     @Field("uid")
@@ -31,7 +31,7 @@ public class HealthInfo {
     private boolean ill;
 
     @Field("status")
-    private Status status;
+    private Integer status;
 
     @Field("color")
     private String color;
@@ -95,10 +95,10 @@ public class HealthInfo {
     }
 
     public Status getStatus() {
-        return status;
+        return new Status(status);
     }
 
-    public void setStatus(Status status) {
+    public void setStatus(Integer status) {
         this.status = status;
     }
 
@@ -127,28 +127,9 @@ public class HealthInfo {
                 ", abroad14=" + abroad14 +
                 ", touchIllness14=" + touchIllness14 +
                 ", ill=" + ill +
-                ", status=" + status +
+                ", status=" + new Status(status) +
                 ", color='" + color + '\'' +
                 '}';
     }
 }
 
-enum CodeColor {
-    RED(255, 0, 0), YELLOW(255, 255, 0), GREEN(0, 255, 0);
-
-    int r, g, b;
-
-    CodeColor(int r, int g, int b) {
-        this.r = r;
-        this.g = g;
-        this.b = b;
-    }
-}
-
-interface HealthCodeTester {
-    CodeColor getCodeColor();
-
-    HealthInfo getHealthInfo();
-
-    PunchRecord[] getPunchRecords();
-}

@@ -59,7 +59,7 @@ public class GetQrCode extends HttpServlet {
         response.setHeader("Cache-Control", "no-cache");
         response.setDateHeader("Expires", 0);
         response.setContentType("image/png");
-        int black = 0xFF02c39a;
+        int black = 0xFF02C39A;
         int white = 0xFFFFFFFF;
         int width = 400;
         int height = 400;

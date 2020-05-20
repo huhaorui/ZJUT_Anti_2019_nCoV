@@ -1,5 +1,6 @@
 package model;
 
+import java.text.MessageFormat;
 import java.util.Objects;
 
 public class Person implements HealthCodeTester {
@@ -97,10 +98,6 @@ public class Person implements HealthCodeTester {
 
     @Override
     public String toString() {
-        return "Person{" +
-                "uid='" + uid + '\'' +
-                ", name='" + name + '\'' +
-                ", personId='" + personId + '\'' +
-                '}';
+        return MessageFormat.format("Person'{'uid=''{0}'', name=''{1}'', personId=''{2}'''}'", uid, name, personId);
     }
 }

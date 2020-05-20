@@ -1,7 +1,6 @@
 package servlet;
 
 import conn.DatabaseProvider;
-import model.HealthInfo;
 import model.Status;
 
 import javax.servlet.ServletException;
@@ -114,8 +113,8 @@ public class UploadPunchServlet extends HttpServlet {
                 sql.setString(8, getColorByStatus(danger14, aboard14, touch14, ill14, problemNumber));
                 sql.execute();
             }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 

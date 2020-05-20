@@ -1,5 +1,7 @@
 package model;
 
+import java.text.MessageFormat;
+
 @Model("student")
 public class Student extends Person {
     @Field("class")
@@ -9,9 +11,7 @@ public class Student extends Person {
 
     @Override
     public String toString() {
-        return "Student{" +
-                "clazz=" + clazz +
-                "} " + super.toString();
+        return MessageFormat.format("Student'{'clazz={0}'}' {1}", clazz, super.toString());
     }
 
     public Student(String uid, String name, String personId, Clazz clazz) {

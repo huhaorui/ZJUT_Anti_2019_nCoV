@@ -1,5 +1,7 @@
 package model;
 
+import java.text.MessageFormat;
+
 @Model("teacher")
 public class Teacher extends Person {
     @Field("collage")
@@ -22,6 +24,6 @@ public class Teacher extends Person {
 
     @Override
     public String toString() {
-        return "Teacher{" + "collage=" + collage + '}' + super.toString();
+        return MessageFormat.format("Teacher'{'collage={0}'}' {1}", collage, super.toString());
     }
 }
