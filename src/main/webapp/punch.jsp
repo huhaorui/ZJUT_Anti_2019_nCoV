@@ -1,4 +1,9 @@
-<%--
+<%@ page import="model.Person" %>
+<%@ page import="java.sql.Connection" %>
+<%@ page import="conn.DatabaseProvider" %>
+<%@ page import="java.sql.PreparedStatement" %>
+<%@ page import="java.sql.SQLException" %>
+<%@ page import="java.sql.ResultSet" %><%--
   Created by IntelliJ IDEA.
   User: HHR
   Date: 2020/5/19
@@ -10,7 +15,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0, user-scalable=no"/>
-    <meta name="theme-color" content="#2196f3">
+    <meta name="theme-color" content="S#2196f3">
     <title>浙江工业大学</title>
     <link rel="stylesheet" type="text/css" href="css/mdui.min.css">
     <link rel="stylesheet" type="text/css" href="css/style.css">
@@ -18,6 +23,27 @@
     <script src="js/mdui.min.js"></script>
 </head>
 <jsp:useBean id="person" class="model.Person" scope="session"/>
+<%
+    if (person.equals(new Person())) {
+%>
+<script type="text/javascript">
+    window.location.assign("index.jsp")
+</script>
+<%
+    } else {
+        Connection conn = DatabaseProvider.getConn();
+        try {
+            PreparedStatement sql = conn.prepareStatement("select * from health_info where uid=? and color='green'");
+            sql.setString(1, person.getUid());
+            ResultSet result = sql.executeQuery();
+            if (result.next()) {
+                response.sendRedirect("main.jsp?error=punched");
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+%>
 <script type="text/javascript">
     window.onload = function () {
         checkIfEmpty();
@@ -25,10 +51,6 @@
 
     function submit_form() {
         document.getElementById("form").submit()
-    }
-
-    function a() {
-        alert("99")
     }
 
     function check() {
@@ -44,16 +66,29 @@
             });
             return false
         }
+        if (document.getElementById("tel").value.length !== 11) {
+            mdui.dialog({
+                title: '请正确填写电话号码',
+                buttons: [
+                    {
+                        text: '确认'
+                    }
+                ],
+                history: false,
+            });
+            return false
+        }
         mdui.dialog({
             title: '是否确认提交？',
             buttons: [
+                {
+                    text: '取消'
+                },
                 {
                     text: '确认',
                     onClick: function (inst) {
                         submit_form()
                     }
-                }, {
-                    text: '取消'
                 }
             ],
             history: false,
@@ -104,6 +139,11 @@
         <input type="hidden" name="name" value="<jsp:getProperty name="person" property="name"/>">
         <input type="hidden" name="id" value="<jsp:getProperty name="person" property="uid"/>">
         <input type="hidden" name="person_id" value="<jsp:getProperty name="person" property="personId"/>">
+        <div class="mdui-textfield mdui-textfield-floating-label">
+            <i class="mdui-icon material-icons">account_circle</i>
+            <label class="mdui-textfield-label">电话号码</label>
+            <input class="mdui-textfield-input" type="tel" name="tel" id="tel"/>
+        </div>
         <div class="mdui-textfield mdui-textfield-floating-label mdui-textfield-not-empty">
             <i class="mdui-icon material-icons">account_circle</i>
             <label class="mdui-textfield-label">我在14天内去过湖北等其他危险地区</label>

@@ -40,6 +40,23 @@
 </script>
 <%
     }
+    if (request.getParameter("error") != null && request.getParameter("error").equals("punched")) {
+%>
+<script type="text/javascript">
+    window.onload = function () {
+        mdui.dialog({
+            title: '你已经完成申报了',
+            buttons: [
+                {
+                    text: '确认',
+                }
+            ],
+            history: false,
+        });
+    }
+</script>
+<%
+} else {
 %>
 <script type="text/javascript">
     window.onload = function () {
@@ -48,6 +65,9 @@
         });
     }
 </script>
+<%
+    }
+%>
 <div class="mdui-container">
 
     <div style="height: 24px"></div>
