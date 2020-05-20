@@ -28,7 +28,7 @@ public class GetQrCode extends HttpServlet {
         public static BufferedImage toBufferedImage(BitMatrix matrix, int black, int white) {
             int width = matrix.getWidth();
             int height = matrix.getHeight();
-            int margin = 40;
+            int margin = 20;
             BufferedImage image = new BufferedImage(width - margin * 2, height - margin * 2, BufferedImage.TYPE_INT_RGB);
             for (int x = margin; x < width - margin; x++) {
                 for (int y = margin; y < height - margin; y++) {
