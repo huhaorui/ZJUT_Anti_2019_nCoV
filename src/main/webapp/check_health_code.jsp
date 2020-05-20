@@ -1,16 +1,12 @@
-<%@ page import="model.Person" %>
-<%@ page import="java.sql.Connection" %>
 <%@ page import="conn.DatabaseProvider" %>
+<%@ page import="java.sql.Connection" %>
 <%@ page import="java.sql.PreparedStatement" %>
 <%@ page import="java.sql.SQLException" %>
-<%@ page import="java.sql.ResultSet" %>
-<%@ page import="java.util.Date" %>
-<%@ page import="java.text.SimpleDateFormat" %>
-<%@ page import="java.util.Objects" %><%--
+<%@ page import="java.sql.ResultSet" %><%--
   Created by IntelliJ IDEA.
   User: HHR
   Date: 2020/5/20
-  Time: 21:03
+  Time: 22:39
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -27,47 +23,35 @@
 </head>
 <jsp:useBean id="person" class="model.Person" scope="session"/>
 <%
-    if (person.equals(new Person())) {
-        response.sendRedirect("index.jsp");
-        return;
-    }
-    String id = ((Person) (session.getAttribute("person"))).getUid();
-    String token = null;
+    String id = request.getParameter("id");
+    String token = request.getParameter("token");
     Connection conn = DatabaseProvider.getConn();
-    Date date = new Date();
-    SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd HH:mm");
-    String time = (formatter.format(date));
-    String color = null;
+    String collage = null, major = null, clazz = null, name = null, color = null;
     try {
-        PreparedStatement sql = conn.prepareStatement("select token from health_code_token where uid=?");
+        PreparedStatement sql = conn.prepareStatement("select * from health_code_token where uid=? and token=?");
         sql.setString(1, id);
+        sql.setString(2, token);
         ResultSet result = sql.executeQuery();
         if (result.next()) {
-            token = result.getString(1);
+            sql = conn.prepareStatement("select * from view_student_full where id=?");
+            sql.setString(1, id);
+            result = sql.executeQuery();
+            if (result.next()) {
+                collage = result.getString("collage");
+                major = result.getString("major");
+                clazz = result.getString("class");
+                name = result.getString("name");
+            }
         }
         sql = conn.prepareStatement("select color from health_info where uid=?");
         sql.setString(1, id);
         result = sql.executeQuery();
         if (result.next()) {
-            color = result.getString(1);
-        }
-        assert color != null;
-        switch (color) {
-            case "red":
-                color = "f08080";
-                break;
-            case "yellow":
-                color = "fca311";
-                break;
-            case "green":
-                color = "02c39a";
-                break;
+            color = result.getString("color");
         }
     } catch (SQLException throwables) {
         throwables.printStackTrace();
     }
-    String text = "https://javaweb.huhaorui.com/" + request.getContextPath() + "/check_health_code.jsp?id=" + id + "&token=" + token;
-    text = text + "&black=" + color;
 %>
 
 <body class="mdui-appbar-with-toolbar  mdui-loaded mdui-theme-primary-indigo  mdui-theme-accent-deep-purple">
@@ -90,17 +74,58 @@
 
 </div>
 <div class="mdui-col-md-4 mdui-col-sm-12  mdui-typo">
-    <h1 class="mdui-center mdui-text-color-theme mdui-text-center">健康码</h1>
-    <p class="mdui-text-center mdui-text-color-theme">
-        生成时间:<%=time%>
-    </p>
-    <img class="mdui-center" src="GetQrCode?text=<%=text%>" alt="health code">
-    <p class="mdui-text-center mdui-text-color-theme">
-        姓名: ${person.name}
-    </p>
-    <p class="mdui-text-center mdui-text-color-theme">
-        学号: ${person.uid}
-    </p>
+    <h1 class="mdui-center mdui-text-color-theme mdui-text-center">健康信息</h1>
+    <table class="mdui-table mdui-table-hoverable">
+        <tr>
+            <td>健康码</td>
+            <td style="color: <%=color%>">███████████████</td>
+        </tr>
+        <tr>
+            <td>姓名</td>
+            <td><%=name%>
+            </td>
+        </tr>
+        <tr>
+            <td>学号</td>
+            <td><%=id%>
+            </td>
+        </tr>
+        <tr>
+            <td>学院</td>
+            <td><%=collage%>
+            </td>
+        </tr>
+        <tr>
+            <td>专业</td>
+            <td><%=major%>
+            </td>
+        </tr>
+        <tr>
+            <td>班级</td>
+            <td><%=clazz%>
+            </td>
+        </tr>
+    </table>
+    <%
+        if ("green".equals(color)) {
+    %>
+    <button class="mdui-center mdui-btn mdui-ripple  mdui-color-theme-accent"
+            onclick="document.getElementById('form').submit()">
+        确认入校
+    </button>
+    <form id="form" action="DestoryHealthCode" method="post">
+        <input type="hidden" name="id" value="<%=id%>">
+        <input type="hidden" name="token" value="<%=token%>">
+    </form>
+    <%
+    } else {
+    %>
+    <button class="mdui-center mdui-btn mdui-ripple  mdui-color-theme-accent" disabled>
+        禁止入校
+    </button>
+    <%
+        }
+    %>
 </div>
 <div class="mdui-col-md-4 mdui-col-sm-12">
 </div>
