@@ -63,12 +63,9 @@ public class GetQrCode extends HttpServlet {
         int white = 0xFFFFFFFF;
         int width = 400;
         int height = 400;
-        String text;
-        if (request.getParameter("text") != null) {
-            text = request.getParameter("text");
-        } else {
-            text = "";
-        }
+        String text, token = null;
+        text = request.getParameter("text");
+        token = request.getParameter("token");
         String format = "png";
         if (request.getParameter("black") != null) {
             black = Integer.parseInt(request.getParameter("black"), 16);
@@ -80,7 +77,7 @@ public class GetQrCode extends HttpServlet {
         hints.put(EncodeHintType.CHARACTER_SET, "utf-8");
         BitMatrix bitMatrix;
         try {
-            bitMatrix = new MultiFormatWriter().encode(text, BarcodeFormat.QR_CODE, width, height, hints);
+            bitMatrix = new MultiFormatWriter().encode(text + "&token=" + token, BarcodeFormat.QR_CODE, width, height, hints);
             MatrixToImageWriter.writeToStream(bitMatrix, format, response.getOutputStream(), black, white);
         } catch (Exception e) {
             e.printStackTrace();
