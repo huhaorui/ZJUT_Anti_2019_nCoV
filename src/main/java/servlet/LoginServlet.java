@@ -1,12 +1,14 @@
 package servlet;
 
 import conn.DatabaseProvider;
+import model.Person;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -16,13 +18,10 @@ import java.sql.SQLException;
 @WebServlet(name = "LoginServlet", urlPatterns = "/login")
 public class LoginServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        doGet(request, response);
-    }
-
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String id = null, password = null, name = null;
-        Connection conn = DatabaseProvider.getConn();
+        String id = null, password = null, name = null, person_id = null;
         request.setCharacterEncoding("UTF-8");
+        response.setCharacterEncoding("UTF-8");
+        Connection conn = DatabaseProvider.getConn();
         if (request.getParameter("user") != null && request.getParameter("user").equals("admin")) {
             if (request.getParameter("id") != null) {
                 id = request.getParameter("id");
@@ -43,6 +42,8 @@ public class LoginServlet extends HttpServlet {
                 } else {
                     response.sendRedirect("error.jsp?user=admin");
                 }
+                result.close();
+                sql.close();
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
@@ -68,13 +69,25 @@ public class LoginServlet extends HttpServlet {
                 sql.setString(3, name);
                 ResultSet result = sql.executeQuery();
                 if (result.next()) {
-                    request.getRequestDispatcher("main.jsp").forward(request, response);
+                    person_id = result.getString("person_id");
+                    Person person = new Person(id, name, person_id);
+                    HttpSession session = request.getSession();
+                    synchronized (session) {
+                        session.setAttribute("person", person);
+                    }
+                    response.sendRedirect("main.jsp");
                 } else {
                     response.sendRedirect("error.jsp?user=user");
                 }
+                result.close();
+                sql.close();
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
         }
+    }
+
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.sendRedirect("login.jsp");
     }
 }

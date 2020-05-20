@@ -18,10 +18,56 @@
     <script src="js/mdui.min.js"></script>
 </head>
 <body class="mdui-appbar-with-toolbar  mdui-loaded mdui-theme-primary-indigo  mdui-theme-accent-deep-purple">
+<%
+    if (request.getParameter("reset") != null && request.getParameter("reset").equals("error")) {
+%>
+<script type="text/javascript">
+    window.onload = function () {
+        checkIfEmpty();
+        mdui.dialog({
+            title: '邮箱验证失败',
+            buttons: [
+                {
+                    text: '确认',
+                }
+            ],
+            history: false,
+        });
+    }
+</script>
+<%
+} else if (request.getParameter("reset") != null && request.getParameter("reset").equals("ok")) {
+%>
+<script type="text/javascript">
+    window.onload = function () {
+        checkIfEmpty();
+        mdui.dialog({
+            title: '邮件发送成功，请到邮箱查收',
+            buttons: [
+                {
+                    text: '确认',
+                }
+            ],
+            history: false,
+        });
+    }
+</script>
+<%
+} else {
+%>
+<script type="text/javascript">
+    window.onload = function () {
+        checkIfEmpty();
+    }
+</script>
+<%
+    }
+%>
 <header class="mdui-appbar mdui-appbar-fixed" id="header">
     <div class="mdui-toolbar mdui-color-theme">
-        <span class="mdui-btn mdui-btn-icon mdui-ripple mdui-ripple-white" onclick="history.back()">
-            <i class="mdui-icon material-icons">arrow_back</i>
+       <span class="mdui-btn mdui-btn-icon mdui-ripple mdui-ripple-white"
+             onclick="window.location.assign('index.jsp')">
+            <i class="mdui-icon material-icons">home</i>
         </span>
         <a href="" class="mdui-typo-headline mdui-hidden-xs"
            style="font-weight: inherit">浙江工业大学</a>
@@ -30,7 +76,8 @@
 
     </div>
 </header>
-
+<div class="mdui-col-md12 mdui-hidden-md-down" style="height: 64px">
+</div>
 <div class="mdui-col-md-4 mdui-col-sm-12">
 
 </div>
@@ -44,7 +91,7 @@
                 <input class="mdui-textfield-input" name="id" type="text"/>
             </div>
             <div class="mdui-textfield mdui-textfield-floating-label">
-                <i class="mdui-icon material-icons">lock</i>
+                <i class="mdui-icon material-icons">mail</i>
                 <label class="mdui-textfield-label">邮箱</label>
                 <input class="mdui-textfield-input" name="email" type="email"/>
             </div>

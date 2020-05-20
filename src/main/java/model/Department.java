@@ -2,7 +2,7 @@ package model;
 
 public class Department {
     @Field("id")
-    private String id;
+    private Integer id;
 
     @Field("name")
     private String name;
@@ -19,16 +19,16 @@ public class Department {
                 '}';
     }
 
-    public Department(String id, String name) {
+    public Department(Integer id, String name) {
         this.id = id;
         this.name = name;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 

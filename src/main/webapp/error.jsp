@@ -18,11 +18,32 @@
     <script src="js/mdui.min.js"></script>
 </head>
 <script type="text/javascript">
+    window.onload = function () {
+        checkIfEmpty();
+        mdui.dialog({
+            title: '密码错误',
+            buttons: [
+                {
+                    text: '确认',
+                }
+            ],
+            history: false,
+        });
+    }
+
     function login() {
         let id = document.getElementsByName("id")[0].value;
         let password = document.getElementsByName("password")[0].value;
         if (id.length === 0 || password.length === 0) {
-            alert("工号或密码不能为空")
+            mdui.dialog({
+                title: '工号和密码不能为空',
+                buttons: [
+                    {
+                        text: '确认',
+                    }
+                ],
+                history: false,
+            });
             return false
         }
         password = md5(password + "wcfnb") //wcf is salt
@@ -33,7 +54,15 @@
         let id = document.getElementsByName("id")[0].value;
         let password = document.getElementsByName("password")[0].value;
         if (id.length === 0 || password.length === 0) {
-            alert("工号或密码不能为空")
+            mdui.dialog({
+                title: '学号，姓名及密码不能为空',
+                buttons: [
+                    {
+                        text: '确认',
+                    }
+                ],
+                history: false,
+            });
             return false
         }
     }
@@ -47,8 +76,9 @@
 <body class="mdui-appbar-with-toolbar  mdui-loaded mdui-theme-primary-indigo  mdui-theme-accent-deep-purple">
 <header class="mdui-appbar mdui-appbar-fixed" id="header">
     <div class="mdui-toolbar mdui-color-theme">
-        <span class="mdui-btn mdui-btn-icon mdui-ripple mdui-ripple-white" onclick="history.back()">
-            <i class="mdui-icon material-icons">arrow_back</i>
+       <span class="mdui-btn mdui-btn-icon mdui-ripple mdui-ripple-white"
+             onclick="window.location.assign('index.jsp')">
+            <i class="mdui-icon material-icons">home</i>
         </span>
         <a href="" class="mdui-typo-headline mdui-hidden-xs"
            style="font-weight: inherit">浙江工业大学</a>
@@ -57,7 +87,8 @@
 
     </div>
 </header>
-
+<div class="mdui-col-md12 mdui-hidden-md-down" style="height: 64px">
+</div>
 <div class="mdui-col-md-4 mdui-col-sm-12">
 
 </div>
@@ -65,7 +96,7 @@
     if (admin) {
 %>
 <div class="mdui-col-md-4 mdui-col-sm-12  mdui-typo">
-    <h1 class="mdui-center mdui-text-color-theme mdui-text-center">你输入的密码有误</h1>
+    <h1 class="mdui-center mdui-text-color-theme mdui-text-center">管理员登陆</h1>
     <div class="mdui-container-fluid mdui-center" id="content" style="margin: 64px">
         <form action="login" method="post">
             <div class="mdui-textfield mdui-textfield-floating-label">
@@ -83,7 +114,7 @@
                     style="margin-top: 32px" onclick="return login()">登陆
             </button>
         </form>
-        <button class="mdui-btn mdui-ripple mdui-center" onclick="window.location.assign('ForgetPassword.jsp')">
+        <button class="mdui-btn mdui-ripple mdui-center" onclick="window.location.assign('forget_password.jsp')">
             忘记密码
         </button>
     </div>
@@ -92,7 +123,7 @@
 } else {
 %>
 <div class="mdui-col-md-4 mdui-col-sm-12  mdui-typo">
-    <h1 class="mdui-center mdui-text-color-theme mdui-text-center">你输入的密码有误</h1>
+    <h1 class="mdui-center mdui-text-color-theme mdui-text-center">师生登陆</h1>
     <div class="mdui-container-fluid mdui-center" id="" style="margin: 64px">
         <form action="login" method="post">
             <div class="mdui-textfield mdui-textfield-floating-label">
@@ -108,7 +139,7 @@
             <div class="mdui-textfield mdui-textfield-floating-label">
                 <i class="mdui-icon material-icons">lock</i>
                 <label class="mdui-textfield-label">密码</label>
-                <input class="mdui-textfield-input" name="password" type="password"/>
+                <input class="mdui-textfield-input" maxlength="8" minlength="8" name="password" type="password"/>
                 <div class="mdui-textfield-helper">密码为身份证后八位</div>
             </div>
             <input type="hidden" name="user" value="user">
@@ -116,7 +147,9 @@
                     style="margin-top: 32px" onclick="return check()">登陆
             </button>
         </form>
-
+        <button class="mdui-btn mdui-ripple mdui-center" onclick="window.location.assign('login.jsp?user=admin')">
+            后台管理
+        </button>
     </div>
 </div>
 

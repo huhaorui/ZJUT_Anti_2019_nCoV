@@ -1,4 +1,4 @@
-<%--
+<%@ page import="model.Person" %><%--
   Created by IntelliJ IDEA.
   User: HHR
   Date: 2020/5/18
@@ -17,11 +17,13 @@
     <script src="js/md5.min.js"></script>
     <script src="js/mdui.min.js"></script>
 </head>
+<jsp:useBean id="person" class="model.Person" scope="session"/>
 <body class="mdui-appbar-with-toolbar  mdui-loaded mdui-theme-primary-indigo   mdui-theme-accent-deep-purple">
 <header class="mdui-appbar mdui-appbar-fixed" id="header">
     <div class="mdui-toolbar mdui-color-theme">
-        <span class="mdui-btn mdui-btn-icon mdui-ripple mdui-ripple-white" onclick="history.back()">
-            <i class="mdui-icon material-icons">arrow_back</i>
+       <span class="mdui-btn mdui-btn-icon mdui-ripple mdui-ripple-white"
+             onclick="window.location.assign('index.jsp')">
+            <i class="mdui-icon material-icons">home</i>
         </span>
         <a href="" class="mdui-typo-headline mdui-hidden-xs"
            style="font-weight: inherit">浙江工业大学</a>
@@ -30,33 +32,108 @@
 
     </div>
 </header>
+<%
+    if (person.equals(new Person())) {
+%>
+<script type="text/javascript">
+    window.location.assign('index.jsp')
+</script>
+<%
+    }
+    if (request.getParameter("error") != null && request.getParameter("error").equals("punched")) {
+%>
+<script type="text/javascript">
+    window.onload = function () {
+        mdui.dialog({
+            title: '你已经完成申报了',
+            buttons: [
+                {
+                    text: '确认',
+                }
+            ],
+            history: false,
+        });
+    }
+</script>
+<%
+} else {
+%>
+<script type="text/javascript">
+    window.onload = function () {
+        mdui.snackbar({
+            message: "欢迎你, <jsp:getProperty name="person" property="name"/>"
+        });
+    }
+</script>
+<%
+    }
+%>
+<div class="mdui-container">
 
-
-<div class="mdui-col-md-4 mdui-col-sm-12">
-
-</div>
-<div class="mdui-col-md-4 mdui-col-sm-12  mdui-typo">
-    <h1 class="mdui-center mdui-text-color-theme mdui-text-center">找回密码</h1>
-    <div class="mdui-container-fluid mdui-center" id="content" style="margin: 64px">
-        <form action="forgetPassword" method="post">
-            <div class="mdui-textfield">
-                <i class="mdui-icon material-icons">account_circle</i>
-                <label class="mdui-textfield-label">工号</label>
-                <input class="mdui-textfield-input" name="id" type="text"/>
+    <div style="height: 24px"></div>
+    <div class="mdui-row">
+        <div class="mdui-col-md-6 mdui-col-sm-12 ">
+            <div class="mdui-card" onclick="window.location.assign('punch.jsp')">
+                <div class="mdui-card-media">
+                    <img src="image/card.jpg"/>
+                    <div class="mdui-card-media-covered">
+                        <div class="mdui-card-primary">
+                            <div class="mdui-card-primary-title">健康打卡</div>
+                            <div class="mdui-card-primary-subtitle">Health Punch</div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="mdui-textfield">
-                <i class="mdui-icon material-icons">lock</i>
-                <label class="mdui-textfield-label">邮箱</label>
-                <input class="mdui-textfield-input" name="email" type="email"/>
+        </div>
+        <div class="mdui-hidden-sm-up" style="height: 16px"></div>
+
+        <div class="mdui-col-md-6 mdui-col-sm-12">
+            <div class="mdui-card" onclick="window.location.assign('get_health_code.jsp')">
+                <div class="mdui-card-media">
+                    <img src="image/card.jpg"/>
+                    <div class="mdui-card-media-covered">
+                        <div class="mdui-card-primary">
+                            <div class="mdui-card-primary-title">健康码申领</div>
+                            <div class="mdui-card-primary-subtitle">Get health code</div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <button class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent mdui-center"
-                    style="margin-top: 32px">重置密码
-            </button>
-        </form>
+        </div>
+    </div>
+    <div style="height: 16px"></div>
+    <div class="mdui-row">
+        <div class="mdui-col-md-6 mdui-col-sm-12">
+            <div class="mdui-card" onclick="window.location.assign('view_health_code.jsp')">
+                <div class="mdui-card-media">
+                    <img src="image/card.jpg"/>
+                    <div class="mdui-card-media-covered">
+                        <div class="mdui-card-primary">
+                            <div class="mdui-card-primary-title">健康码查看</div>
+                            <div class="mdui-card-primary-subtitle">View health code</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="mdui-hidden-sm-up" style="height: 16px"></div>
+
+        <div class="mdui-col-md-6 mdui-col-sm-12">
+            <div class="mdui-card" onclick="window.location.assign('punch_history.jsp')">
+                <div class="mdui-card-media">
+                    <img src="image/card.jpg"/>
+                    <div class="mdui-card-media-covered">
+                        <div class="mdui-card-primary">
+                            <div class="mdui-card-primary-title">打卡历史</div>
+                            <div class="mdui-card-primary-subtitle">Punch history</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
-<div class="mdui-col-md-4 mdui-col-sm-12">
-</div>
+
 </body>
 <script>const $$ = mdui.JQ;</script>
 <script src="js/script.js"></script>

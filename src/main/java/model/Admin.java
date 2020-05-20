@@ -17,8 +17,7 @@ public class Admin {
     @Field("email")
     private String email;
 
-    public Admin() {
-    }
+    public Admin() { }
 
     @Override
     public String toString() {
