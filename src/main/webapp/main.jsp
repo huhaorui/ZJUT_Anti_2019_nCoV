@@ -103,6 +103,22 @@
     }
 </script>
 <%
+} else if (request.getParameter("error") != null && request.getParameter("error").equals("used")) {
+%>
+<script type="text/javascript">
+    window.onload = function () {
+        mdui.dialog({
+            title: '你的健康码已被使用',
+            buttons: [
+                {
+                    text: '确认',
+                }
+            ],
+            history: false,
+        });
+    }
+</script>
+<%
 } else {
 %>
 <script type="text/javascript">

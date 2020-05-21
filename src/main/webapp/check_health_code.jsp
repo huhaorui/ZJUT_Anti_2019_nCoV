@@ -21,21 +21,40 @@
     <script src="js/md5.min.js"></script>
     <script src="js/mdui.min.js"></script>
 </head>
+<script type="text/javascript">
+    function check() {
+        mdui.dialog({
+            title: '注意，该操作不可逆',
+            buttons: [
+                {
+                    text: '确认',
+                    onClick: function () {
+                        document.getElementById("form").submit()
+                    }
+                }, {
+                    text: '取消'
+                }
+            ],
+            history: false,
+        });
+    }
+</script>
 <jsp:useBean id="person" class="model.Person" scope="session"/>
 <%
     String id = request.getParameter("id");
     String token = request.getParameter("token");
     Connection conn = DatabaseProvider.getConn();
-    String collage = null, major = null, clazz = null, name = null, color = null;
+    String collage = null, major = null, clazz = null, name = null, color = null, used = "used", type = "教师";
     try {
         PreparedStatement sql = conn.prepareStatement("select * from health_code_token where uid=? and token=?");
         sql.setString(1, id);
         sql.setString(2, token);
         ResultSet result = sql.executeQuery();
         if (result.next()) {
+            used = result.getString("used");
             sql.close();
             result.close();
-            sql = conn.prepareStatement("select * from view_student_full where id=?");
+            sql = conn.prepareStatement("select * from view_teacher_student_full where id=?");
             sql.setString(1, id);
             result = sql.executeQuery();
             if (result.next()) {
@@ -43,9 +62,12 @@
                 major = result.getString("major");
                 clazz = result.getString("class");
                 name = result.getString("name");
+                type = result.getString("type");
             }
             sql.close();
             result.close();
+        } else {
+            response.sendRedirect("error_code.jsp");
         }
         sql = conn.prepareStatement("select color from health_info where uid=?");
         sql.setString(1, id);
@@ -57,6 +79,24 @@
         result.close();
     } catch (SQLException throwables) {
         throwables.printStackTrace();
+    }
+    if (!used.equals("false")) {
+
+%>
+<script type="text/javascript">
+    window.onload = function () {
+        mdui.dialog({
+            title: '该健康码已被使用',
+            buttons: [
+                {
+                    text: '确认',
+                }
+            ],
+            history: false,
+        });
+    }
+</script>
+<%
     }
 %>
 
@@ -101,6 +141,10 @@
             <td><%=collage%>
             </td>
         </tr>
+        <%
+            assert type != null;
+            if (type.equals("学生")) {
+        %>
         <tr>
             <td>专业</td>
             <td><%=major%>
@@ -111,15 +155,18 @@
             <td><%=clazz%>
             </td>
         </tr>
+        <%
+            }
+        %>
     </table>
     <%
-        if ("green".equals(color)) {
+        if ("green".equals(color) && "false".equals(used)) {
     %>
     <button class="mdui-center mdui-btn mdui-ripple  mdui-color-theme-accent"
-            onclick="document.getElementById('form').submit()">
+            onclick="check()">
         确认入校
     </button>
-    <form id="form" action="DestoryHealthCode" method="post">
+    <form id="form" action="DestroyHealthCode" method="post">
         <input type="hidden" name="id" value="<%=id%>">
         <input type="hidden" name="token" value="<%=token%>">
     </form>

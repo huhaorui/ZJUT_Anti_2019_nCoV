@@ -36,7 +36,7 @@ public class GetHealthCodeServlet extends HttpServlet {
             }
             sql.close();
             result.close();
-            sql = conn.prepareStatement("insert into health_code_token values(?,?)");
+            sql = conn.prepareStatement("insert into health_code_token values(?,?,'false')");
             sql.setString(1, id);
             sql.setString(2, token);
             sql.execute();
