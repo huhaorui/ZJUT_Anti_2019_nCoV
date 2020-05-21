@@ -29,7 +29,7 @@
            style="font-weight: inherit">浙江工业大学</a>
         <a href="" class="mdui-typo-title " style="font-weight: inherit">学生健康信息管理系统</a>
         <div class="mdui-toolbar-spacer"></div>
-        <p class="mdui-typo-title mdui-hidden-xs" onclick="logout()">退出登陆</p>
+        <p class="mdui-typo-title mdui-hidden-xs clickable" onclick="logout()">退出登陆</p>
         <span class="mdui-btn mdui-btn-icon mdui-ripple mdui-ripple-white mdui-hidden-sm-up"
               mdui-tooltip="{content: '退出登陆'}" onclick="logout()">
            <i class="mdui-icon material-icons">exit_to_app</i>

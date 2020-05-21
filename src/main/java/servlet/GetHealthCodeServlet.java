@@ -18,6 +18,7 @@ import java.util.UUID;
 @WebServlet(name = "GetHealthCodeServlet", urlPatterns = "/getHealthCode")
 public class GetHealthCodeServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.setCharacterEncoding("UTF-8");
         Connection conn = DatabaseProvider.getConn();
         PreparedStatement sql;
         String token = UUID.randomUUID().toString().replace("-", "");
@@ -29,6 +30,7 @@ public class GetHealthCodeServlet extends HttpServlet {
             sql.setString(1, person_id);
             sql.setString(2, id);
             sql.setString(3, name);
+            System.out.println(name);
             ResultSet result = sql.executeQuery();
             if (!result.next()) {
                 response.sendRedirect("main.jsp");
