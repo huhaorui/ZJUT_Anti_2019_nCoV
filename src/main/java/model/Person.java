@@ -3,13 +3,31 @@ package model;
 import java.text.MessageFormat;
 import java.util.Objects;
 
+@Model("view_teacher_student_full")
 public class Person implements HealthCodeTester {
     @Field("id")
     private String uid;
+
     @Field("name")
     private String name;
+
     @Field("person_id")
     private String personId;
+
+    @Field("collage")
+    @ForeignKey("id")
+    private Collage collage;
+
+    @Field("major")
+    @ForeignKey("id")
+    private Major major;
+
+    @Field("class")
+    @ForeignKey("id")
+    private Clazz clazz;
+
+    @Field("type")
+    private String type;
 
     public Person() {
     }
@@ -44,6 +62,38 @@ public class Person implements HealthCodeTester {
         this.name = name;
     }
 
+    public Collage getCollage() {
+        return collage;
+    }
+
+    public void setCollage(Collage collage) {
+        this.collage = collage;
+    }
+
+    public Major getMajor() {
+        return major;
+    }
+
+    public void setMajor(Major major) {
+        this.major = major;
+    }
+
+    public Clazz getClazz() {
+        return clazz;
+    }
+
+    public void setClazz(Clazz clazz) {
+        this.clazz = clazz;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
     @Override
     public CodeColor getCodeColor() {
         // TODO: 2020/5/17
@@ -52,10 +102,6 @@ public class Person implements HealthCodeTester {
 
         var cardColor = healthInfo.getCodeColor();
         var punchRecords = getPunchRecords();
-
-        for (var record : punchRecords) {
-
-        }
 
         return null;
     }
@@ -83,21 +129,8 @@ public class Person implements HealthCodeTester {
                 Objects.equals(personId, person.personId);
     }
 
-
-    public Boolean login(String id, String name, String password) {
-        if (this instanceof Student) {
-
-        } else if (this instanceof Teacher) {
-
-        } else {
-
-        }
-
-        return false;
-    }
-
     @Override
     public String toString() {
-        return MessageFormat.format("Person'{'uid=''{0}'', name=''{1}'', personId=''{2}'''}'", uid, name, personId);
+        return MessageFormat.format("Person'{'uid=''{0}'', name=''{1}'', personId=''{2}'', collage={3}, major={4}, clazz={5}, type=''{6}'''}'", uid, name, personId, collage, major, clazz, type);
     }
 }

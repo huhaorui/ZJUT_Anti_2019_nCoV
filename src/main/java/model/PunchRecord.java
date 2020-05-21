@@ -2,11 +2,13 @@ package model;
 
 import java.sql.Date;
 import java.sql.Time;
+import java.text.MessageFormat;
 
 @Model("punch_record")
 public class PunchRecord {
 
     @Field("uid")
+    @ForeignKey("id")
     private Person person;
 
     @Field("date")
@@ -17,16 +19,6 @@ public class PunchRecord {
 
     @Field("status")
     private Integer status;
-
-    @Override
-    public String toString() {
-        return "PunchRecord{" +
-                "person=" + person +
-                ", date=" + date +
-                ", time=" + time +
-                ", status=" + status +
-                "}<br>";
-    }
 
     public PunchRecord() { }
 
@@ -67,5 +59,10 @@ public class PunchRecord {
 
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+    @Override
+    public String toString() {
+        return MessageFormat.format("PunchRecord'{'person={0}, date={1}, time={2}, status={3}'}'", person, date, time, new Status(status));
     }
 }

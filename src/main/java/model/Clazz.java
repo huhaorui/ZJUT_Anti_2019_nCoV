@@ -5,6 +5,7 @@ import java.text.MessageFormat;
 @Model("class")
 public class Clazz extends Department {
     @Field("major")
+    @ForeignKey("id")
     private Major major;
 
     public Clazz() {

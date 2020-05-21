@@ -1,5 +1,7 @@
 package model;
 
+import java.text.MessageFormat;
+
 @Model("health_info")
 public class HealthInfo {
     public HealthInfo(Person person, String tel, boolean danger14, boolean abroad14, boolean touchIllness14, boolean ill, Integer status) {
@@ -13,6 +15,7 @@ public class HealthInfo {
     }
 
     @Field("uid")
+    @ForeignKey("id")
     private Person person;
 
     @Field("tel")
@@ -120,16 +123,7 @@ public class HealthInfo {
 
     @Override
     public String toString() {
-        return "HealthInfo{" +
-                "person=" + person +
-                ", tel='" + tel + '\'' +
-                ", danger14=" + danger14 +
-                ", abroad14=" + abroad14 +
-                ", touchIllness14=" + touchIllness14 +
-                ", ill=" + ill +
-                ", status=" + new Status(status) +
-                ", color='" + color + '\'' +
-                '}';
+        return MessageFormat.format("HealthInfo'{'person={0}, tel=''{1}'', danger14={2}, abroad14={3}, touchIllness14={4}, ill={5}, status={6}, color=''{7}'''}'", person, tel, danger14, abroad14, touchIllness14, ill, new Status(status), color);
     }
 }
 

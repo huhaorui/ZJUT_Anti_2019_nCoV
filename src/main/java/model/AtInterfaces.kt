@@ -10,4 +10,9 @@ internal annotation class Model(val value: String)
 @kotlin.annotation.Retention(AnnotationRetention.RUNTIME)
 @Target(AnnotationTarget.FIELD)
 @Inherited
-internal annotation class Field(val value: String) 
+internal annotation class Field(val value: String)
+
+@kotlin.annotation.Retention(AnnotationRetention.RUNTIME)
+@Target(AnnotationTarget.FIELD)
+@Inherited
+internal annotation class ForeignKey(val value: String)

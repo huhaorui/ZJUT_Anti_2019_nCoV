@@ -6,6 +6,7 @@ import java.text.MessageFormat;
 public class Major extends Department {
 
     @Field("collage")
+    @ForeignKey("id")
     private Collage collage;
 
     public Major() {

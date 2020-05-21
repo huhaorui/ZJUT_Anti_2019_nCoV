@@ -1,5 +1,7 @@
 package model;
 
+import java.text.MessageFormat;
+
 @Model("admin")
 public class Admin {
     @Field("id")
@@ -21,12 +23,7 @@ public class Admin {
 
     @Override
     public String toString() {
-        return "Admin{" +
-                "id='" + id + '\'' +
-                ", level='" + level + '\'' +
-                ", target='" + target + '\'' +
-                ", email='" + email + '\'' +
-                '}';
+        return MessageFormat.format("Admin'{'id=''{0}'', level=''{1}'', target=''{2}'', password=''{3}'', email=''{4}'''}'", id, level, target, password, email);
     }
 
     public Admin(String id, String level, String target, String password, String email) {
