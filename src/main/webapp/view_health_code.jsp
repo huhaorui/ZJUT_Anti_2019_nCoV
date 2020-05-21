@@ -31,7 +31,7 @@
         response.sendRedirect("index.jsp");
         return;
     }
-    String id = ((Person) (session.getAttribute("person"))).getUid();
+    String id = person.getUid();
     String token = null;
     Connection conn = DatabaseProvider.getConn();
     Date date = new Date();
@@ -45,13 +45,18 @@
         if (result.next()) {
             token = result.getString(1);
         }
+        result.close();
+        sql.close();
         sql = conn.prepareStatement("select color from health_info where uid=?");
         sql.setString(1, id);
         result = sql.executeQuery();
         if (result.next()) {
             color = result.getString(1);
+        } else {
+            return;
         }
-        assert color != null;
+        result.close();
+        sql.close();
         switch (color) {
             case "red":
                 color = "f08080";
@@ -74,7 +79,7 @@
 <header class="mdui-appbar mdui-appbar-fixed" id="header">
     <div class="mdui-toolbar mdui-color-theme">
        <span class="mdui-btn mdui-btn-icon mdui-ripple mdui-ripple-white"
-             onclick="window.location.assign('index.jsp')">
+             onclick="window.location.assign('main.jsp')">
             <i class="mdui-icon material-icons">home</i>
         </span>
         <a href="" class="mdui-typo-headline mdui-hidden-xs"

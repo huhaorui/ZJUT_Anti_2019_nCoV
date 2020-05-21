@@ -78,7 +78,8 @@ public class UploadPunchServlet extends HttpServlet {
             sql.setString(3, name);
             ResultSet result = sql.executeQuery();
             if (!result.next()) {
-                //Fixme
+                result.close();
+                sql.close();
                 response.sendRedirect("main.jsp");
                 return;
             }
@@ -100,6 +101,8 @@ public class UploadPunchServlet extends HttpServlet {
             sql.setString(1, id);
             ResultSet result = sql.executeQuery();
             if (result.next()) {
+                result.close();
+                sql.close();
                 //TODO 红码和黄码的打卡
             } else {
                 sql = conn.prepareStatement("insert into health_info values(?,?,?,?,?,?,?,?)");
@@ -110,10 +113,11 @@ public class UploadPunchServlet extends HttpServlet {
                 sql.setInt(5, "true".equals(touch14) ? 1 : 0);
                 sql.setInt(6, "true".equals(ill14) ? 1 : 0);
                 sql.setInt(7, problemNumber);
-                assert touch14 != null;
                 sql.setString(8, getColorByStatus(danger14, aboard14, touch14, ill14, problemNumber));
                 sql.execute();
+                response.sendRedirect("main.jsp?ok=punch");
             }
+            sql.close();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }

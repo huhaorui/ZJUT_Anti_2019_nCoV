@@ -22,7 +22,7 @@
 <header class="mdui-appbar mdui-appbar-fixed" id="header">
     <div class="mdui-toolbar mdui-color-theme">
        <span class="mdui-btn mdui-btn-icon mdui-ripple mdui-ripple-white"
-             onclick="window.location.assign('index.jsp')">
+             onclick="window.location.assign('main.jsp')">
             <i class="mdui-icon material-icons">home</i>
         </span>
         <a href="" class="mdui-typo-headline mdui-hidden-xs"
@@ -34,11 +34,7 @@
 </header>
 <%
     if (person.equals(new Person())) {
-%>
-<script type="text/javascript">
-    window.location.assign('index.jsp')
-</script>
-<%
+        response.sendRedirect("index.jsp");
     }
     if (request.getParameter("error") != null && request.getParameter("error").equals("punched")) {
 %>
@@ -46,6 +42,57 @@
     window.onload = function () {
         mdui.dialog({
             title: '你已经完成申报了',
+            buttons: [
+                {
+                    text: '确认',
+                }
+            ],
+            history: false,
+        });
+    }
+</script>
+<%
+} else if (request.getParameter("error") != null && request.getParameter("error").equals("noPunched")) {
+%>
+<script type="text/javascript">
+    window.onload = function () {
+        mdui.dialog({
+            title: '请先完成健康打卡',
+            buttons: [
+                {
+                    text: '确认',
+                }
+            ],
+            history: false,
+        });
+    }
+</script>
+<%
+} else if (request.getParameter("error") != null && request.getParameter("error").equals("got")) {
+%>
+<script type="text/javascript">
+    window.onload = function () {
+        mdui.dialog({
+            title: '你已经拥有健康码了',
+            buttons: [
+                {
+                    text: '确认',
+                    onClick: function (inst) {
+                        window.location.assign("view_health_code.jsp")
+                    }
+                }
+            ],
+            history: false,
+        });
+    }
+</script>
+<%
+} else if (request.getParameter("ok") != null && request.getParameter("ok").equals("punch")) {
+%>
+<script type="text/javascript">
+    window.onload = function () {
+        mdui.dialog({
+            title: '信息填报成功',
             buttons: [
                 {
                     text: '确认',

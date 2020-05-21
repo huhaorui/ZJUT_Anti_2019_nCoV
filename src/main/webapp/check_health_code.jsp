@@ -33,6 +33,8 @@
         sql.setString(2, token);
         ResultSet result = sql.executeQuery();
         if (result.next()) {
+            sql.close();
+            result.close();
             sql = conn.prepareStatement("select * from view_student_full where id=?");
             sql.setString(1, id);
             result = sql.executeQuery();
@@ -42,6 +44,8 @@
                 clazz = result.getString("class");
                 name = result.getString("name");
             }
+            sql.close();
+            result.close();
         }
         sql = conn.prepareStatement("select color from health_info where uid=?");
         sql.setString(1, id);
@@ -49,6 +53,8 @@
         if (result.next()) {
             color = result.getString("color");
         }
+        sql.close();
+        result.close();
     } catch (SQLException throwables) {
         throwables.printStackTrace();
     }
@@ -58,7 +64,7 @@
 <header class="mdui-appbar mdui-appbar-fixed" id="header">
     <div class="mdui-toolbar mdui-color-theme">
        <span class="mdui-btn mdui-btn-icon mdui-ripple mdui-ripple-white"
-             onclick="window.location.assign('index.jsp')">
+             onclick="window.location.assign('main.jsp')">
             <i class="mdui-icon material-icons">home</i>
         </span>
         <a href="" class="mdui-typo-headline mdui-hidden-xs"

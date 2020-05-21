@@ -1,4 +1,9 @@
-<%@ page import="model.Person" %><%--
+<%@ page import="model.Person" %>
+<%@ page import="conn.DatabaseProvider" %>
+<%@ page import="java.sql.Connection" %>
+<%@ page import="java.sql.PreparedStatement" %>
+<%@ page import="java.sql.SQLException" %>
+<%@ page import="java.sql.ResultSet" %><%--
   Created by IntelliJ IDEA.
   User: HHR
   Date: 2020/5/20
@@ -22,7 +27,7 @@
 <header class="mdui-appbar mdui-appbar-fixed" id="header">
     <div class="mdui-toolbar mdui-color-theme">
        <span class="mdui-btn mdui-btn-icon mdui-ripple mdui-ripple-white"
-             onclick="window.location.assign('index.jsp')">
+             onclick="window.location.assign('main.jsp')">
             <i class="mdui-icon material-icons">home</i>
         </span>
         <a href="" class="mdui-typo-headline mdui-hidden-xs"
@@ -35,6 +40,26 @@
     if (person.equals(new Person())) {
         response.sendRedirect("main.jsp");
     }
+    Connection conn = DatabaseProvider.getConn();
+    try {
+        PreparedStatement sql = conn.prepareStatement("select * from health_info where uid=?");
+        sql.setString(1, person.getUid());
+        ResultSet result = sql.executeQuery();
+        if (!result.next()) {
+            response.sendRedirect("main.jsp?error=noPunched");
+        }
+        sql.close();
+        result.close();
+        sql = conn.prepareStatement("select * from health_code_token where uid=?");
+        sql.setString(1, person.getUid());
+        result = sql.executeQuery();
+        if (result.next()) {
+            response.sendRedirect("main.jsp?error=got");
+        }
+    } catch (SQLException throwables) {
+        throwables.printStackTrace();
+    }
+
 %>
 <script type="text/javascript">
     window.onload = function () {

@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.UUID;
 
@@ -21,7 +22,20 @@ public class GetHealthCodeServlet extends HttpServlet {
         PreparedStatement sql;
         String token = UUID.randomUUID().toString().replace("-", "");
         String id = request.getParameter("id");
+        String name = request.getParameter("name");
+        String person_id = request.getParameter("person_id");
         try {
+            sql = conn.prepareStatement("select * from Teacher_Student where person_id=? and id=? and name=?");
+            sql.setString(1, person_id);
+            sql.setString(2, id);
+            sql.setString(3, name);
+            ResultSet result = sql.executeQuery();
+            if (!result.next()) {
+                response.sendRedirect("main.jsp");
+                return;
+            }
+            sql.close();
+            result.close();
             sql = conn.prepareStatement("insert into health_code_token values(?,?)");
             sql.setString(1, id);
             sql.setString(2, token);

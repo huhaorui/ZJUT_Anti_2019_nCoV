@@ -37,7 +37,10 @@
             sql.setString(1, person.getUid());
             ResultSet result = sql.executeQuery();
             if (result.next()) {
+                sql.close();
+                result.close();
                 response.sendRedirect("main.jsp?error=punched");
+                return;
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -100,7 +103,7 @@
 <header class="mdui-appbar mdui-appbar-fixed" id="header">
     <div class="mdui-toolbar mdui-color-theme">
        <span class="mdui-btn mdui-btn-icon mdui-ripple mdui-ripple-white"
-             onclick="window.location.assign('index.jsp')">
+             onclick="window.location.assign('main.jsp')">
             <i class="mdui-icon material-icons">home</i>
         </span>
         <a href="" class="mdui-typo-headline mdui-hidden-xs"
