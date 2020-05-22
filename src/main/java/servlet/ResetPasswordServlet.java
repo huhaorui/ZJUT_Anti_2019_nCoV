@@ -46,6 +46,7 @@ public class ResetPasswordServlet extends HttpServlet {
         String token = request.getParameter("token");
         if (id == null || token == null) {
             response.sendRedirect("forget_password.jsp");
+            return;
         }
         Connection conn = DatabaseProvider.getConn();
         try {

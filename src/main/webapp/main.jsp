@@ -22,23 +22,28 @@
 <header class="mdui-appbar mdui-appbar-fixed" id="header">
     <div class="mdui-toolbar mdui-color-theme">
        <span class="mdui-btn mdui-btn-icon mdui-ripple mdui-ripple-white"
-             onclick="window.location.assign('index.jsp')">
+             onclick="window.location.assign('main.jsp')">
             <i class="mdui-icon material-icons">home</i>
         </span>
         <a href="" class="mdui-typo-headline mdui-hidden-xs"
            style="font-weight: inherit">浙江工业大学</a>
         <a href="" class="mdui-typo-title " style="font-weight: inherit">学生健康信息管理系统</a>
         <div class="mdui-toolbar-spacer"></div>
-
+        <p class="mdui-typo-title mdui-hidden-xs clickable" onclick="logout()">退出登陆</p>
+        <span class="mdui-btn mdui-btn-icon mdui-ripple mdui-ripple-white mdui-hidden-sm-up"
+              mdui-tooltip="{content: '退出登陆'}" onclick="logout()">
+           <i class="mdui-icon material-icons">exit_to_app</i>
+        </span>
     </div>
 </header>
-<%
-    if (person.equals(new Person())) {
-%>
 <script type="text/javascript">
-    window.location.assign('index.jsp')
+    function logout() {
+        document.getElementById("logout").submit();
+    }
 </script>
 <%
+    if (person.equals(new Person())) {
+        response.sendRedirect("index.jsp");
     }
     if (request.getParameter("error") != null && request.getParameter("error").equals("punched")) {
 %>
@@ -46,6 +51,73 @@
     window.onload = function () {
         mdui.dialog({
             title: '你已经完成申报了',
+            buttons: [
+                {
+                    text: '确认',
+                }
+            ],
+            history: false,
+        });
+    }
+</script>
+<%
+} else if (request.getParameter("error") != null && request.getParameter("error").equals("noPunched")) {
+%>
+<script type="text/javascript">
+    window.onload = function () {
+        mdui.dialog({
+            title: '请先完成健康打卡',
+            buttons: [
+                {
+                    text: '确认',
+                }
+            ],
+            history: false,
+        });
+    }
+</script>
+<%
+} else if (request.getParameter("error") != null && request.getParameter("error").equals("got")) {
+%>
+<script type="text/javascript">
+    window.onload = function () {
+        mdui.dialog({
+            title: '你已经拥有健康码了',
+            buttons: [
+                {
+                    text: '确认',
+                    onClick: function (inst) {
+                        window.location.assign("view_health_code.jsp")
+                    }
+                }
+            ],
+            history: false,
+        });
+    }
+</script>
+<%
+} else if (request.getParameter("ok") != null && request.getParameter("ok").equals("punch")) {
+%>
+<script type="text/javascript">
+    window.onload = function () {
+        mdui.dialog({
+            title: '信息填报成功',
+            buttons: [
+                {
+                    text: '确认',
+                }
+            ],
+            history: false,
+        });
+    }
+</script>
+<%
+} else if (request.getParameter("error") != null && request.getParameter("error").equals("used")) {
+%>
+<script type="text/javascript">
+    window.onload = function () {
+        mdui.dialog({
+            title: '你的健康码已被使用',
             buttons: [
                 {
                     text: '确认',
@@ -133,7 +205,8 @@
         </div>
     </div>
 </div>
-
+<form id="logout" method="post" action="logOut">
+</form>
 </body>
 <script>const $$ = mdui.JQ;</script>
 <script src="js/script.js"></script>

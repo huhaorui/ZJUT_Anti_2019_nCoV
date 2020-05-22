@@ -11,18 +11,34 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.UUID;
 
 @WebServlet(name = "GetHealthCodeServlet", urlPatterns = "/getHealthCode")
 public class GetHealthCodeServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.setCharacterEncoding("UTF-8");
         Connection conn = DatabaseProvider.getConn();
         PreparedStatement sql;
         String token = UUID.randomUUID().toString().replace("-", "");
         String id = request.getParameter("id");
+        String name = request.getParameter("name");
+        String person_id = request.getParameter("person_id");
         try {
-            sql = conn.prepareStatement("insert into health_code_token values(?,?)");
+            sql = conn.prepareStatement("select * from Teacher_Student where person_id=? and id=? and name=?");
+            sql.setString(1, person_id);
+            sql.setString(2, id);
+            sql.setString(3, name);
+            System.out.println(name);
+            ResultSet result = sql.executeQuery();
+            if (!result.next()) {
+                response.sendRedirect("main.jsp");
+                return;
+            }
+            sql.close();
+            result.close();
+            sql = conn.prepareStatement("insert into health_code_token values(?,?,'false')");
             sql.setString(1, id);
             sql.setString(2, token);
             sql.execute();

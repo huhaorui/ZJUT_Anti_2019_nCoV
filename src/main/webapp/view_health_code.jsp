@@ -31,27 +31,36 @@
         response.sendRedirect("index.jsp");
         return;
     }
-    String id = ((Person) (session.getAttribute("person"))).getUid();
-    String token = null;
+    String id = person.getUid();
+    String token = null, used = null;
     Connection conn = DatabaseProvider.getConn();
     Date date = new Date();
     SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd HH:mm");
     String time = (formatter.format(date));
     String color = null;
     try {
-        PreparedStatement sql = conn.prepareStatement("select token from health_code_token where uid=?");
+        PreparedStatement sql = conn.prepareStatement("select token,used from health_code_token where uid=?");
         sql.setString(1, id);
         ResultSet result = sql.executeQuery();
         if (result.next()) {
             token = result.getString(1);
+            used = result.getString(2);
+            if(used.equals("true")){
+                response.sendRedirect("main.jsp?error=used");
+            }
         }
+        result.close();
+        sql.close();
         sql = conn.prepareStatement("select color from health_info where uid=?");
         sql.setString(1, id);
         result = sql.executeQuery();
         if (result.next()) {
             color = result.getString(1);
+        } else {
+            return;
         }
-        assert color != null;
+        result.close();
+        sql.close();
         switch (color) {
             case "red":
                 color = "f08080";
@@ -74,14 +83,13 @@
 <header class="mdui-appbar mdui-appbar-fixed" id="header">
     <div class="mdui-toolbar mdui-color-theme">
        <span class="mdui-btn mdui-btn-icon mdui-ripple mdui-ripple-white"
-             onclick="window.location.assign('index.jsp')">
+             onclick="window.location.assign('main.jsp')">
             <i class="mdui-icon material-icons">home</i>
         </span>
         <a href="" class="mdui-typo-headline mdui-hidden-xs"
            style="font-weight: inherit">浙江工业大学</a>
         <a href="" class="mdui-typo-title " style="font-weight: inherit">学生健康信息管理系统</a>
         <div class="mdui-toolbar-spacer"></div>
-
     </div>
 </header>
 <div class="mdui-col-md12 mdui-hidden-md-down" style="height: 64px">
@@ -91,14 +99,14 @@
 </div>
 <div class="mdui-col-md-4 mdui-col-sm-12  mdui-typo">
     <h1 class="mdui-center mdui-text-color-theme mdui-text-center">健康码</h1>
-    <p class="mdui-text-center mdui-text-color-theme">
+    <p class="mdui-text-center mdui-text-color-theme" style="font-size: large">
         生成时间:<%=time%>
     </p>
-    <img class="mdui-center" src="GetQrCode?text=<%=text%>" alt="health code">
-    <p class="mdui-text-center mdui-text-color-theme">
+    <img class="mdui-center" style="max-width: 80%" src="GetQrCode?text=<%=text%>" alt="health code">
+    <p class="mdui-text-center mdui-text-color-theme" style="font-size: large">
         姓名: ${person.name}
     </p>
-    <p class="mdui-text-center mdui-text-color-theme">
+    <p class="mdui-text-center mdui-text-color-theme" style="font-size: large">
         学号: ${person.uid}
     </p>
 </div>
