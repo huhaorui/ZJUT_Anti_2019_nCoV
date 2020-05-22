@@ -12,17 +12,13 @@ public class DatabaseProvider {
     private final static String password = "123456zjut";
 
     public static Connection getConn() {
-        if (conn == null) {
-            try {
-                Class.forName("com.mysql.jdbc.Driver");
-                conn = DriverManager.getConnection(uri, user, password);
-            } catch (ClassNotFoundException | SQLException e) {
-                e.printStackTrace();
-            }
+        Connection conn = null;
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            conn = DriverManager.getConnection(uri, user, password);
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
         }
         return conn;
     }
-
-    private static Connection conn = null;
-
 }

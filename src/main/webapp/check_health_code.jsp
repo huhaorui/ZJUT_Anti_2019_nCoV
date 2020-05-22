@@ -132,6 +132,10 @@
             </td>
         </tr>
         <tr>
+            <td>身份证号</td>
+            <td>${person.personId}</td>
+        </tr>
+        <tr>
             <td>学号</td>
             <td><%=id%>
             </td>
