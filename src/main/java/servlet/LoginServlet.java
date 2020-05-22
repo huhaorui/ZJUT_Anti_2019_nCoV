@@ -62,7 +62,6 @@ public class LoginServlet extends HttpServlet {
             }
             PreparedStatement sql = null;
             try {
-                System.out.println(id + password + name);
                 sql = conn.prepareStatement("select * from Teacher_Student where id=? and right(person_id,8)=? and name=?");
                 sql.setString(1, id);
                 sql.setString(2, password);

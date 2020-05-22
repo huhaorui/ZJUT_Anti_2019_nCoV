@@ -89,7 +89,7 @@ public class UploadPunchServlet extends HttpServlet {
         if ("true".equals(problem)) {
             Map<String, String[]> parameter = request.getParameterMap();
             String[] problems = parameter.get("status");
-            if (problems.length != 0) {
+            if (problems != null) {
                 for (String p : problems) {
                     problemNumber += getProblemNumber(p);
                 }

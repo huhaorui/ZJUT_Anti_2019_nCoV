@@ -82,6 +82,27 @@
             });
             return false
         }
+        if (document.getElementById("has_health_problem").checked) {
+            let checks = document.getElementsByName("status")
+            let flag = 0;
+            for (let i = 0; i < checks.length; i++) {
+                if (checks[i].checked) {
+                    flag = 1;
+                }
+            }
+            if (flag === 0) {
+                mdui.dialog({
+                    title: '请填写你的健康问题',
+                    buttons: [
+                        {
+                            text: '确定'
+                        },
+                    ],
+                    history: false,
+                });
+                return false;
+            }
+        }
         mdui.dialog({
             title: '是否确认提交？',
             buttons: [
@@ -237,7 +258,7 @@
                 我
             </label>
             <label class="mdui-radio">
-                <input type="radio" name="problem" value="true"
+                <input type="radio" name="problem" value="true" id="has_health_problem"
                        onclick="document.getElementById('health_problem').style.display='block'"/>
                 <i class="mdui-radio-icon"></i>
                 是
