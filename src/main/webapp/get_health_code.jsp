@@ -55,8 +55,10 @@
         result = sql.executeQuery();
         if (result.next()) {
             response.sendRedirect("main.jsp?error=got");
+            conn.close();
             return;
         }
+        conn.close();
     } catch (SQLException throwables) {
         throwables.printStackTrace();
     }

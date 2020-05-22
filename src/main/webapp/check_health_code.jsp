@@ -66,6 +66,7 @@
             }
             sql.close();
             result.close();
+            conn.close();
         } else {
             response.sendRedirect("error_code.jsp");
         }
@@ -77,6 +78,7 @@
         }
         sql.close();
         result.close();
+        conn.close();
     } catch (SQLException throwables) {
         throwables.printStackTrace();
     }

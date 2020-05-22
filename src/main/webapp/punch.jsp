@@ -39,6 +39,7 @@
             if (result.next()) {
                 sql.close();
                 result.close();
+                conn.close();
                 response.sendRedirect("main.jsp?error=punched");
                 return;
             }

@@ -102,6 +102,7 @@ public class UploadPunchServlet extends HttpServlet {
             if (result.next()) {
                 result.close();
                 sql.close();
+                conn.close();
                 //TODO 红码和黄码的打卡
             } else {
                 sql = conn.prepareStatement("insert into health_info values(?,?,?,?,?,?,?,?)");
@@ -115,6 +116,7 @@ public class UploadPunchServlet extends HttpServlet {
                 sql.setString(8, getColorByStatus(danger14, aboard14, touch14, ill14, problemNumber));
                 sql.execute();
                 response.sendRedirect("main.jsp?ok=punch");
+                conn.close();
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();

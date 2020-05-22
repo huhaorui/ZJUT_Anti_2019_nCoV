@@ -46,7 +46,9 @@
             token = result.getString(1);
             used = result.getString(2);
             if(used.equals("true")){
+                conn.close();
                 response.sendRedirect("main.jsp?error=used");
+                return;
             }
         }
         result.close();
@@ -72,6 +74,7 @@
                 color = "02c39a";
                 break;
         }
+        conn.close();
     } catch (SQLException throwables) {
         throwables.printStackTrace();
     }

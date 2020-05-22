@@ -25,6 +25,7 @@ public class DestroyHealthCodeServlet extends HttpServlet {
             sql.execute();
             sql.close();
             response.sendRedirect("check_health_code.jsp?id=" + id + "&token=" + token);
+            conn.close();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }

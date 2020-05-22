@@ -34,6 +34,7 @@ public class ResetPasswordServlet extends HttpServlet {
                 sql.setString(1, id);
                 sql.execute();
                 sql.close();
+                conn.close();
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -61,6 +62,7 @@ public class ResetPasswordServlet extends HttpServlet {
             }
             result.close();
             sql.close();
+            conn.close();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }

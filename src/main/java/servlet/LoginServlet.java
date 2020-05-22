@@ -81,6 +81,7 @@ public class LoginServlet extends HttpServlet {
                 }
                 result.close();
                 sql.close();
+                conn.close();
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }

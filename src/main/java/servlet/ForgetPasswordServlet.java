@@ -41,6 +41,7 @@ public class ForgetPasswordServlet extends HttpServlet {
             sql.setString(2, token);
             sql.execute();
             sql.close();
+            conn.close();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -67,6 +68,7 @@ public class ForgetPasswordServlet extends HttpServlet {
             }
             result.close();
             sql.close();
+            conn.close();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }

@@ -43,6 +43,7 @@ public class GetHealthCodeServlet extends HttpServlet {
             sql.setString(2, token);
             sql.execute();
             sql.close();
+            conn.close();
             response.sendRedirect("view_health_code.jsp");
         } catch (SQLException throwables) {
             throwables.printStackTrace();
