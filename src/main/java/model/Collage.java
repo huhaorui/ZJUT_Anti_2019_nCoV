@@ -3,16 +3,39 @@ package model;
 import java.text.MessageFormat;
 
 @Model("collage")
-public class Collage extends Department {
+public class Collage {
+    @Field("id")
+    private Integer id;
+
+    @Field("name")
+    private String name;
 
     public Collage(Integer id, String name) {
-        super(id, name);
+        this.id = id;
+        this.name = name;
     }
 
-    public Collage() { }
+    public Collage() {
+    }
 
     @Override
     public String toString() {
-        return MessageFormat.format("Collage{0}", super.toString());
+        return MessageFormat.format("Collage'{'id={0}, name=''{1}'''}'", id, name);
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

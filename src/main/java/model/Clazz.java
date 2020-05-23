@@ -1,9 +1,16 @@
 package model;
 
 import java.text.MessageFormat;
+import java.util.Formatter;
 
 @Model("class")
-public class Clazz extends Department {
+public class Clazz {
+    @Field("id")
+    private Integer id;
+
+    @Field("name")
+    private String name;
+
     @Field("major")
     @ForeignKey("id")
     private Major major;
@@ -12,7 +19,8 @@ public class Clazz extends Department {
     }
 
     public Clazz(Integer id, String name, Major major) {
-        super(id, name);
+        this.id = id;
+        this.name = name;
         this.major = major;
     }
 
@@ -24,8 +32,19 @@ public class Clazz extends Department {
         this.major = major;
     }
 
-    @Override
-    public String toString() {
-        return MessageFormat.format("Clazz'{'major={0}'}' {1}", major, super.toString());
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

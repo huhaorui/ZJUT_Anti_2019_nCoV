@@ -3,7 +3,12 @@ package model;
 import java.text.MessageFormat;
 
 @Model("major")
-public class Major extends Department {
+public class Major {
+    @Field("id")
+    private Integer id;
+
+    @Field("name")
+    private String name;
 
     @Field("collage")
     @ForeignKey("id")
@@ -13,7 +18,8 @@ public class Major extends Department {
     }
 
     public Major(Integer id, String name, Collage collage) {
-        super(id, name);
+        this.id = id;
+        this.name = name;
         this.collage = collage;
     }
 
@@ -27,6 +33,22 @@ public class Major extends Department {
 
     @Override
     public String toString() {
-        return MessageFormat.format("Major'{'collage={0}'}' {1}", collage, super.toString());
+        return MessageFormat.format("Major'{'id={0}, name=''{1}'', collage={2}'}'", id, name, collage);
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

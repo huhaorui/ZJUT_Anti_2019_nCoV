@@ -66,4 +66,30 @@ select '学生' type, collage collage, major major, class class, id id, name nam
 from view_student
 union
 select '教师' type, collage collage, '' major, '' class, id id, name name, person_id person_id
-from view_teacher
+from view_teacher;
+
+create view view_teacher_student_full as
+select '学生' type, collage collage, major major, class class, id id, name name, person_id person_id
+from view_student
+union
+select '教师' type, collage collage, '' major, '' class, id id, name name, person_id person_id
+from view_teacher;
+
+create view view_person as
+select 0 type,
+       collage.id        collage,
+       major.id          major,
+       class.id          class,
+       student.id        id,
+       student.name      name,
+       student.person_id person_id
+from student,
+     class,
+     major,
+     collage
+where (student.class, class.major, major.collage) = (class.id, major.id, collage.id)
+union
+select 1 type, collage.id collage, '' major, '' class, teacher.id, teacher.name, person_id
+from collage,
+     teacher
+where (teacher.collage) = (collage.id);
