@@ -14,14 +14,16 @@ class SQL {
         val col = pair?.first
         val value = pair?.second
 
+        val conn = DatabaseProvider.getConn() ?: return null
+
         if (col != null && value != null && col !in fields.map { it.second }) return null
 
         var instance: T? = null
         try {
             val ps = if (col != null && value != null) {
-                DatabaseProvider.getConn().prepareStatement("select * from $model where $col = ? limit 1").apply { setObject(1, value) }
+                conn.prepareStatement("select * from $model where $col = ? limit 1").apply { setObject(1, value) }
             } else {
-                DatabaseProvider.getConn().prepareStatement("select * from $model limit 1")
+                conn.prepareStatement("select * from $model limit 1")
             }
             val rs = ps.executeQuery()
             if (rs.next())
@@ -46,13 +48,15 @@ class SQL {
         val col = pair?.first
         val value = pair?.second
 
+        val conn = DatabaseProvider.getConn() ?: return list
+
         if (col != null && value != null && col !in fields.map { it.second }) return list
 
         try {
             val ps: PreparedStatement = if (col != null && value != null) {
-                DatabaseProvider.getConn().prepareStatement("select * from $model where $col = ?").apply { setObject(1, value) }
+                conn.prepareStatement("select * from $model where $col = ?").apply { setObject(1, value) }
             } else {
-                DatabaseProvider.getConn().prepareStatement("select * from $model")
+                conn.prepareStatement("select * from $model")
             }
             val rs = ps.executeQuery()
             while (rs.next()) {
@@ -81,8 +85,7 @@ class SQL {
                 type.type == Date::class.java -> rs.getDate(name)
                 type.type == Time::class.java -> rs.getTime(name)
                 type.type == Boolean::class.java -> rs.getInt(name) != 0
-                type.type.extends(Person::class.java) -> clazz.fk(Person::class.java)?.let { query(type.type, it.first to rs.getString(name)) }
-                type.type.extends(Department::class.java) -> clazz.fk(Department::class.java)?.let { query(type.type, it.first to rs.getInt(name)) }
+                type.hasFK() -> type.fk()?.let { query(it.second, it.first to rs.getObject(name)) }
                 else -> rs.getObject(name)
             })
         }
@@ -100,15 +103,10 @@ class SQL {
         return model to fields
     }
 
-    private fun <T> Class<T>.fk(model: Class<*>): Pair<String, Class<*>>? {
-        val fields = this.fields()
-        for (field in fields) {
-            if (field.type == model) {
-                val fks = field.getAnnotationsByType(ForeignKey::class.java)
-                val ref = fks.firstOrNull()?.let { it.value to model }
-                if (ref != null) return ref
-            }
-        }
+    private fun java.lang.reflect.Field.fk(): Pair<String, Class<*>>? {
+        val fks = this.getAnnotationsByType(ForeignKey::class.java)
+        val ref = fks.firstOrNull()?.let { it.value to this.type }
+        if (ref != null) return ref
         return null
     }
 
@@ -129,5 +127,9 @@ class SQL {
             clazz = clazz.superclass
         }
         return false
+    }
+
+    private fun java.lang.reflect.Field.hasFK(): Boolean {
+        return !getAnnotationsByType(ForeignKey::class.java).isNullOrEmpty()
     }
 }

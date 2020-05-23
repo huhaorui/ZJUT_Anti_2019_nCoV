@@ -9,9 +9,11 @@ public class PunchRecord {
 
     @Field("uid")
     @ForeignKey("id")
+    @PrimaryKey
     private Person person;
 
     @Field("date")
+    @PrimaryKey
     private Date date;
 
     @Field("time")

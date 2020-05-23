@@ -3,9 +3,10 @@ package model;
 import java.text.MessageFormat;
 import java.util.Objects;
 
-@Model("view_teacher_student_full")
+@Model("view_person")
 public class Person implements HealthCodeTester {
     @Field("id")
+    @PrimaryKey
     private String uid;
 
     @Field("name")
@@ -27,7 +28,7 @@ public class Person implements HealthCodeTester {
     private Clazz clazz;
 
     @Field("type")
-    private String type;
+    private Integer type;
 
     public Person() {
     }
@@ -86,11 +87,11 @@ public class Person implements HealthCodeTester {
         this.clazz = clazz;
     }
 
-    public String getType() {
+    public Integer getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(Integer type) {
         this.type = type;
     }
 
@@ -131,6 +132,6 @@ public class Person implements HealthCodeTester {
 
     @Override
     public String toString() {
-        return MessageFormat.format("Person'{'uid=''{0}'', name=''{1}'', personId=''{2}'', collage={3}, major={4}, clazz={5}, type=''{6}'''}'", uid, name, personId, collage, major, clazz, type);
+        return MessageFormat.format("Person'{'uid=''{0}'', name=''{1}'', personId=''{2}'', collage={3}, major={4}, clazz={5}, type=''{6}'''}'", uid, name, personId, collage, major, clazz, type == 0 ? "学生" : "教师");
     }
 }

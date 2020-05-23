@@ -1,6 +1,5 @@
 package servlet;
 
-import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import kotlin.Pair;
 import model.*;
@@ -32,11 +31,11 @@ public class Controller extends HttpServlet {
         var major = new SQL().query(Major.class, new Pair<>("id", 2));
         var collage = new SQL().query(Collage.class, new Pair<>("id", 1));
         var clazz = new SQL().query(Clazz.class, new Pair<>("id", 5));
-        var healthInfo = new SQL().query(HealthInfo.class, new Pair<>("uid", "201806061108"));
+        var healthInfo = new SQL().query(HealthInfo.class, new Pair<>("uid", "201906061418"));
         var punchRecord = new SQL().queryList(PunchRecord.class, new Pair<>("uid", "201806061219"));
         var collages = new SQL().queryList(Collage.class, null);
-        var gson = new GsonBuilder().setPrettyPrinting().enableComplexMapKeySerialization().create();
-        out.write(MessageFormat.format("teacher[000001]:{0}\n\nstudent[201806061108]:{1}\n\nadmin[1]:{2}\n\nmajor[1]:{3}\n\ncollage[1]:{4}\n\nclass[5]:{5}\n\nhealth_info[201806061108]:{6}\n\npunch_record[201806061219]:{7}\n\ncollages:{8}\n\n",
+        var gson = new GsonBuilder().setPrettyPrinting().enableComplexMapKeySerialization().serializeNulls().create();
+        out.write(MessageFormat.format("teacher[000001]:{0}\n\nstudent[201806061108]:{1}\n\nadmin[1]:{2}\n\nmajor[1]:{3}\n\ncollage[1]:{4}\n\nclass[5]:{5}\n\nhealth_info[201806061418]:{6}\n\npunch_record[201806061219]:{7}\n\ncollages:{8}\n\n",
                 gson.toJson(teacher),
                 gson.toJson(student),
                 gson.toJson(admin),
