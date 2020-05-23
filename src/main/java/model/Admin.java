@@ -1,6 +1,7 @@
 package model;
 
 import java.text.MessageFormat;
+import java.util.Objects;
 
 @Model("admin")
 public class Admin {
@@ -8,7 +9,7 @@ public class Admin {
     private String id;
 
     @Field("level")
-    private String level;
+    private int level;
 
     @Field("target")
     private String target;
@@ -19,14 +20,32 @@ public class Admin {
     @Field("email")
     private String email;
 
-    public Admin() { }
+    public Admin() {
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Admin admin = (Admin) o;
+        return level == admin.level &&
+                Objects.equals(id, admin.id) &&
+                Objects.equals(target, admin.target) &&
+                Objects.equals(password, admin.password) &&
+                Objects.equals(email, admin.email);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, level, target, password, email);
+    }
 
     @Override
     public String toString() {
         return MessageFormat.format("Admin'{'id=''{0}'', level=''{1}'', target=''{2}'', password=''{3}'', email=''{4}'''}'", id, level, target, password, email);
     }
 
-    public Admin(String id, String level, String target, String password, String email) {
+    public Admin(String id, int level, String target, String password, String email) {
         this.id = id;
         this.level = level;
         this.target = target;
@@ -42,11 +61,11 @@ public class Admin {
         this.id = id;
     }
 
-    public String getLevel() {
+    public int getLevel() {
         return level;
     }
 
-    public void setLevel(String level) {
+    public void setLevel(int level) {
         this.level = level;
     }
 

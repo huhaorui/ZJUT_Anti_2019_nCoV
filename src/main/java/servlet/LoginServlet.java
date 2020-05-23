@@ -1,6 +1,7 @@
 package servlet;
 
 import conn.DatabaseProvider;
+import model.Admin;
 import model.Person;
 
 import javax.servlet.ServletException;
@@ -38,7 +39,15 @@ public class LoginServlet extends HttpServlet {
                 sql.setString(2, password);
                 ResultSet result = sql.executeQuery();
                 if (result.next()) {
-                    request.getRequestDispatcher("admin.jsp").forward(request, response);
+                    int level = result.getInt("level");
+                    String target = result.getString("target");
+                    String email = result.getString("email");
+                    Admin admin = new Admin(id, level, target, password, email);
+                    synchronized (request.getSession()) {
+                        request.getSession().setAttribute("admin", admin);
+                        request.getSession().setAttribute("person", new Person());
+                    }
+                    response.sendRedirect("admin.jsp");
                 } else {
                     response.sendRedirect("error.jsp?user=admin");
                 }
@@ -70,9 +79,9 @@ public class LoginServlet extends HttpServlet {
                 if (result.next()) {
                     person_id = result.getString("person_id");
                     Person person = new Person(id, name, person_id);
-                    HttpSession session = request.getSession();
-                    synchronized (session) {
-                        session.setAttribute("person", person);
+                    synchronized (request.getSession()) {
+                        request.getSession().setAttribute("person", person);
+                        request.getSession().setAttribute("admin", new Admin());
                     }
                     response.sendRedirect("main.jsp");
                 } else {

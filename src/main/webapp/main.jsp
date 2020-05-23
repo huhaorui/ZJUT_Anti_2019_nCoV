@@ -1,4 +1,5 @@
-<%@ page import="model.Person" %><%--
+<%@ page import="model.Person" %>
+<%@ page import="model.Admin" %><%--
   Created by IntelliJ IDEA.
   User: HHR
   Date: 2020/5/18
@@ -18,6 +19,7 @@
     <script src="js/mdui.min.js"></script>
 </head>
 <jsp:useBean id="person" class="model.Person" scope="session"/>
+<jsp:useBean id="admin" class="model.Admin" scope="session"/>
 <body class="mdui-appbar-with-toolbar  mdui-loaded mdui-theme-primary-indigo   mdui-theme-accent-deep-purple">
 <header class="mdui-appbar mdui-appbar-fixed" id="header">
     <div class="mdui-toolbar mdui-color-theme">
@@ -42,8 +44,13 @@
     }
 </script>
 <%
+    if (!admin.equals(new Admin())) {
+        response.sendRedirect("admin.jsp");
+        return;
+    }
     if (person.equals(new Person())) {
         response.sendRedirect("index.jsp");
+        return;
     }
     if (request.getParameter("error") != null && request.getParameter("error").equals("punched")) {
 %>
