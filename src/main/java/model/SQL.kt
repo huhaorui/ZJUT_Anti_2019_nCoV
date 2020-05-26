@@ -7,6 +7,7 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 class SQL {
+
     fun <T, K> query(clazz: Class<T>, pair: Pair<String, K>?): T? {
         val table = clazz.model() ?: return null
         val model = table.first
@@ -132,4 +133,5 @@ class SQL {
     private fun java.lang.reflect.Field.hasFK(): Boolean {
         return !getAnnotationsByType(ForeignKey::class.java).isNullOrEmpty()
     }
+
 }

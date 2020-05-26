@@ -2,6 +2,8 @@ package util
 
 import com.google.gson.Gson
 import conn.DatabaseProvider
+import model.Collage
+import model.SQL
 import org.apache.poi.hssf.usermodel.HSSFWorkbook
 import org.apache.poi.ss.usermodel.Sheet
 import org.apache.poi.ss.usermodel.Workbook
@@ -49,24 +51,33 @@ class Import(val file: File) {
         val indexMajor = classes.first.indexOf("专业")
         val indexClass = classes.first.indexOf("班级")
         val deptSet: HashMap<String, HashMap<String, List<String>>> = HashMap()
-        classes.second.groupBy { it[indexCollage] }.forEach { key, value ->
-            val map = value.groupBy { it[indexCollage] }
-
+        classes.second.groupBy { list: List<String> -> list[indexCollage] }.forEach { (collage, u) ->
+            deptSet[collage] = HashMap()
+            u.groupBy { majors -> majors[indexMajor] }.forEach { (major, clazz) ->
+                if (clazz.isNotEmpty()) {
+                    deptSet[collage]?.set(major, arrayListOf())
+                } else {
+                    deptSet[collage]?.set(major, clazz[0][indexClass].split(" "))
+                }
+            }
         }
 
-
-
-
-        classes.let { pair ->
-            val columns = pair.first
-
-
-
-            val ps = conn.prepareStatement("insert into class (id, major, name) values (?, ?, ?)")
+        val insertCollage = conn.prepareStatement("insert into collage (name) value (?)")
+        deptSet.keys.forEach {
+            insertCollage.setString(1, it)
+            insertCollage.execute()
+            insertCollage.clearParameters()
         }
+        insertCollage.close()
+
+        val collages = SQL().queryList(Collage::class.java, "name" to null)
+        for (collage in collages) {
+            val majors = deptSet[collage.name]
+        }
+
 
         conn.close()
-        
+
         TODO()
     }
 

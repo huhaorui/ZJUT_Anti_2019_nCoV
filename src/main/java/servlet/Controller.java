@@ -3,6 +3,7 @@ package servlet;
 import com.google.gson.GsonBuilder;
 import kotlin.Pair;
 import model.*;
+import org.jetbrains.annotations.NotNull;
 import util.Import;
 
 import javax.servlet.ServletException;
@@ -13,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
 import java.text.MessageFormat;
+import java.util.ArrayList;
 
 /**
  * @author wcf
@@ -25,7 +27,7 @@ public class Controller extends HttpServlet {
         request.setCharacterEncoding("utf-8");
         response.setContentType("application/json;charset=UTF-8");
         var out = response.getWriter();
-        var teacher = new SQL().query(Teacher.class, new Pair<>("id", "000001"));
+        var teacher = new SQL().query(Teacher.class, new Pair<>("id", "000001")); //id to 0000001
         var student = new SQL().query(Student.class, new Pair<>("id", "201806061108"));
         var admin = new SQL().query(Admin.class, new Pair<>("id", "00000"));
         var major = new SQL().query(Major.class, new Pair<>("id", 2));
@@ -45,7 +47,7 @@ public class Controller extends HttpServlet {
                 gson.toJson(healthInfo),
                 gson.toJson(punchRecord),
                 gson.toJson(collages)));
-        new Import(new File("/Temp/健康码信息导入.xlsx"));
+//        new Import(new File("/Temp/健康码信息导入.xlsx"));
     }
 
     @Override
