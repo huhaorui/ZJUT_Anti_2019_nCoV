@@ -68,7 +68,7 @@
     <br>
     <button class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent mdui-center"
             onclick="document.getElementById('form').submit()" disabled="disabled" id="submit">
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;上传&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;上传&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     </button>
     <br>
     <br>

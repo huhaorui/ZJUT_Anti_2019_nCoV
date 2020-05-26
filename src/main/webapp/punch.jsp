@@ -165,8 +165,7 @@
         <input type="hidden" name="id" value="<jsp:getProperty name="person" property="uid"/>">
         <input type="hidden" name="person_id" value="<jsp:getProperty name="person" property="personId"/>">
         <div class="mdui-textfield mdui-textfield-floating-label">
-            <i class="mdui-icon material-icons">account_circle</i>
-            <label class="mdui-textfield-label">电话号码</label>
+            <i class="mdui-icon material-icons">phone</i> <label class="mdui-textfield-label">电话号码</label>
             <input class="mdui-textfield-input" type="tel" name="tel" id="tel"/>
         </div>
         <div class="mdui-textfield mdui-textfield-floating-label mdui-textfield-not-empty">
@@ -230,7 +229,7 @@
             </label>
         </div>
         <div class="mdui-textfield mdui-textfield-floating-label mdui-textfield-not-empty">
-            <i class="mdui-icon material-icons">account_circle</i>
+            <i class="mdui-icon material-icons">local_hospital</i>
             <label class="mdui-textfield-label">我被卫生部门确认为新冠肺炎确诊病例或疑似病例</label>
             <label class="mdui-radio" style="visibility: hidden">
                 <input type="radio"/>

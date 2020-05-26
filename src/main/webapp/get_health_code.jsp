@@ -39,6 +39,7 @@
 <%
     if (person.equals(new Person())) {
         response.sendRedirect("main.jsp");
+        return;
     }
     Connection conn = DatabaseProvider.getConn();
     try {
@@ -47,6 +48,10 @@
         ResultSet result = sql.executeQuery();
         if (!result.next()) {
             response.sendRedirect("main.jsp?error=noPunched");
+            sql.close();
+            result.close();
+            conn.close();
+            return;
         }
         sql.close();
         result.close();

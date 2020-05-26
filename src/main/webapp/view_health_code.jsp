@@ -45,11 +45,15 @@
         if (result.next()) {
             token = result.getString(1);
             used = result.getString(2);
-            if(used.equals("true")){
+            if (used.equals("true")) {
                 conn.close();
                 response.sendRedirect("main.jsp?error=used");
                 return;
             }
+        } else {
+            conn.close();
+            response.sendRedirect("get_health_code.jsp");
+            return;
         }
         result.close();
         sql.close();
