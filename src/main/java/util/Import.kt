@@ -51,7 +51,7 @@ class Import(val file: File) {
         val deptSet: HashMap<String, HashMap<String, List<String>>> = HashMap()
         classes.second.groupBy { it[indexCollage] }.forEach { key, value ->
             val map = value.groupBy { it[indexCollage] }
-            
+
         }
 
 
@@ -66,6 +66,8 @@ class Import(val file: File) {
         }
 
         conn.close()
+        
+        TODO()
     }
 
 
