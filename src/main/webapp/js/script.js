@@ -10,7 +10,7 @@ function getCookie(name) {
 }
 
 function checkIfEmpty() {
-    let input = document.getElementsByClassName("mdui-textfield-input")
+    let input = document.getElementsByClassName("mdui-textfield-input"), i
     for (i = 0; i < input.length; i++) {
         if (input[i].value.length !== 0) {
             input[i].parentElement.classList.add("mdui-textfield-not-empty");

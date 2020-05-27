@@ -109,7 +109,9 @@
                                 return false;
                             }, {
                                 type: 'password',
-                                history: false
+                                history: false,
+                                confirmText: '确定',
+                                cancelText: '取消'
                             },
                         );
                     }
@@ -157,7 +159,7 @@
     <br>
     <button class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent mdui-center"
             onclick="check()" disabled="disabled" id="submit">
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;上传&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;上传&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     </button>
     <br>
     <br>
@@ -170,6 +172,5 @@
 <div class="mdui-col-md-4 mdui-col-sm-12">
 </div>
 </body>
-<script>const $$ = mdui.JQ;</script>
 <script src="js/script.js"></script>
 </html>

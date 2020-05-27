@@ -78,6 +78,7 @@
             result.close();
         } else {
             response.sendRedirect("error_code.jsp");
+            return;
         }
         sql = conn.prepareStatement("select color from health_info where uid=?");
         sql.setString(1, id);
