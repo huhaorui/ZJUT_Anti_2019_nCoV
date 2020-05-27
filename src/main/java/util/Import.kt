@@ -73,6 +73,7 @@ class Import(val file: File) {
         val collages = SQL().queryList(Collage::class.java, "name" to null)
         for (collage in collages) {
             val majors = deptSet[collage.name]
+
         }
 
 
