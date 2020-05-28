@@ -8,6 +8,13 @@ public class Admin {
     @Field("id")
     private String id;
 
+    /**
+     * level二进制含义
+     * 1000 系统管理员
+     * 0100 校级管理员
+     * 0010 院级管理员
+     * bin&1 == 1 健康码权限
+     */
     @Field("level")
     private int level;
 

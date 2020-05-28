@@ -1,5 +1,6 @@
 package servlet
 
+import util.Import
 import util.Router.context
 import util.Router.fields
 import util.Router.get
@@ -37,7 +38,7 @@ class Controller : HttpServlet() {
             val multiFields = req.multiFields().build()
             val fields = multiFields.fields
             val streams = multiFields.streams
-
+            streams.firstOrNull { it.field == "data" && (it.filename.endsWith(".xls") || it.filename.endsWith(".xlsx")) }?.let { Import(it) }?.insert()
             multiFields.close()
         }
 
