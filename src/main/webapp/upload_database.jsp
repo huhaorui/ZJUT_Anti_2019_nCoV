@@ -143,7 +143,7 @@
 </div>
 <div class="mdui-col-md-4 mdui-col-sm-12  mdui-typo">
     <h1 class="mdui-center mdui-text-color-theme mdui-text-center">导入信息</h1>
-    <form action="uploadDatabase" method="post" id="form" enctype="multipart/form-data">
+    <form action="action/upload/database" method="post" id="form" enctype="multipart/form-data">
         <input type="file" name="file" id="file" class="input_file" accept=".xls, .xlsx"
                onchange="getFileName();"/>
         <input type="hidden" name="captcha">

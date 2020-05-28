@@ -1,23 +1,28 @@
 package servlet
 
+import util.Router.context
+import util.Router.fields
+import util.Router.get
+import util.Router.multiFields
+import util.Router.post
 import java.io.IOException
 import javax.servlet.ServletException
+import javax.servlet.annotation.MultipartConfig
 import javax.servlet.annotation.WebServlet
 import javax.servlet.http.HttpServlet
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
-import util.Router.post
-import util.Router.get
-import util.Router.fields
-import util.Router.request
 
 /**
  * @author wcf
  */
+@MultipartConfig
 @WebServlet(name = "controller", urlPatterns = ["/action/*"])
 class Controller : HttpServlet() {
 
     override fun init() {
+        context = servletContext.contextPath
+
         get("/action") { _, resp ->
             resp.writer.println("hello world")
         }
@@ -27,21 +32,30 @@ class Controller : HttpServlet() {
             resp.writer.println("hello world, $name")
         }
 
-        post("/action/upload/database") { _, resp ->
-            resp.writer.println("hello world, admin")
+        post("/action/upload/database") { req, resp ->
+            //TODO 验证用户&判断请求类型
+            val multiFields = req.multiFields()
+            val fields = multiFields.fields
+            val streams = multiFields.streams
+
         }
 
-        request("/action/404") { req, resp ->
-            req.getRequestDispatcher("/404.jsp").forward(req, resp)
+        get("/action/upload/database") { req, resp ->
+            val writer = resp.writer
+            writer.println("<form action='database' method='post' enctype='multipart/form-data'>" +
+                    "文件 <input type='file' required='required' name='data'/><br>" +
+                    "账号 <input type='text' required='required' name='account'/><br>" +
+                    "密码 <input type='password' required='required' name='password'/><br>" +
+                    "<input type='submit' value='提交'/>" +
+                    "</form>")
         }
 
-        super.init()
     }
 
     @Throws(ServletException::class, IOException::class)
     override fun doPost(request: HttpServletRequest, response: HttpServletResponse) {
         request.characterEncoding = "utf-8"
-        response.contentType = "application/json;charset=UTF-8"
+        response.contentType = "text/html;charset=UTF-8"
         //region sample
 //        var out = response.getWriter();
 //        var teacher = new SQL().query(Teacher.class, new Pair<>("id", "000001")); //id to 0000001
@@ -66,22 +80,14 @@ class Controller : HttpServlet() {
 //                gson.toJson(collages)));
         //endregion
         val uri = request.requestURI
-        if (uri in post.keys) {
-            post[uri]?.invoke(request, response)
-        } else {
-            response.status = 404
-        }
+        post[uri]?.invoke(request, response)
     }
 
     @Throws(ServletException::class, IOException::class)
     override fun doGet(request: HttpServletRequest, response: HttpServletResponse) {
         request.characterEncoding = "utf-8"
-        response.contentType = "application/json;charset=UTF-8"
+        response.contentType = "text/html;charset=UTF-8"
         val uri = request.requestURI
-        if (uri in get.keys) {
-            get[uri]?.invoke(request, response)
-        } else {
-            response.status = 404
-        }
+        get[uri]?.invoke(request, response)
     }
 }

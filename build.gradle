@@ -18,6 +18,7 @@ repositories {
 
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.11'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib"
     compile 'com.google.zxing:core:3.4.0'
     compile 'mysql:mysql-connector-java:8.0.20'
     compile 'org.apache.poi:poi:4.1.2'
@@ -28,5 +29,5 @@ dependencies {
     compile 'javax.activation:activation:1.1.1'
     compile 'javax.mail:javax.mail-api:1.6.2'
     compile 'com.sun.mail:javax.mail:1.6.2'
-    implementation "org.jetbrains.kotlin:kotlin-stdlib"
+    compile 'commons-fileupload:commons-fileupload:1.4'
 }
