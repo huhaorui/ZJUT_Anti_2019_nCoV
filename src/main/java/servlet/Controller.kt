@@ -34,10 +34,11 @@ class Controller : HttpServlet() {
 
         post("/action/upload/database") { req, resp ->
             //TODO 验证用户&判断请求类型
-            val multiFields = req.multiFields()
+            val multiFields = req.multiFields().build()
             val fields = multiFields.fields
             val streams = multiFields.streams
 
+            multiFields.close()
         }
 
         get("/action/upload/database") { req, resp ->
