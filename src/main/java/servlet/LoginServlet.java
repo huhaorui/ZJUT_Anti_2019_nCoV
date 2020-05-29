@@ -40,7 +40,7 @@ public class LoginServlet extends HttpServlet {
                 ResultSet result = sql.executeQuery();
                 if (result.next()) {
                     int level = result.getInt("level");
-                    String target = result.getString("target");
+                    int target = result.getInt("target");
                     String email = result.getString("email");
                     Admin admin = new Admin(id, level, target, password, email);
                     synchronized (request.getSession()) {

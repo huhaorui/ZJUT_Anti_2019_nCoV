@@ -47,4 +47,9 @@ public class Clazz {
     public void setName(String name) {
         this.name = name;
     }
+
+    @Override
+    public String toString() {
+        return MessageFormat.format("Clazz'{'id={0}, name=''{1}'', major={2}'}'", id, name, major);
+    }
 }

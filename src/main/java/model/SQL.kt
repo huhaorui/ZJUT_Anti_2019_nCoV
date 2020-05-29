@@ -39,6 +39,37 @@ class SQL {
         }
         return null
     }
+    fun <T, K1, K2> query(clazz: Class<T>, pair0: Pair<String, K1>, pair1: Pair<String, K2>): T? {
+        val table = clazz.model() ?: return null
+        val model = table.first
+        val fields = table.second
+        val col0 = pair0.first
+        val val0 = pair0.second
+        val col1 = pair1.first
+        val val1 = pair1.second
+
+        val conn = DatabaseProvider.getConn() ?: return null
+
+        if (col0 !in fields.map { it.second } || col1 !in fields.map { it.second }) return null
+
+        var instance: T? = null
+        try {
+            val ps = conn.prepareStatement("select * from $model where $col0=? and $col1=? limit 1")
+            ps.setObject(1, val0)
+            ps.setObject(2, val1)
+            val rs = ps.executeQuery()
+            if (rs.next())
+                instance = instance(clazz, fields, rs)
+
+            rs.close()
+            ps.close()
+
+            return instance
+        } catch (e: SQLException) {
+            e.printStackTrace()
+        }
+        return null
+    }
 
     fun <T, K> queryList(clazz: Class<T>, pair: Pair<String, K>?): ArrayList<T> {
         val list = ArrayList<T>()
