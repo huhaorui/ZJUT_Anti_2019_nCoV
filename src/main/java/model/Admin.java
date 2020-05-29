@@ -1,5 +1,7 @@
 package model;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.text.MessageFormat;
 import java.util.Objects;
 
@@ -19,7 +21,7 @@ public class Admin {
     private int level;
 
     @Field("target")
-    private String target;
+    private Integer target;
 
     @Field("password")
     private String password;
@@ -52,7 +54,7 @@ public class Admin {
         return MessageFormat.format("Admin'{'id=''{0}'', level=''{1}'', target=''{2}'', password=''{3}'', email=''{4}'''}'", id, level, target, password, email);
     }
 
-    public Admin(String id, int level, String target, String password, String email) {
+    public Admin(String id, int level, Integer target, String password, String email) {
         this.id = id;
         this.level = level;
         this.target = target;
@@ -76,11 +78,11 @@ public class Admin {
         this.level = level;
     }
 
-    public String getTarget() {
+    public Integer getTarget() {
         return target;
     }
 
-    public void setTarget(String target) {
+    public void setTarget(Integer target) {
         this.target = target;
     }
 
@@ -98,5 +100,26 @@ public class Admin {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public static String saltMD5(String string, String salt) {
+        String text = string + salt;
+        MessageDigest md5 = null;
+        try {
+            md5 = MessageDigest.getInstance("MD5");
+            byte[] bytes = md5.digest(text.getBytes());
+            StringBuilder result = new StringBuilder();
+            for (byte b : bytes) {
+                String temp = Integer.toHexString(b & 0xff);
+                if (temp.length() == 1) {
+                    temp = "0" + temp;
+                }
+                result.append(temp);
+            }
+            return result.toString();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        return "";
     }
 }
