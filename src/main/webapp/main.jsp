@@ -45,7 +45,7 @@
 </script>
 <%
     if (!admin.equals(new Admin())) {
-        response.sendRedirect("admin.jsp");
+        response.sendRedirect("adminRouter");
         return;
     }
     if (person.equals(new Person())) {

@@ -47,7 +47,7 @@ public class LoginServlet extends HttpServlet {
                         request.getSession().setAttribute("admin", admin);
                         request.getSession().setAttribute("person", new Person());
                     }
-                    response.sendRedirect("admin.jsp");
+                    response.sendRedirect("adminRouter");
                 } else {
                     response.sendRedirect("error.jsp?user=admin");
                 }

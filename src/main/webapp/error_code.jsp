@@ -39,7 +39,7 @@
                 {
                     text: '确认',
                     onClick: function () {
-                        window.location.assign("admin.jsp")
+                        window.location.assign("adminRouter")
                     }
                 }
             ],

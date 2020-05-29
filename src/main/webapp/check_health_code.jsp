@@ -98,7 +98,6 @@
         throwables.printStackTrace();
     }
     if (!used.equals("false") && permission) {
-
 %>
 <script type="text/javascript">
     window.onload = function () {
