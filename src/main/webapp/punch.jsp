@@ -25,11 +25,8 @@
 <jsp:useBean id="person" class="model.Person" scope="session"/>
 <%
     if (person.equals(new Person())) {
-%>
-<script type="text/javascript">
-    window.location.assign("index.jsp")
-</script>
-<%
+        response.sendRedirect("main.jsp");
+        return;
     } else {
         Connection conn = DatabaseProvider.getConn();
         try {
