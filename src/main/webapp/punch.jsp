@@ -40,6 +40,16 @@
                 response.sendRedirect("main.jsp?error=punched");
                 return;
             }
+            sql = conn.prepareStatement("select * from punch_record where date=?");
+            sql.setDate(1, new java.sql.Date(System.currentTimeMillis()));
+            result = sql.executeQuery();
+            if (result.next()) {
+                sql.close();
+                result.close();
+                conn.close();
+                response.sendRedirect("main.jsp?error=punched");
+                return;
+            }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }

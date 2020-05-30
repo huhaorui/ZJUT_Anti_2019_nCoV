@@ -66,7 +66,7 @@
 
     <div class="mdui-row">
         <div class="mdui-col-md-3"></div>
-        <div class="mdui-card mdui-col-md-6" onclick="window.location.assign('college_information.jsp')">
+        <div class="mdui-card mdui-col-md-6" onclick="window.location.assign('student_information.jsp')">
             <div class="mdui-card-media">
                 <img src="image/card.jpg"/>
                 <div class="mdui-card-media-covered">

@@ -9,10 +9,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+import java.text.SimpleDateFormat;
 import java.util.Map;
 
 /**
@@ -96,14 +94,61 @@ public class UploadPunchServlet extends HttpServlet {
             }
         }
         try {
-            sql = conn.prepareStatement("select * from health_info where uid=?");
+            sql = conn.prepareStatement("select uid, tel, if_danger_14, if_abroad_14, if_touch_illness, if_ill, status, color from health_info where uid=?");
             sql.setString(1, id);
             ResultSet result = sql.executeQuery();
             if (result.next()) {
-                result.close();
-                sql.close();
-                conn.close();
-                //TODO 红码和黄码的打卡
+                if (!result.getString("color").equals("green")) {
+                    int timeInNeed = result.getString("color").equals("red") ? 14 : 7;
+                    sql = conn.prepareStatement("select * from punch_record where date=?");
+                    sql.setDate(1, new java.sql.Date(System.currentTimeMillis()));
+                    result = sql.executeQuery();
+                    if (!result.next()) {
+                        sql = conn.prepareStatement("insert into punch_record values (?,?,?,?,?)");
+                        sql.setString(1, id);
+                        sql.setDate(2, Date.valueOf(new Date(System.currentTimeMillis()).toLocalDate()));
+                        sql.setTime(3, Time.valueOf(new Time(System.currentTimeMillis()).toLocalTime()));
+                        sql.setInt(4, problemNumber);
+                        sql.setString(5, getColorByStatus(danger14, aboard14, touch14, ill14, problemNumber));
+                        sql.executeUpdate();
+                        sql = conn.prepareStatement(
+                                "select color,date\n" +
+                                        "from punch_record\n" +
+                                        "where uid=?\n" +
+                                        "order by date desc limit ?");
+                        sql.setString(1, id);
+                        sql.setInt(2, timeInNeed);
+                        result = sql.executeQuery();
+                        int n = timeInNeed;
+                        java.sql.Date first = null, last = null;
+                        while (n-- > 0 && result.next()) {
+                            if (first == null) first = result.getDate("date");
+                            if (!result.getString("color").equals("green")) {
+                                response.sendRedirect("main.jsp?ok=punch");
+                                sql.close();
+                                result.close();
+                                conn.close();
+                                return;
+                            }
+                        }
+                        last = result.getDate("date");
+                        assert first != null;
+                        if ((first.getTime() - last.getTime()) / 86400000 > timeInNeed - 1) {
+                            response.sendRedirect("main.jsp?ok=punch");
+                        } else if (n == -1) {
+                            sql = conn.prepareStatement("update health_info set color='green' where uid=?");
+                            sql.setString(1, id);
+                            sql.execute();
+                            response.sendRedirect("recover.jsp?time=" + timeInNeed);
+                        } else {
+                            response.sendRedirect("main.jsp?ok=punch");
+                        }
+                    } else {
+                        response.sendRedirect("main.jsp?error=punched");
+                    }
+                } else {
+                    response.sendRedirect("main.jsp?error=punched");
+                }
             } else {
                 sql = conn.prepareStatement("insert into health_info values(?,?,?,?,?,?,?,?)");
                 sql.setString(1, id);
@@ -116,8 +161,10 @@ public class UploadPunchServlet extends HttpServlet {
                 sql.setString(8, getColorByStatus(danger14, aboard14, touch14, ill14, problemNumber));
                 sql.execute();
                 response.sendRedirect("main.jsp?ok=punch");
-                conn.close();
             }
+            sql.close();
+            result.close();
+            conn.close();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
