@@ -139,7 +139,7 @@ public class UploadPunchServlet extends HttpServlet {
                             sql = conn.prepareStatement("update health_info set color='green' where uid=?");
                             sql.setString(1, id);
                             sql.execute();
-                            response.sendRedirect("recover.jsp?time=" + timeInNeed);
+                            response.sendRedirect("recover.jsp?time=" + timeInNeed + "&name=" + name);
                         } else {
                             response.sendRedirect("main.jsp?ok=punch");
                         }
@@ -159,6 +159,13 @@ public class UploadPunchServlet extends HttpServlet {
                 sql.setInt(6, "true".equals(ill14) ? 1 : 0);
                 sql.setInt(7, problemNumber);
                 sql.setString(8, getColorByStatus(danger14, aboard14, touch14, ill14, problemNumber));
+                sql.execute();
+                sql = conn.prepareStatement("insert into punch_record values (?,?,?,?,?)");
+                sql.setString(1, id);
+                sql.setDate(2, Date.valueOf(new Date(System.currentTimeMillis()).toLocalDate()));
+                sql.setTime(3, Time.valueOf(new Time(System.currentTimeMillis()).toLocalTime()));
+                sql.setInt(4, problemNumber);
+                sql.setString(5, getColorByStatus(danger14, aboard14, touch14, ill14, problemNumber));
                 sql.execute();
                 response.sendRedirect("main.jsp?ok=punch");
             }

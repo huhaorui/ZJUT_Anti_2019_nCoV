@@ -22,7 +22,20 @@ public class PunchRecord {
     @Field("status")
     private Integer status;
 
-    public PunchRecord() { }
+
+    @Field("color")
+    private String color;
+
+    public PunchRecord(Person person, Date date, Time time, Integer status, String color) {
+        this.person = person;
+        this.date = date;
+        this.time = time;
+        this.status = status;
+        this.color = color;
+    }
+
+    public PunchRecord() {
+    }
 
     public PunchRecord(Person person, Date date, Time time, Integer status) {
         this.person = person;
@@ -61,6 +74,14 @@ public class PunchRecord {
 
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
     }
 
     @Override

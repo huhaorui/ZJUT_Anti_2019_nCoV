@@ -20,8 +20,8 @@
 <script type="text/javascript">
     window.onload = function () {
         mdui.dialog({
-            title: '欢迎返校！',
-            content: '经过<%=request.getParameter("time")%>天的连续打卡，你的健康码重新变回了绿色',
+            title: '亲爱的<%=request.getParameter("name")%>，欢迎返校！',
+            content: '经过<%=request.getParameter("time")%>天的连续打卡，你的健康码重新变回了绿色。是时候回到教室，享受那熟悉的工大生活了。',
             buttons: [
                 {
                     text: '确认'
