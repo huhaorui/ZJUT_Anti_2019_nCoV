@@ -47,7 +47,7 @@
         if (result.next()) {
             switch (result.getString("color")) {
                 case "green": {
-                    tip = "你的健康码是绿色的";
+                    tip = "";
                     break;
                 }
                 case "yellow": {

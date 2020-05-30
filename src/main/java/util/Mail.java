@@ -49,7 +49,7 @@ public class Mail {
         return true;
     }
 
-    public static boolean captcha(String code, String to) {
+    public static void captcha(String code, String to) {
         try {
             Properties prop = new Properties();
             prop.setProperty("mail.host", "smtp.qq.com");
@@ -85,8 +85,6 @@ public class Mail {
             ts.close();
         } catch (Exception e) {
             e.printStackTrace();
-            return false;
         }
-        return true;
     }
 }

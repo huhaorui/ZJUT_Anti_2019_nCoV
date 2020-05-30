@@ -82,7 +82,7 @@
     } catch (SQLException throwables) {
         throwables.printStackTrace();
     }
-    String text = "https://javaweb.huhaorui.com/" + request.getContextPath() + "/check_health_code.jsp?id=" + id + "&token=" + token;
+    String text = "https://javaweb.huhaorui.com" + request.getContextPath() + "/check_health_code.jsp?id=" + id + "&token=" + token;
     text = text + "&black=" + color;
 %>
 
