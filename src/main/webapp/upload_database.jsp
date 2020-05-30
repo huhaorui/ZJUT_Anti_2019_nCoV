@@ -60,7 +60,7 @@
                                 xmlHttp.onreadystatechange = function () {
                                     if (xmlHttp.readyState === 4 && xmlHttp.status === 200) {
                                         document.getElementsByName("id")[0].value = '${admin.id}';
-                                        document.getElementsByName("password")[0].value = md5(value);
+                                        document.getElementsByName("password")[0].value = md5(value+"wcfnb");
                                         mdui.prompt('请输入邮件验证码', '校验',
                                             function (value) {
                                                 const xmlHttp = new XMLHttpRequest();
@@ -144,7 +144,7 @@
 <div class="mdui-col-md-4 mdui-col-sm-12  mdui-typo">
     <h1 class="mdui-center mdui-text-color-theme mdui-text-center">导入信息</h1>
     <form action="action/upload/database" method="post" id="form" enctype="multipart/form-data">
-        <input type="file" name="file" id="file" class="input_file" accept=".xls, .xlsx"
+        <input type="file" name="data" id="file" class="input_file" accept=".xls, .xlsx"
                onchange="getFileName();"/>
         <input type="hidden" name="captcha">
         <input type="hidden" name="id">

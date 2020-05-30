@@ -4,13 +4,10 @@ import org.apache.commons.fileupload.FileUploadException
 import org.apache.commons.fileupload.disk.DiskFileItemFactory
 import org.apache.commons.fileupload.servlet.ServletFileUpload
 import org.apache.commons.fileupload.servlet.ServletRequestContext
-import java.io.File
-import java.io.FileOutputStream
-import java.io.IOException
-import java.io.InputStream
+import java.io.*
 import javax.servlet.http.HttpServletRequest
 
-class MultipleForm(private val req: HttpServletRequest) {
+class MultipleForm(private val req: HttpServletRequest) : Closeable {
     val streams = ArrayList<Stream>()
     val fields: HashMap<String, String> = HashMap()
 
@@ -32,7 +29,7 @@ class MultipleForm(private val req: HttpServletRequest) {
         }
     }
 
-    fun close() {
+    override fun close() {
         try {
             streams.forEach { item -> item.inputStream.close() }
         } catch (e: IOException) {

@@ -36,33 +36,9 @@ class Controller : HttpServlet() {
         }
 
         post("/action/upload/database") { req, resp ->
-            //TODO 验证用户&判断请求类型
-            resp.contentType = "application/json;charset=UTF-8"
-            val multiFields = req.multiFields().build()
-            val fields = multiFields.fields
-            val streams = multiFields.streams
-            val result = streams.firstOrNull { it.field == "data" && (it.filename.endsWith(".xls") || it.filename.endsWith(".xlsx")) }?.let { Import(it) }?.insert()
-            multiFields.close()
-            if (result?.firstOrNull { it.first.first == 0 } != null) {
-                //成功
-                print(result)
-            } else {
-                //失败
-                print(result)
-            }
-            val gson = GsonBuilder().setPrettyPrinting().enableComplexMapKeySerialization().serializeNulls().create()
-            resp.writer.write(gson.toJson(result))
+            req.getRequestDispatcher("/uploadDatabase").forward(req,resp);
         }
 
-        get("/action/upload/database") { req, resp ->
-            val writer = resp.writer
-            writer.println("<form action='database' method='post' enctype='multipart/form-data'>" +
-                    "文件 <input type='file' required='required' name='data'/><br>" +
-                    "账号 <input type='text' required='required' name='account' value='1'/><br>" +
-                    "密码 <input type='password' required='required' name='password' value='1'/><br>" +
-                    "<input type='submit' value='提交'/>" +
-                    "</form>")
-        }
 
     }
 

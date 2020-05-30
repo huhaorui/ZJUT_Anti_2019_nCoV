@@ -11,10 +11,12 @@ object Router {
     val get = HashMap<String, (req: HttpServletRequest, resp: HttpServletResponse) -> Unit>()
     val post = HashMap<String, (req: HttpServletRequest, resp: HttpServletResponse) -> Unit>()
 
+    @JvmStatic
     fun post(pattern: String, method: (req: HttpServletRequest, resp: HttpServletResponse) -> Unit) {
         post[context + pattern] = method
     }
 
+    @JvmStatic
     fun get(pattern: String, method: (req: HttpServletRequest, resp: HttpServletResponse) -> Unit) {
         get[context + pattern] = method
     }
@@ -37,4 +39,6 @@ object Router {
     fun HttpServletRequest.multiFields(): MultipleForm {
         return MultipleForm(this)
     }
+
+
 }

@@ -250,7 +250,7 @@ class Import(stream: MultipleForm.Stream) {
             studentList.forEach { student ->
                 val collage = depts.keys.firstOrNull { collage -> collage.name == student.collage }
                 val major = depts[collage]?.keys?.firstOrNull { major -> major.name == student.major }
-                val clazz = depts[collage]?.get(major)?.firstOrNull { clazz -> clazz?.name == student.major + student.clazz }
+                val clazz = depts[collage]?.get(major)?.firstOrNull { clazz -> clazz.name == student.major + student.clazz }
 
                 if (clazz == null) {
                     errors.add(40001 to "学生${student.id}的班级不存在" to student)
