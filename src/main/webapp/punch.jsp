@@ -40,8 +40,9 @@
                 response.sendRedirect("main.jsp?error=punched");
                 return;
             }
-            sql = conn.prepareStatement("select * from punch_record where date=?");
+            sql = conn.prepareStatement("select * from punch_record where date=? and uid=?");
             sql.setDate(1, new java.sql.Date(System.currentTimeMillis()));
+            sql.setString(2, person.getUid());
             result = sql.executeQuery();
             if (result.next()) {
                 sql.close();

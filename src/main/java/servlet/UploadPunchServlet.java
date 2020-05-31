@@ -52,10 +52,11 @@ public class UploadPunchServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String name = null, id = null, person_id = null, tel = null, danger14 = null, aboard14 = null, touch14 = null, ill14 = null, problem = null;
         request.setCharacterEncoding("UTF-8");
+        response.setContentType("text/html;charset=UTF-8");
         try {
             name = request.getParameter("name");
             id = request.getParameter("id");
-            person_id = request.getParameter("person_id");
+            person_id = request.getParameter( "person_id");
             tel = request.getParameter("tel");
             danger14 = request.getParameter("danger14");
             aboard14 = request.getParameter("aboard14");
