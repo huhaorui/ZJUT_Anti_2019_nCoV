@@ -24,6 +24,7 @@
 </head>
 <jsp:useBean id="person" class="model.Person" scope="session"/>
 <%
+    String tel = "";
     if (person.equals(new Person())) {
         response.sendRedirect("main.jsp");
         return;
@@ -39,6 +40,12 @@
                 conn.close();
                 response.sendRedirect("main.jsp?error=punched");
                 return;
+            }
+            sql = conn.prepareStatement("select tel from health_info where uid=?");
+            sql.setString(1, person.getUid());
+            result = sql.executeQuery();
+            if (result.next()) {
+                tel = result.getString("tel");
             }
             sql = conn.prepareStatement("select * from punch_record where date=? and uid=?");
             sql.setDate(1, new java.sql.Date(System.currentTimeMillis()));
@@ -152,7 +159,7 @@
     <h1 class="mdui-center mdui-text-color-theme mdui-text-center">健康申报</h1>
     <form action="uploadPunch" id="form" method="post">
         <div class="mdui-textfield mdui-textfield-floating-label">
-            <i class="mdui-icon material-icons">account_circle</i>
+            <i class="mdui-icon material-icons">people</i>
             <label class="mdui-textfield-label">姓名</label>
             <input class="mdui-textfield-input" type="text" disabled
                    value="<jsp:getProperty name="person" property="name"/>"/>
@@ -164,7 +171,7 @@
                    value="<jsp:getProperty name="person" property="personId"/>"/>
         </div>
         <div class="mdui-textfield mdui-textfield-floating-label">
-            <i class="mdui-icon material-icons">account_circle</i>
+            <i class="mdui-icon material-icons">school</i>
             <label class="mdui-textfield-label">学号/工号</label>
             <input class="mdui-textfield-input" type="text" disabled
                    value="<jsp:getProperty name="person" property="uid"/>"/>
@@ -174,10 +181,10 @@
         <input type="hidden" name="person_id" value="<jsp:getProperty name="person" property="personId"/>">
         <div class="mdui-textfield mdui-textfield-floating-label">
             <i class="mdui-icon material-icons">phone</i> <label class="mdui-textfield-label">电话号码</label>
-            <input class="mdui-textfield-input" type="tel" name="tel" id="tel"/>
+            <input class="mdui-textfield-input" type="tel" name="tel" id="tel" value="<%=tel%>"/>
         </div>
         <div class="mdui-textfield mdui-textfield-floating-label mdui-textfield-not-empty">
-            <i class="mdui-icon material-icons">account_circle</i>
+            <i class="mdui-icon material-icons">train</i>
             <label class="mdui-textfield-label">我在14天内去过湖北等其他危险地区</label>
             <label class="mdui-radio" style="visibility: hidden">
                 <input type="radio"/>
@@ -197,7 +204,7 @@
             </label>
         </div>
         <div class="mdui-textfield mdui-textfield-floating-label mdui-textfield-not-empty">
-            <i class="mdui-icon material-icons">account_circle</i>
+            <i class="mdui-icon material-icons">airplanemode_active</i>
             <label class="mdui-textfield-label">我在14天内出过国</label>
             <label class="mdui-radio" style="visibility: hidden">
                 <input type="radio"/>
@@ -217,7 +224,7 @@
             </label>
         </div>
         <div class="mdui-textfield mdui-textfield-floating-label mdui-textfield-not-empty">
-            <i class="mdui-icon material-icons">account_circle</i>
+            <i class="mdui-icon material-icons">mood_bad</i>
             <label class="mdui-textfield-label">我在14天接触过新冠确诊病人或疑似病人</label>
             <label class="mdui-radio" style="visibility: hidden">
                 <input type="radio"/>
@@ -257,7 +264,7 @@
             </label>
         </div>
         <div class="mdui-textfield mdui-textfield-floating-label mdui-textfield-not-empty">
-            <i class="mdui-icon material-icons">account_circle</i>
+            <i class="mdui-icon material-icons">report_problem</i>
             <label class="mdui-textfield-label">我可能存在健康问题</label>
             <label class="mdui-radio" style="visibility: hidden">
                 <input type="radio"/>
@@ -325,7 +332,7 @@
             </label>
         </div>
         <div class="mdui-textfield mdui-textfield-floating-label mdui-textfield-not-empty">
-            <i class="mdui-icon material-icons">account_circle</i>
+            <i class="mdui-icon material-icons">sentiment_satisfied</i>
             <label class="mdui-textfield-label">我承诺填报信息属实</label>
             <label class="mdui-radio" style="visibility: hidden">
                 <input type="radio"/>
