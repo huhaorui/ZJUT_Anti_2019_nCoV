@@ -10,24 +10,27 @@
     <script src="js/mdui.min.js"></script>
 </head>
 <script type="text/javascript">
+    let $$ = mdui.JQ
     window.onload = () => {
 
     }
 
     class Collage {
-        id;
-        name;
+        constructor(id, name) {
+            this.id = id;
+            this.name = name;
+        }
     }
 
     function update(collage) {
-        $$.ajax({
-            url: '/action/punch_record',
+        $.ajax({
+            url: 'action/punch_record',
             data: {
                 collage: collage
             },
-            async: true,
-            success: () => {
-
+            async: true, cache: false, type: 'post',
+            success: (data) => {
+                console.log(data)
             }
         })
     }
@@ -49,7 +52,12 @@
 <div class="mdui-col-md-6 mdui-col-sm-12 mdui-typo">
     <h1 class="mdui-center mdui-text-color-theme mdui-text-center">健康信息</h1>
     <p class="mdui-text-center">打卡记录概览</p>
-    <table class="mdui-table mdui-table-hoverable">
+    <p class="mdui-text-color-grey">筛选</p>
+    <label for="collage_selector">学院</label>
+    <select id="collage_selector" class="mdui-select" mdui-select="{position: 'bottom'}">
+        <%%>
+    </select>
+    <table class="mdui-table mdui-table-hoverable mdui-table-fluid">
         <tr>
             <th>学院</th>
             <th>学号/工号</th>
