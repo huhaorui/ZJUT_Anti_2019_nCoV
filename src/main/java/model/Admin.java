@@ -15,7 +15,7 @@ public class Admin {
      * 1000 系统管理员
      * 0100 校级管理员
      * 0010 院级管理员
-     * bin&1 == 1 健康码权限
+     * it&1 == 1 健康码权限
      */
     @Field("level")
     private int level;
@@ -100,6 +100,10 @@ public class Admin {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public FullTarget getFullTarget() {
+        return new FullTarget(level, target);
     }
 
     public static String saltMD5(String string, String salt) {

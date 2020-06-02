@@ -103,6 +103,37 @@ class SQL {
         return list
     }
 
+    fun <T, K1, K2> queryList(clazz: Class<T>, pair0: Pair<String, K1>, pair1: Pair<String, K2>): ArrayList<T> {
+        val list = ArrayList<T>()
+
+        val table = clazz.model() ?: return list
+        val model = table.first
+        val fields = table.second
+        val col0 = pair0.first
+        val val0 = pair0.second
+        val col1 = pair1.first
+        val val1 = pair1.second
+
+        val conn = DatabaseProvider.getConn() ?: return list
+        try {
+            val ps: PreparedStatement =
+                conn.prepareStatement("select * from $model where $col0 = ? and $col1 = ?").apply {
+                    setObject(1, val0)
+                    setObject(2, val1)
+                }
+            val rs = ps.executeQuery()
+            while (rs.next()) {
+                val instance = instance(clazz, fields, rs)
+                list.add(instance)
+            }
+            rs.close()
+            ps.close()
+        } catch (e: SQLException) {
+            e.printStackTrace()
+        }
+        return list
+    }
+
     private fun <T> instance(clazz: Class<T>, fields: List<Pair<java.lang.reflect.Field, String?>>, rs: ResultSet): T {
         val constructor = clazz.getConstructor()
         constructor.isAccessible = true
