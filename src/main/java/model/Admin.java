@@ -108,7 +108,7 @@ public class Admin {
 
     public static String saltMD5(String string, String salt) {
         String text = string + salt;
-        MessageDigest md5 = null;
+        MessageDigest md5;
         try {
             md5 = MessageDigest.getInstance("MD5");
             byte[] bytes = md5.digest(text.getBytes());

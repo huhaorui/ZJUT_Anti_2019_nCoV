@@ -27,18 +27,18 @@ class SQL {
                 conn.prepareStatement("select * from $model limit 1")
             }
             val rs = ps.executeQuery()
-            if (rs.next())
-                instance = instance(clazz, fields, rs)
+            if (rs.next()) instance = instance(clazz, fields, rs)
 
             rs.close()
             ps.close()
-
+            conn.close()
             return instance
         } catch (e: SQLException) {
             e.printStackTrace()
         }
         return null
     }
+
     fun <T, K1, K2> query(clazz: Class<T>, pair0: Pair<String, K1>, pair1: Pair<String, K2>): T? {
         val table = clazz.model() ?: return null
         val model = table.first
@@ -58,12 +58,11 @@ class SQL {
             ps.setObject(1, val0)
             ps.setObject(2, val1)
             val rs = ps.executeQuery()
-            if (rs.next())
-                instance = instance(clazz, fields, rs)
+            if (rs.next()) instance = instance(clazz, fields, rs)
 
             rs.close()
             ps.close()
-
+            conn.close()
             return instance
         } catch (e: SQLException) {
             e.printStackTrace()
@@ -71,25 +70,17 @@ class SQL {
         return null
     }
 
-    fun <T, K> queryList(clazz: Class<T>, pair: Pair<String, K>?): ArrayList<T> {
+    fun <T> queryList(clazz: Class<T>): ArrayList<T> {
         val list = ArrayList<T>()
 
         val table = clazz.model() ?: return list
         val model = table.first
         val fields = table.second
-        val col = pair?.first
-        val value = pair?.second
 
         val conn = DatabaseProvider.getConn() ?: return list
 
-        if (col != null && value != null && col !in fields.map { it.second }) return list
-
         try {
-            val ps: PreparedStatement = if (col != null && value != null) {
-                conn.prepareStatement("select * from $model where $col = ?").apply { setObject(1, value) }
-            } else {
-                conn.prepareStatement("select * from $model")
-            }
+            val ps: PreparedStatement = conn.prepareStatement("select * from $model")
             val rs = ps.executeQuery()
             while (rs.next()) {
                 val instance = instance(clazz, fields, rs)
@@ -97,6 +88,36 @@ class SQL {
             }
             rs.close()
             ps.close()
+            conn.close()
+        } catch (e: SQLException) {
+            e.printStackTrace()
+        }
+        return list
+    }
+
+    fun <T, K> queryList(clazz: Class<T>, pair: Pair<String, K>): ArrayList<T> {
+        val list = ArrayList<T>()
+
+        val table = clazz.model() ?: return list
+        val model = table.first
+        val fields = table.second
+        val col = pair.first
+        val value = pair.second
+
+        val conn = DatabaseProvider.getConn() ?: return list
+
+        if (col !in fields.map { it.second }) return list
+
+        try {
+            val ps: PreparedStatement = conn.prepareStatement("select * from $model where $col = ?").apply { setObject(1, value) }
+            val rs = ps.executeQuery()
+            while (rs.next()) {
+                val instance = instance(clazz, fields, rs)
+                list.add(instance)
+            }
+            rs.close()
+            ps.close()
+            conn.close()
         } catch (e: SQLException) {
             e.printStackTrace()
         }
@@ -117,10 +138,10 @@ class SQL {
         val conn = DatabaseProvider.getConn() ?: return list
         try {
             val ps: PreparedStatement =
-                conn.prepareStatement("select * from $model where $col0 = ? and $col1 = ?").apply {
-                    setObject(1, val0)
-                    setObject(2, val1)
-                }
+                    conn.prepareStatement("select * from $model where $col0 = ? and $col1 = ?").apply {
+                        setObject(1, val0)
+                        setObject(2, val1)
+                    }
             val rs = ps.executeQuery()
             while (rs.next()) {
                 val instance = instance(clazz, fields, rs)
@@ -128,6 +149,7 @@ class SQL {
             }
             rs.close()
             ps.close()
+            conn.close()
         } catch (e: SQLException) {
             e.printStackTrace()
         }

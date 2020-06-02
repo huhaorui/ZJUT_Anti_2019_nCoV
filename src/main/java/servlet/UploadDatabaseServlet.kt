@@ -3,7 +3,7 @@ package servlet
 import com.google.gson.GsonBuilder
 import conn.DatabaseProvider
 import util.Import
-import util.Router.multiFields
+import util.Router.Companion.multiFields
 import java.io.IOException
 import javax.servlet.ServletException
 import javax.servlet.annotation.MultipartConfig

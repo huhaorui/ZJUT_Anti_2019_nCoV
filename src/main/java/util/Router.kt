@@ -5,18 +5,16 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
-object Router {
-    var context = "/"
+interface Router {
+    var context: String
 
-    val get = HashMap<String, (req: HttpServletRequest, resp: HttpServletResponse) -> Unit>()
-    val post = HashMap<String, (req: HttpServletRequest, resp: HttpServletResponse) -> Unit>()
+    val get: HashMap<String, (req: HttpServletRequest, resp: HttpServletResponse) -> Unit>
+    val post: HashMap<String, (req: HttpServletRequest, resp: HttpServletResponse) -> Unit>
 
-    @JvmStatic
     fun post(pattern: String, method: (req: HttpServletRequest, resp: HttpServletResponse) -> Unit) {
         post[context + pattern] = method
     }
 
-    @JvmStatic
     fun get(pattern: String, method: (req: HttpServletRequest, resp: HttpServletResponse) -> Unit) {
         get[context + pattern] = method
     }
@@ -36,9 +34,9 @@ object Router {
         return fields
     }
 
-    fun HttpServletRequest.multiFields(): MultipleForm {
-        return MultipleForm(this)
+    companion object {
+        fun HttpServletRequest.multiFields(): MultipleForm {
+            return MultipleForm(this)
+        }
     }
-
-
 }

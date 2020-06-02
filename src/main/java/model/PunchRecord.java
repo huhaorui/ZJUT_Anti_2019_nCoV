@@ -22,7 +22,6 @@ public class PunchRecord {
     @Field("status")
     private Integer status;
 
-
     @Field("color")
     private String color;
 

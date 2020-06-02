@@ -55,7 +55,7 @@
     <div style="height: 24px"></div>
     <div class="mdui-row">
         <div class="mdui-col-md-6 mdui-col-sm-12 ">
-            <div class="mdui-card" onclick="window.location.assign('overview.jsp')">
+            <div class="mdui-card" onclick="window.location.assign('admin_overview.jsp')">
                 <div class="mdui-card-media">
                     <img src="image/card.jpg"/>
                     <div class="mdui-card-media-covered">

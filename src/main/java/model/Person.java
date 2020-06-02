@@ -4,7 +4,7 @@ import java.text.MessageFormat;
 import java.util.Objects;
 
 @Model("view_person")
-public class Person implements HealthCodeTester {
+public class Person {
     @Field("id")
     @PrimaryKey
     private String uid;
@@ -93,31 +93,6 @@ public class Person implements HealthCodeTester {
 
     public void setType(Integer type) {
         this.type = type;
-    }
-
-    @Override
-    public CodeColor getCodeColor() {
-        // TODO: 2020/5/17
-
-        var healthInfo = getHealthInfo();
-
-        var cardColor = healthInfo.getCodeColor();
-        var punchRecords = getPunchRecords();
-
-        return null;
-    }
-
-    @Override
-    public HealthInfo getHealthInfo() {
-        // TODO: 2020/5/17
-
-        return null;
-    }
-
-    @Override
-    public PunchRecord[] getPunchRecords() {
-        // TODO: 2020/5/17
-        return new PunchRecord[0];
     }
 
     @Override

@@ -2,7 +2,7 @@ package model
 
 class FullTarget(level: Int, target: Int?) {
     val level: Level
-    private val healthCode: Boolean
+    val healthCode: Boolean
     val target: Collage?
 
     init {
