@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.sql.*;
 import java.text.SimpleDateFormat;
 import java.util.Map;
@@ -56,7 +58,7 @@ public class UploadPunchServlet extends HttpServlet {
         try {
             name = request.getParameter("name");
             id = request.getParameter("id");
-            person_id = request.getParameter( "person_id");
+            person_id = request.getParameter("person_id");
             tel = request.getParameter("tel");
             danger14 = request.getParameter("danger14");
             aboard14 = request.getParameter("aboard14");
@@ -140,7 +142,7 @@ public class UploadPunchServlet extends HttpServlet {
                             sql = conn.prepareStatement("update health_info set color='green' where uid=?");
                             sql.setString(1, id);
                             sql.execute();
-                            response.sendRedirect("recover.jsp?time=" + timeInNeed + "&name=" + name);
+                            response.sendRedirect("recover.jsp?time=" + timeInNeed + "&name=" + URLEncoder.encode(name, StandardCharsets.UTF_8));
                         } else {
                             response.sendRedirect("main.jsp?ok=punch");
                         }
