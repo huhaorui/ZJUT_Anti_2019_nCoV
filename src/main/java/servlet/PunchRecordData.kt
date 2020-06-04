@@ -6,19 +6,21 @@ import java.sql.Date as SqlDate
 object PunchRecordData {
     private val sql = SQL()
     fun byDateAll(date: SqlDate = SqlDate(System.currentTimeMillis())): Map<Collage, List<PunchRecord>> {
-        return sql.queryList(PunchRecord::class.java, "date" to date).groupBy { it.person.collage }
+        return sql.queryList(PunchRecord::class.java, "date" to date).groupBy { it.getPerson()?.collage ?: Collage() }
     }
 
     fun byDateAndCollage(collage: Collage, date: SqlDate = SqlDate(System.currentTimeMillis())): Map<Int, List<PunchRecord>> {
-        return sql.queryList(PunchRecord::class.java, "date" to date).filter { it.person.collage == collage }.groupBy { it.person.type }
+        return sql.queryList(PunchRecord::class.java, "date" to date).filter { it.getPerson()?.collage == collage }.groupBy {
+            it.getPerson()?.type ?: -1
+        }
     }
 
-    fun overViewData(collage: Collage, date: SqlDate = SqlDate(System.currentTimeMillis())): List<OverView> {
+    private fun overViewData(collage: Collage, date: SqlDate = SqlDate(System.currentTimeMillis())): List<OverView> {
         val records = sql.queryList(PunchRecord::class.java, "date" to date)
         val healthInfos = sql.queryList(HealthInfo::class.java)
         val persons = sql.queryList(Person::class.java).filter { it.collage == collage }
         return persons.map {
-            OverView(it, healthInfos.firstOrNull { info -> info.person == it }, records.firstOrNull { record -> record.person == it })
+            OverView(it, healthInfos.firstOrNull { info -> info.person == it.uid }, records.firstOrNull { record -> record.person == it.uid })
         }
     }
 
@@ -27,7 +29,39 @@ object PunchRecordData {
         val healthInfos = sql.queryList(HealthInfo::class.java)
         val persons = sql.queryList(Person::class.java)
         return persons.map {
-            OverView(it, healthInfos.firstOrNull { info -> info.person == it }, records.firstOrNull { record -> record.person == it })
+            OverView(it, healthInfos.firstOrNull { info -> info.person == it.uid }, records.firstOrNull { record -> record.person == it.uid })
+        }
+    }
+
+    @JvmStatic
+    fun overViewDataAll(): List<OverView> {
+        val date = SqlDate(System.currentTimeMillis())
+        val records = sql.queryList(PunchRecord::class.java, "date" to date)
+        val healthInfos = sql.queryList(HealthInfo::class.java)
+        val persons = sql.queryList(Person::class.java)
+        return persons.map {
+            OverView(it, healthInfos.firstOrNull { info -> info.person == it.uid }, records.firstOrNull { record -> record.person == it.uid })
+        }
+    }
+
+    @JvmStatic
+    fun overViewDataCollage(collage: String, date: SqlDate = SqlDate(System.currentTimeMillis())): List<OverView> {
+        val records = sql.queryList(PunchRecord::class.java, "date" to date)
+        val healthInfos = sql.queryList(HealthInfo::class.java)
+        val persons = sql.queryList(Person::class.java, "collage" to collage.toIntOrDefault())
+        return persons.map {
+            OverView(it, healthInfos.firstOrNull { info -> info.person == it.uid }, records.firstOrNull { record -> record.person == it.uid })
+        }
+    }
+
+    @JvmStatic
+    fun overViewDataCollage(collage: String): List<OverView> {
+        val date = SqlDate(System.currentTimeMillis())
+        val records = sql.queryList(PunchRecord::class.java, "date" to date)
+        val healthInfos = sql.queryList(HealthInfo::class.java)
+        val persons = sql.queryList(Person::class.java, "collage" to collage.toIntOrDefault())
+        return persons.map {
+            OverView(it, healthInfos.firstOrNull { info -> info.person == it.uid }, records.firstOrNull { record -> record.person == it.uid })
         }
     }
 
@@ -44,23 +78,14 @@ object PunchRecordData {
         return overViews
     }
 
-    fun overViewDataByAdmin(admin: Admin?, collage: Collage): List<OverView> {
-        if (admin == null) {
-            return ArrayList()
-        }
+    fun overViewDataByCollage(admin: Admin, collage: Collage): List<OverView> {
         val overViews = ArrayList<OverView>()
-        val collages = availableCollage(admin)
-        if (collage == null) {
-            collages.forEach {
-                overViews.addAll(overViewData(it))
-            }
-        } else if (collage in availableCollage(admin)) {
+        if (collage in availableCollage(admin)) {
             overViews.addAll(overViewData(collage))
         }
         return overViews
     }
 
-    @JvmStatic
     fun overViewDataByAdmin(admin: Admin?, collage: String?): List<OverView> {
         if (admin == null) {
             return ArrayList()
@@ -92,7 +117,7 @@ object PunchRecordData {
                 val list = ArrayList<Collage>()
                 val collage = admin.fullTarget.target
                 if (collage != null) {
-                    list.add(collage)
+                    list += collage
                 }
                 return list
             }
@@ -103,4 +128,8 @@ object PunchRecordData {
     }
 
     class OverView(val person: Person, val healthInfo: HealthInfo?, val punchRecord: PunchRecord?)
+
+    private fun String.toIntOrDefault(value: Int = -1): Int {
+        return toIntOrNull() ?: value
+    }
 }

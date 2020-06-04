@@ -5,6 +5,7 @@ import java.text.MessageFormat;
 @Model("major")
 public class Major {
     @Field("id")
+    @PrimaryKey
     private Integer id;
 
     @Field("name")
@@ -51,4 +52,5 @@ public class Major {
     public void setName(String name) {
         this.name = name;
     }
+
 }

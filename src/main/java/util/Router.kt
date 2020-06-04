@@ -1,7 +1,8 @@
 package util
 
-import org.apache.commons.fileupload.disk.DiskFileItemFactory
-import org.apache.commons.fileupload.servlet.ServletFileUpload
+import model.Admin
+import model.FullTarget
+import model.FullTarget.Level
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
@@ -32,6 +33,23 @@ interface Router {
             }
         }
         return fields
+    }
+
+    fun admin(req: HttpServletRequest, resp: HttpServletResponse, require: ArrayList<Level>, fail: () -> Unit, success: (Admin, Level, Boolean) -> Unit) {
+        val admin = req.session.getAttribute("admin")
+        if (admin !is Admin || admin == Admin() || admin.fullTarget.level !in require) {
+            fail.invoke()
+        } else {
+            success.invoke(admin, admin.fullTarget.level, admin.fullTarget.healthCode)
+        }
+    }
+
+    fun admin(admin: Admin, require: ArrayList<Level>, fail: () -> Unit, success: (Admin, Level, Boolean) -> Unit) {
+        if (admin.fullTarget.level !in require) {
+            fail.invoke()
+        } else {
+            success.invoke(admin, admin.fullTarget.level, admin.fullTarget.healthCode)
+        }
     }
 
     companion object {

@@ -1,5 +1,7 @@
 package model;
 
+import kotlin.Pair;
+
 import java.text.MessageFormat;
 import java.util.Objects;
 
@@ -16,16 +18,13 @@ public class Person {
     private String personId;
 
     @Field("collage")
-    @ForeignKey("id")
-    private Collage collage;
+    private Integer collage;
 
     @Field("major")
-    @ForeignKey("id")
-    private Major major;
+    private Integer major;
 
     @Field("class")
-    @ForeignKey("id")
-    private Clazz clazz;
+    private Integer clazz;
 
     @Field("type")
     private Integer type;
@@ -64,27 +63,27 @@ public class Person {
     }
 
     public Collage getCollage() {
-        return collage;
+        return new SQL().query(Collage.class, new Pair<String, Integer>("id", collage));
     }
 
     public void setCollage(Collage collage) {
-        this.collage = collage;
+        this.collage = collage.getId();
     }
 
     public Major getMajor() {
-        return major;
+        return new SQL().query(Major.class, new Pair<String, Integer>("id", major));
     }
 
     public void setMajor(Major major) {
-        this.major = major;
+        this.major = major.getId();
     }
 
     public Clazz getClazz() {
-        return clazz;
+        return new SQL().query(Clazz.class, new Pair<String, Integer>("id", clazz));
     }
 
     public void setClazz(Clazz clazz) {
-        this.clazz = clazz;
+        this.clazz = clazz.getId();
     }
 
     public Integer getType() {
@@ -100,9 +99,7 @@ public class Person {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Person person = (Person) o;
-        return Objects.equals(uid, person.uid) &&
-                Objects.equals(name, person.name) &&
-                Objects.equals(personId, person.personId);
+        return Objects.equals(uid, person.uid);
     }
 
     @Override

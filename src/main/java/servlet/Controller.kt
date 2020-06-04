@@ -48,39 +48,35 @@ class Controller : HttpServlet(), Router {
 
         request("/action/punch_record") { req, resp ->
             resp.contentType = "application/json;charset=UTF-8"
-            val admin = req.session.getAttribute("admin")
-            if (admin !is Admin || admin == Admin()) {
-                println("admin不存在")
-                resp.writer.write(gson.toJson(ArrayList<PunchRecordData.OverView>()))
-            } else {
-                val fullTarget = admin.fullTarget
-                when (fullTarget.level) {
+
+            admin(req, resp, arrayListOf(SYSTEM, COLLAGE, SYSTEM), { resp.writer.write(gson.toJson(ArrayList<PunchRecordData.OverView>())) }) { admin, level, _ ->
+                when (level) {
                     SYSTEM, SCHOOL -> {
-                        val field = req.fields()
-                        val collage = field["collage"]?.toInt()
-                        if (collage != null) {
-                            resp.writer.write(gson.toJson(PunchRecordData.overViewData(Collage(collage, ""))))
+                        val overViews: List<PunchRecordData.OverView>
+                        val collage = req.fields()["collage"]
+                        overViews = if (collage == null) {
+                            PunchRecordData.overViewDataAll()
                         } else {
-                            resp.writer.write(gson.toJson(PunchRecordData.overViewDataAll()))
+                            PunchRecordData.overViewDataCollage(collage)
                         }
+                        resp.writer.write(gson.toJson(overViews))
                     }
+
                     COLLAGE -> {
-                        val target = fullTarget.target
-                        if (target != null) {
-                            resp.writer.write(gson.toJson(PunchRecordData.overViewData(target)))
+                        val overViews: List<PunchRecordData.OverView>
+                        val target: Collage? = admin.target
+                        overViews = if (target != null) {
+                            PunchRecordData.overViewDataCollage(target.id.toString())
                         } else {
-                            resp.writer.write(gson.toJson(ArrayList<PunchRecordData.OverView>()))
+                            ArrayList()
                         }
+                        resp.writer.write(gson.toJson(overViews))
                     }
-                    NULL -> {
-                        if (fullTarget.healthCode) {
-                            TODO("仅有健康码权限")
-                        } else {
-                            TODO("什么权限也没有")
-                        }
-                    }
+                    else -> TODO()
                 }
             }
+
+
         }
 
         request("/action/punch_record/avail_list") { req, resp ->

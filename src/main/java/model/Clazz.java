@@ -1,19 +1,22 @@
 package model;
 
+import kotlin.Pair;
+
 import java.text.MessageFormat;
-import java.util.Formatter;
 
 @Model("class")
+@Cached
 public class Clazz {
     @Field("id")
+    @PrimaryKey
     private Integer id;
 
     @Field("name")
     private String name;
 
     @Field("major")
-    @ForeignKey("id")
-    private Major major;
+//    @ForeignKey("id")
+    private Integer major;
 
     public Clazz() {
     }
@@ -21,15 +24,15 @@ public class Clazz {
     public Clazz(Integer id, String name, Major major) {
         this.id = id;
         this.name = name;
-        this.major = major;
+        this.major = major.getId();
     }
 
     public Major getMajor() {
-        return major;
+        return new SQL().query(Major.class, new Pair<String, Integer>("id", major));
     }
 
     public void setMajor(Major major) {
-        this.major = major;
+        this.major = major.getId();
     }
 
     public Integer getId() {

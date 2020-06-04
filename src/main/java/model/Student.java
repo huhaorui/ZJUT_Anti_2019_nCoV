@@ -1,5 +1,7 @@
 package model;
 
+import kotlin.Pair;
+
 import java.text.MessageFormat;
 
 @Model("student")
@@ -14,8 +16,8 @@ public class Student {
     private String personId;
 
     @Field("class")
-    @ForeignKey("id")
-    private Clazz clazz;
+//    @ForeignKey("id")
+    private Integer clazz;
 
     public Student() {
     }
@@ -24,15 +26,15 @@ public class Student {
         this.id = id;
         this.name = name;
         this.personId = personId;
-        this.clazz = clazz;
+        this.clazz = clazz.getId();
     }
 
     public Clazz getClazz() {
-        return clazz;
+        return new SQL().query(Clazz.class, new Pair<String, Integer>("id", clazz));
     }
 
     public void setClazz(Clazz clazz) {
-        this.clazz = clazz;
+        this.clazz = clazz.getId();
     }
 
     public String getId() {

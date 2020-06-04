@@ -1,5 +1,7 @@
 package model;
 
+import kotlin.Pair;
+
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.MessageFormat;
@@ -78,8 +80,8 @@ public class Admin {
         this.level = level;
     }
 
-    public Integer getTarget() {
-        return target;
+    public Collage getTarget() {
+        return new SQL().query(Collage.class, new Pair<>("id", target));
     }
 
     public void setTarget(Integer target) {

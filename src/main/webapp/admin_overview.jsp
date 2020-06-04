@@ -1,11 +1,7 @@
+<%@ page import="model.*" %>
 <%@ page import="servlet.PunchRecordData" %>
+<%@ page import="java.util.ArrayList" %>
 <%@ page import="java.util.List" %>
-<%@ page import="model.Collage" %>
-<%@ page import="model.PunchRecord" %>
-<%@ page import="model.CodeColor" %>
-<%@ page import="java.util.stream.Collectors" %>
-<%@ page import="java.util.stream.Collector" %>
-<%@ page import="model.HealthInfo" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <%--
@@ -14,10 +10,33 @@
 
 <jsp:useBean id="admin" scope="session" class="model.Admin"/>
 <%
+    List<Collage> collages;
+    List<PunchRecordData.OverView> overViews;
+    if (admin.equals(new Admin())) {
+        collages = new ArrayList<>();
+        collages.add(new Collage(-1, "没有目标"));
+        overViews = new ArrayList<>();
+    } else {
+        String target = request.getParameter("collage");
+        FullTarget.Level level = admin.getFullTarget().getLevel();
 
-    List<Collage> collages = PunchRecordData.availableCollage(admin);
-    String target = request.getParameter("collage");
-    List<PunchRecordData.OverView> overViews = PunchRecordData.overViewDataByAdmin(admin, target);
+        if (FullTarget.Level.SYSTEM == level || FullTarget.Level.SCHOOL == level) {
+            collages = new SQL().queryList(Collage.class);
+            if (target == null) {
+                overViews = PunchRecordData.overViewDataAll();
+            } else {
+                overViews = PunchRecordData.overViewDataCollage(target);
+            }
+
+        } else if (FullTarget.Level.COLLAGE == level && target != null) {
+            collages = PunchRecordData.availableCollage(admin);
+            overViews = PunchRecordData.overViewDataCollage(target);
+        } else {
+            collages = new ArrayList<>();
+            collages.add(new Collage(-1, "没有目标"));
+            overViews = new ArrayList<>();
+        }
+    }
 %>
 <html>
 <head>
@@ -32,7 +51,10 @@
 <script type="text/javascript">
     let $$ = mdui.JQ
     window.onload = () => {
-
+        let select_collage = document.getElementById('collage_selector')
+        select_collage.addEventListener('selectionchange', ev => {
+            console.log(select_collage.options.selectedItem.value)
+        })
     }
 
     class Collage {
@@ -70,8 +92,8 @@
         <div class="mdui-toolbar-spacer"></div>
     </div>
 </header>
-<div class="mdui-col-md-3 mdui-col-sm-12"></div>
-<div class="mdui-col-md-6 mdui-col-sm-12 mdui-typo">
+<%--<div class="mdui-col-md-3 mdui-col-sm-12"></div>--%>
+<div class="mdui-col-md-12 mdui-col-sm-12 mdui-typo">
     <h1 class="mdui-center mdui-text-color-theme mdui-text-center">健康信息</h1>
     <p class="mdui-text-center">打卡记录概览</p>
     <p class="mdui-text-color-grey">筛选</p>
@@ -88,7 +110,7 @@
     </select>
     <br>
     <label for="date_selector">日期</label>
-    <input id="date_selector" type="date" class="mdui-select" mdui-select="{position: 'bottom'}">
+    <input id="date_selector" type="date">
     <table id="over_view_table" class="mdui-table mdui-table-hoverable mdui-table-fluid">
         <tr>
             <th>学院</th>
@@ -103,7 +125,7 @@
         <%
             for (PunchRecordData.OverView overView : overViews) {
                 String cName = overView.getPerson().getCollage().getName();
-                String id = overView.getPerson().getPersonId();
+                String id = overView.getPerson().getUid();
                 String name = overView.getPerson().getName();
                 HealthInfo info = overView.getHealthInfo();
                 PunchRecord record = overView.getPunchRecord();
@@ -126,7 +148,7 @@
                     //有健康上报并且打了卡
                     more = "";
                     phone = info.getTel();
-                    time = record.getColor();
+                    time = record.getTime().toString();
                     status = record.getColor();
                     color = info.getColor();
                 } else {
@@ -148,9 +170,9 @@
             <td><%=phone%>
             </td>
             <td style="color: <%=color%>">████████</td>
-            <td style="color: <%=status%>">████████</td>
             <td><%=time%>
             </td>
+            <td style="color: <%=status%>">████████</td>
             <td><%=more%>
             </td>
         </tr>
@@ -164,7 +186,7 @@
         回到首页
     </button>
 </div>
-<div class="mdui-col-md-3 mdui-col-sm-12"></div>
+<%--<div class="mdui-col-md-3 mdui-col-sm-12"></div>--%>
 </body>
 <script src="js/script.js"></script>
 </html>

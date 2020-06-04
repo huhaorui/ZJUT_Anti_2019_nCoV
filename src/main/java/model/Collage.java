@@ -3,8 +3,10 @@ package model;
 import java.text.MessageFormat;
 
 @Model("collage")
+@Cached
 public class Collage {
     @Field("id")
+    @PrimaryKey
     private Integer id;
 
     @Field("name")
