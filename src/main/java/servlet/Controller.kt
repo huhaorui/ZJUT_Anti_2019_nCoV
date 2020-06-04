@@ -49,7 +49,9 @@ class Controller : HttpServlet(), Router {
         request("/action/punch_record") { req, resp ->
             resp.contentType = "application/json;charset=UTF-8"
 
-            admin(req, resp, arrayListOf(SYSTEM, COLLAGE, SYSTEM), { resp.writer.write(gson.toJson(ArrayList<PunchRecordData.OverView>())) }) { admin, level, _ ->
+            admin(req, resp, arrayListOf(SYSTEM, COLLAGE, SCHOOL), {
+                resp.writer.write(gson.toJson(ArrayList<PunchRecordData.OverView>()))
+            }) { admin, level, _ ->
                 when (level) {
                     SYSTEM, SCHOOL -> {
                         val overViews: List<PunchRecordData.OverView>
