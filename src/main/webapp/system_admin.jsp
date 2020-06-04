@@ -51,10 +51,9 @@
 %>
 
 <div class="mdui-container">
-
     <div style="height: 24px"></div>
     <div class="mdui-row">
-        <div class="mdui-col-md-6 mdui-col-sm-12 ">
+        <div style="padding: 8px" class="mdui-col-md-6 mdui-col-sm-12">
             <div class="mdui-card" onclick="window.location.assign('admin_overview.jsp')">
                 <div class="mdui-card-media">
                     <img src="image/card.jpg"/>
@@ -67,9 +66,8 @@
                 </div>
             </div>
         </div>
-        <div class="mdui-hidden-sm-up" style="height: 16px"></div>
 
-        <div class="mdui-col-md-6 mdui-col-sm-12">
+        <div style="padding: 8px" class="mdui-col-md-6 mdui-col-sm-12">
             <div class="mdui-card" onclick="window.location.assign('punch_status.jsp')">
                 <div class="mdui-card-media">
                     <img src="image/card.jpg"/>
@@ -83,9 +81,8 @@
             </div>
         </div>
     </div>
-    <div style="height: 16px"></div>
     <div class="mdui-row">
-        <div class="mdui-col-md-6 mdui-col-sm-12">
+        <div style="padding: 8px" class="mdui-col-md-6 mdui-col-sm-12">
             <div class="mdui-card" onclick="window.location.assign('health_code_manager.jsp')">
                 <div class="mdui-card-media">
                     <img src="image/card.jpg"/>
@@ -98,9 +95,7 @@
                 </div>
             </div>
         </div>
-        <div class="mdui-hidden-sm-up" style="height: 16px"></div>
-
-        <div class="mdui-col-md-6 mdui-col-sm-12">
+        <div style="padding: 8px" class="mdui-col-md-6 mdui-col-sm-12">
             <div class="mdui-card" onclick="window.location.assign('upload_database.jsp')">
                 <div class="mdui-card-media">
                     <img src="image/card.jpg"/>

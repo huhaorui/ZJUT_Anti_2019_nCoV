@@ -44,8 +44,7 @@ object PunchRecordData {
         return overViews
     }
 
-    @JvmStatic
-    fun overViewDataByAdmin(admin: Admin?, collage: Collage? = null): List<OverView> {
+    fun overViewDataByAdmin(admin: Admin?, collage: Collage): List<OverView> {
         if (admin == null) {
             return ArrayList()
         }
@@ -57,6 +56,24 @@ object PunchRecordData {
             }
         } else if (collage in availableCollage(admin)) {
             overViews.addAll(overViewData(collage))
+        }
+        return overViews
+    }
+
+    @JvmStatic
+    fun overViewDataByAdmin(admin: Admin?, collage: String?): List<OverView> {
+        if (admin == null) {
+            return ArrayList()
+        }
+        val overViews = ArrayList<OverView>()
+        val collages = availableCollage(admin)
+        val target = collages.firstOrNull { it.id.toString() == collage }
+        if (target == null) {
+            collages.forEach {
+                overViews.addAll(overViewData(it))
+            }
+        } else {
+            overViews.addAll(overViewData(target))
         }
         return overViews
     }

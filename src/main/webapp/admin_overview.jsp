@@ -3,23 +3,21 @@
 <%@ page import="model.Collage" %>
 <%@ page import="model.PunchRecord" %>
 <%@ page import="model.CodeColor" %>
+<%@ page import="java.util.stream.Collectors" %>
+<%@ page import="java.util.stream.Collector" %>
+<%@ page import="model.HealthInfo" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <%--
     @author wcf
 --%>
 
-<jsp:useBean id="admin" scope="session" type="model.Admin"/>
-<%List<PunchRecordData.OverView> overViews = PunchRecordData.overViewDataByAdmin(admin, null);%>
-<%List<Collage> collages = PunchRecordData.availableCollage(admin);%>
+<jsp:useBean id="admin" scope="session" class="model.Admin"/>
 <%
-    var target = request.getParameter("collage");
 
-    if (target == null) {
-
-    } else {
-
-    }
+    List<Collage> collages = PunchRecordData.availableCollage(admin);
+    String target = request.getParameter("collage");
+    List<PunchRecordData.OverView> overViews = PunchRecordData.overViewDataByAdmin(admin, target);
 %>
 <html>
 <head>
@@ -104,11 +102,11 @@
         </tr>
         <%
             for (PunchRecordData.OverView overView : overViews) {
-                var c = overView.getPerson().getCollage().getName();
-                var id = overView.getPerson().getPersonId();
-                var name = overView.getPerson().getName();
-                var info = overView.getHealthInfo();
-                var record = overView.getPunchRecord();
+                String cName = overView.getPerson().getCollage().getName();
+                String id = overView.getPerson().getPersonId();
+                String name = overView.getPerson().getName();
+                HealthInfo info = overView.getHealthInfo();
+                PunchRecord record = overView.getPunchRecord();
                 String phone, time, status, more, color;
                 if (info == null) {
                     //没有健康上报过
@@ -141,14 +139,20 @@
                 }
         %>
         <tr>
-            <td><%=c%></td>
-            <td><%=id%></td>
-            <td><%=name%></td>
-            <td><%=phone%></td>
+            <td><%=cName%>
+            </td>
+            <td><%=id%>
+            </td>
+            <td><%=name%>
+            </td>
+            <td><%=phone%>
+            </td>
             <td style="color: <%=color%>">████████</td>
             <td style="color: <%=status%>">████████</td>
-            <td><%=time%></td>
-            <td><%=more%></td>
+            <td><%=time%>
+            </td>
+            <td><%=more%>
+            </td>
         </tr>
         <%
             }
