@@ -2,7 +2,13 @@
 <%@ page import="java.util.List" %>
 <%@ page import="model.Collage" %>
 <%@ page import="model.PunchRecord" %>
+<%@ page import="model.CodeColor" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
+<%--
+    @author wcf
+--%>
+
 <jsp:useBean id="admin" scope="session" type="model.Admin"/>
 <%List<PunchRecordData.OverView> overViews = PunchRecordData.overViewDataByAdmin(admin, null);%>
 <%List<Collage> collages = PunchRecordData.availableCollage(admin);%>
@@ -90,10 +96,64 @@
             <th>学院</th>
             <th>学号/工号</th>
             <th>姓名</th>
-            <th>打卡时间</th>
             <th>联系电话</th>
+            <th>健康码</th>
+            <th>打卡时间</th>
             <th>打卡状况</th>
+            <th>备注</th>
         </tr>
+        <%
+            for (PunchRecordData.OverView overView : overViews) {
+                var c = overView.getPerson().getCollage().getName();
+                var id = overView.getPerson().getPersonId();
+                var name = overView.getPerson().getName();
+                var info = overView.getHealthInfo();
+                var record = overView.getPunchRecord();
+                String phone, time, status, more, color;
+                if (info == null) {
+                    //没有健康上报过
+                    more = "未健康上报";
+                    phone = "-";
+                    time = "-";
+                    status = "-";
+                    color = "-";
+                } else if (!info.getCodeColor().equals(CodeColor.GREEN) && record == null) {
+                    //有健康申报但是不是绿色而且没有打卡
+                    more = "今日未打卡";
+                    phone = info.getTel();
+                    time = "-";
+                    status = "-";
+                    color = info.getColor();
+                } else if (!info.getCodeColor().equals(CodeColor.GREEN) && record != null) {
+                    //有健康上报并且打了卡
+                    more = "";
+                    phone = info.getTel();
+                    time = record.getColor();
+                    status = record.getColor();
+                    color = info.getColor();
+                } else {
+                    //绿码完成，不必打卡
+                    more = "已经是绿码";
+                    phone = info.getTel();
+                    time = "-";
+                    status = "-";
+                    color = info.getColor();
+                }
+        %>
+        <tr>
+            <td><%=c%></td>
+            <td><%=id%></td>
+            <td><%=name%></td>
+            <td><%=phone%></td>
+            <td style="color: <%=color%>">████████</td>
+            <td style="color: <%=status%>">████████</td>
+            <td><%=time%></td>
+            <td><%=more%></td>
+        </tr>
+        <%
+            }
+        %>
+
     </table>
     <button class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent mdui-center"
             onclick="window.location.assign('main.jsp')">
