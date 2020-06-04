@@ -90,23 +90,7 @@ class Controller : HttpServlet(), Router {
                 println("admin不存在")
                 resp.writer.write(gson.toJson(ArrayList<PunchRecordData.OverView>()))
             } else {
-                val fullTarget = admin.fullTarget
-                when (fullTarget.level) {
-                    SYSTEM, SCHOOL -> {
-                        resp.writer.write(gson.toJson(SQL().queryList(Collage::class.java)))
-                    }
-                    COLLAGE -> {
-                        val list = ArrayList<Collage>()
-                        val collage = admin.fullTarget.target
-                        if (collage != null) {
-                            list.add(collage)
-                        }
-                        resp.writer.write(gson.toJson(list))
-                    }
-                    NULL -> {
-                        resp.writer.write(gson.toJson(ArrayList<Collage>()))
-                    }
-                }
+                resp.writer.write(gson.toJson(PunchRecordData.availableCollage(admin)))
             }
         }
     }

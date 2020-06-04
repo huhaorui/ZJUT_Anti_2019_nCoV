@@ -31,5 +31,59 @@ object PunchRecordData {
         }
     }
 
+    fun overViewDataByAdmin(admin: Admin, collage: Collage? = null, date: SqlDate = SqlDate(System.currentTimeMillis())): List<OverView> {
+        val overViews = ArrayList<OverView>()
+        val collages = availableCollage(admin)
+        if (collage == null) {
+            collages.forEach {
+                overViews.addAll(overViewData(it, date))
+            }
+        } else if (collage in availableCollage(admin)) {
+            overViews.addAll(overViewData(collage))
+        }
+        return overViews
+    }
+
+    @JvmStatic
+    fun overViewDataByAdmin(admin: Admin?, collage: Collage? = null): List<OverView> {
+        if (admin == null) {
+            return ArrayList()
+        }
+        val overViews = ArrayList<OverView>()
+        val collages = availableCollage(admin)
+        if (collage == null) {
+            collages.forEach {
+                overViews.addAll(overViewData(it))
+            }
+        } else if (collage in availableCollage(admin)) {
+            overViews.addAll(overViewData(collage))
+        }
+        return overViews
+    }
+
+    @JvmStatic
+    fun availableCollage(admin: Admin?): ArrayList<Collage> {
+        if (admin == null) {
+            return ArrayList()
+        }
+        val fullTarget = admin.fullTarget
+        when (fullTarget.level) {
+            FullTarget.Level.SYSTEM, FullTarget.Level.SCHOOL -> {
+                return SQL().queryList(Collage::class.java)
+            }
+            FullTarget.Level.COLLAGE -> {
+                val list = ArrayList<Collage>()
+                val collage = admin.fullTarget.target
+                if (collage != null) {
+                    list.add(collage)
+                }
+                return list
+            }
+            FullTarget.Level.NULL -> {
+                return ArrayList()
+            }
+        }
+    }
+
     class OverView(val person: Person, val healthInfo: HealthInfo?, val punchRecord: PunchRecord?)
 }

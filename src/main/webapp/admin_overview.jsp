@@ -1,4 +1,20 @@
+<%@ page import="servlet.PunchRecordData" %>
+<%@ page import="java.util.List" %>
+<%@ page import="model.Collage" %>
+<%@ page import="model.PunchRecord" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<jsp:useBean id="admin" scope="session" type="model.Admin"/>
+<%List<PunchRecordData.OverView> overViews = PunchRecordData.overViewDataByAdmin(admin, null);%>
+<%List<Collage> collages = PunchRecordData.availableCollage(admin);%>
+<%
+    var target = request.getParameter("collage");
+
+    if (target == null) {
+
+    } else {
+
+    }
+%>
 <html>
 <head>
     <meta charset="UTF-8">
@@ -31,6 +47,8 @@
             async: true, cache: false, type: 'post',
             success: (data) => {
                 console.log(data)
+                let table = document.getElementById('over_view_table')
+
             }
         })
     }
@@ -55,9 +73,19 @@
     <p class="mdui-text-color-grey">筛选</p>
     <label for="collage_selector">学院</label>
     <select id="collage_selector" class="mdui-select" mdui-select="{position: 'bottom'}">
-        <%%>
+        <%
+            for (Collage collage : collages) {
+        %>
+        <option id="<%=collage.getId()%>"><%=collage.getName()%>
+        </option>
+        <%
+            }
+        %>
     </select>
-    <table class="mdui-table mdui-table-hoverable mdui-table-fluid">
+    <br>
+    <label for="date_selector">日期</label>
+    <input id="date_selector" type="date" class="mdui-select" mdui-select="{position: 'bottom'}">
+    <table id="over_view_table" class="mdui-table mdui-table-hoverable mdui-table-fluid">
         <tr>
             <th>学院</th>
             <th>学号/工号</th>
