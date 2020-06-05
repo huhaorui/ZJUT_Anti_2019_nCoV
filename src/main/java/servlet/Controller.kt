@@ -1,16 +1,13 @@
 package servlet
 
-import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import model.Admin
 import model.Collage
-import model.FullTarget
 import model.FullTarget.Level.*
-import model.SQL
+import servlet.PunchRecordData.healthInfo
 import util.Router
 import java.io.IOException
 import javax.servlet.ServletException
-import javax.servlet.annotation.MultipartConfig
 import javax.servlet.annotation.WebServlet
 import javax.servlet.http.HttpServlet
 import javax.servlet.http.HttpServletRequest
@@ -49,34 +46,39 @@ class Controller : HttpServlet(), Router {
         request("/action/punch_record") { req, resp ->
             resp.contentType = "application/json;charset=UTF-8"
 
-            admin(req, resp, arrayListOf(SYSTEM, COLLAGE, SCHOOL), {
-                resp.writer.write(gson.toJson(ArrayList<PunchRecordData.OverView>()))
-            }) { admin, level, _ ->
-                when (level) {
-                    SYSTEM, SCHOOL -> {
-                        val overViews: List<PunchRecordData.OverView>
-                        val collage = req.fields()["collage"]
-                        overViews = if (collage == null) {
-                            PunchRecordData.overViewDataAll()
-                        } else {
-                            PunchRecordData.overViewDataCollage(collage)
-                        }
-                        resp.writer.write(gson.toJson(overViews))
-                    }
+            admin(req, resp, arrayListOf(SYSTEM, COLLAGE, SCHOOL),
+                    {
+                        resp.writer.write(gson.toJson(ArrayList<PunchRecordData.HealthView>()))
+                    },
+                    { admin, level, _ ->
+                        val healthViews: List<Map<String, String>>
+                        val fields = req.fields()
+                        val date = fields["date"]
+                        println(date)
 
-                    COLLAGE -> {
-                        val overViews: List<PunchRecordData.OverView>
-                        val target: Collage? = admin.target
-                        overViews = if (target != null) {
-                            PunchRecordData.overViewDataCollage(target.id.toString())
-                        } else {
-                            ArrayList()
+                        when (level) {
+                            SYSTEM, SCHOOL -> {
+                                val collage = fields["collage"]
+                                healthViews = if (collage == null) {
+                                    PunchRecordData.healthViewAll().healthInfo()
+                                } else {
+                                    PunchRecordData.healthViewByCollage(collage).healthInfo()
+                                }
+                            }
+
+                            COLLAGE -> {
+                                val target: Collage? = admin.target
+                                healthViews = if (target != null) {
+                                    PunchRecordData.healthViewByCollage(target.id.toString()).healthInfo()
+                                } else {
+                                    ArrayList()
+                                }
+                            }
+                            else -> healthViews = ArrayList()
                         }
-                        resp.writer.write(gson.toJson(overViews))
+                        resp.writer.write(gson.toJson(healthViews))
                     }
-                    else -> TODO()
-                }
-            }
+            )
 
 
         }
@@ -86,7 +88,7 @@ class Controller : HttpServlet(), Router {
             val admin = req.session.getAttribute("admin")
             if (admin !is Admin || admin == Admin()) {
                 println("admin不存在")
-                resp.writer.write(gson.toJson(ArrayList<PunchRecordData.OverView>()))
+                resp.writer.write(gson.toJson(ArrayList<PunchRecordData.HealthView>()))
             } else {
                 resp.writer.write(gson.toJson(PunchRecordData.availableCollage(admin)))
             }

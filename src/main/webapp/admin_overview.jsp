@@ -10,39 +10,7 @@
 
 <jsp:useBean id="admin" scope="session" class="model.Admin"/>
 <%
-    List<Collage> collages;
-    List<PunchRecordData.OverView> overViews;
-    String target = request.getParameter("collage");
-    if (admin.equals(new Admin())) {
-        collages = new ArrayList<>();
-        collages.add(0, new Collage(-1, "没有目标"));
-        overViews = new ArrayList<>();
-    } else {
-        FullTarget.Level level = admin.getFullTarget().getLevel();
-
-        if (FullTarget.Level.SYSTEM == level || FullTarget.Level.SCHOOL == level) {
-            collages = new SQL().queryList(Collage.class);
-            collages.add(0, new Collage(-1, "全部学院"));
-            if (target == null) {
-                overViews = PunchRecordData.overViewDataAll();
-            } else {
-                overViews = PunchRecordData.overViewDataCollage(target);
-            }
-        } else if (FullTarget.Level.COLLAGE == level) {
-            collages = PunchRecordData.availableCollage(admin);
-            Collage collage = collages.stream().findFirst().orElse(null);
-            if (collage == null) {
-                target = "";
-            } else {
-                target = collage.getId().toString();
-            }
-            overViews = PunchRecordData.overViewDataCollage(target);
-        } else {
-            collages = new ArrayList<>();
-            collages.add(new Collage(-1, "没有目标"));
-            overViews = new ArrayList<>();
-        }
-    }
+    List<Collage> collages = PunchRecordData.availableCollage(admin);
 %>
 <html>
 <head>
@@ -54,12 +22,10 @@
     <link rel="stylesheet" type="text/css" href="css/style.css">
     <script src="js/mdui.min.js"></script>
     <script src="js/jquery-3.5.1.js"></script>
+    <script src="js/table.js"></script>
 </head>
 <script type="text/javascript">
     let $ = jQuery
-    window.onload = () => {
-
-    }
 
     class Collage {
         constructor(id, name) {
@@ -68,67 +34,85 @@
         }
     }
 
+    const DEFAULT_COLLAGE = new Collage(-1, '未选择')
+    let collages = [DEFAULT_COLLAGE]
+
+    <%
+        for (Collage collage: collages) {
+    %>
+    collages.push(new Collage(<%=collage.getId()%>, '<%=collage.getName()%>'))
+    <%
+        }
+    %>
+
+    let selected = -1
+    let overviews = []
+    let overview_table
+    let collage_selector
+
+    window.onload = () => {
+        overview_table = new Table('over_view_table', 5)
+        collage_selector = new mdui.Select('#collage_selector');
+        collages.forEach((item) => {
+            console.log(item)
+            if (item.id === selected) {
+                $('#collage_selector').append('<option selected="selected" value="' + item.id + '">' + item.name + '</option>')
+            } else {
+                $('#collage_selector').append('<option value="' + item.id + '">' + item.name + '</option>')
+            }
+        })
+        collage_selector.handleUpdate()
+        update(selected)
+    }
+
     function change_collage() {
         let target = document.getElementById('collage_selector');
         let index = target.selectedIndex
-        let id = target.options[index].value
-        console.log(target)
-        if (id < 0) {
-            window.location.href = 'admin_overview.jsp'
-        } else {
-            window.location.href = 'admin_overview.jsp?collage=' + id
-        }
-
+        let collage = target.options[index].value
+        update(collage)
     }
 
-    function update(collage) {
+    function update(collage = -1, date = new Date()) {
+        let data
+        if (collage > 0) {
+            data = {collage: collage, date: date}
+        } else {
+            data = {date: date}
+        }
+
         $.ajax({
             url: 'action/punch_record',
-            data: {
-                collage: collage
-            },
+            data: data,
             async: true, cache: false, type: 'post',
             success: (data) => {
                 console.log(data)
-                let table = document.getElementById('over_view_table')
-
+                overview_table.removeAll()
+                overview_table.addAll(eval(data))
             }
         })
     }
+
 </script>
 <body class="mdui-appbar-with-toolbar mdui-loaded mdui-theme-primary-indigo mdui-theme-accent-deep-purple">
 <header class="mdui-appbar mdui-appbar-fixed" id="header">
     <div class="mdui-toolbar mdui-color-theme">
-       <span class="mdui-btn mdui-btn-icon mdui-ripple mdui-ripple-white"
-             onclick="window.location.assign('main.jsp')">
-            <i class="mdui-icon material-icons">home</i>
-        </span>
+    <span class="mdui-btn mdui-btn-icon mdui-ripple mdui-ripple-white"
+          onclick="window.location.assign('main.jsp')">
+    <i class="mdui-icon material-icons">home</i>
+    </span>
         <a href="" class="mdui-typo-headline mdui-hidden-xs"
            style="font-weight: inherit">浙江工业大学</a>
-        <a href="" class="mdui-typo-title " style="font-weight: inherit">学生健康信息管理系统</a>
+        <a href="" class="mdui-typo-title" style="font-weight: inherit">学生健康信息管理系统</a>
         <div class="mdui-toolbar-spacer"></div>
     </div>
 </header>
-<%--<div class="mdui-col-md-3 mdui-col-sm-12"></div>--%>
 <div class="mdui-col-md-12 mdui-col-sm-12 mdui-typo">
     <h1 class="mdui-center mdui-text-color-theme mdui-text-center">健康信息</h1>
-    <p class="mdui-text-center">打卡记录概览</p>
+    <p class="mdui-text-center">健康码概览</p>
     <p class="mdui-text-color-grey">筛选</p>
     <label for="collage_selector">学院</label>
-    <select id="collage_selector" class="mdui-select" onchange="change_collage()" mdui-select="{position: 'bottom'}">
-        <%
-            for (Collage collage : collages) {
-                String selected = "";
-                if (collage.getId().toString().equals(target)) {
-                    selected = "selected";
-                }
-        %>
-        <option <%=selected%> value="<%=collage.getId()%>"><%=collage.getName()%>
-        </option>
-        <%
-            }
-        %>
-    </select>
+    <select id="collage_selector" class="mdui-select" onchange="change_collage()"
+            mdui-select="{position: 'bottom'}"></select>
     <br>
     <label for="date_selector">日期</label>
     <input id="date_selector" type="date">
@@ -137,77 +121,15 @@
             <th>学院</th>
             <th>学号/工号</th>
             <th>姓名</th>
-            <th>联系电话</th>
-            <th>健康码</th>
-            <th>打卡时间</th>
-            <th>打卡状况</th>
+            <th>健康码颜色</th>
             <th>备注</th>
         </tr>
-        <%
-            for (PunchRecordData.OverView overView : overViews) {
-                String cName = overView.getPerson().getCollage().getName();
-                String id = overView.getPerson().getUid();
-                String name = overView.getPerson().getName();
-                HealthInfo info = overView.getHealthInfo();
-                PunchRecord record = overView.getPunchRecord();
-                String phone, time, status, more, color;
-                if (info == null) {
-                    //没有健康上报过
-                    more = "未健康上报";
-                    phone = "-";
-                    time = "-";
-                    status = "-";
-                    color = "-";
-                } else if (!info.getCodeColor().equals(CodeColor.GREEN) && record == null) {
-                    //有健康申报但是不是绿色而且没有打卡
-                    more = "今日未打卡";
-                    phone = info.getTel();
-                    time = "-";
-                    status = "-";
-                    color = info.getColor();
-                } else if (!info.getCodeColor().equals(CodeColor.GREEN) && record != null) {
-                    //有健康上报并且打了卡
-                    more = "";
-                    phone = info.getTel();
-                    time = record.getTime().toString();
-                    status = record.getColor();
-                    color = info.getColor();
-                } else {
-                    //绿码完成，不必打卡
-                    more = "已经是绿码";
-                    phone = info.getTel();
-                    time = "-";
-                    status = "-";
-                    color = info.getColor();
-                }
-        %>
-        <tr>
-            <td><%=cName%>
-            </td>
-            <td><%=id%>
-            </td>
-            <td><%=name%>
-            </td>
-            <td><%=phone%>
-            </td>
-            <td style="color: <%=color%>">████████</td>
-            <td><%=time%>
-            </td>
-            <td style="color: <%=status%>">████████</td>
-            <td><%=more%>
-            </td>
-        </tr>
-        <%
-            }
-        %>
-
     </table>
     <button class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent mdui-center"
             onclick="window.location.assign('main.jsp')">
         回到首页
     </button>
 </div>
-<%--<div class="mdui-col-md-3 mdui-col-sm-12"></div>--%>
 </body>
 <script src="js/script.js"></script>
 </html>

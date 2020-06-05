@@ -57,8 +57,6 @@ class HealthInfo {
 
     fun getPerson() = SQL().query(Person::class.java, "uid" to person)
 
-
-
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other !is HealthInfo) return false
