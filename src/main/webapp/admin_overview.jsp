@@ -116,17 +116,19 @@
     <br>
     <label for="date_selector">日期</label>
     <input id="date_selector" type="date">
-    <table id="over_view_table" class="mdui-table mdui-table-hoverable mdui-table-fluid">
-        <tr>
-            <th>学院</th>
-            <th>学号/工号</th>
-            <th>姓名</th>
-            <th>健康码颜色</th>
-            <th>备注</th>
-        </tr>
-    </table>
+    <div class="mdui-table-fluid">
+        <table id="over_view_table" class="mdui-table mdui-table-hoverable " style="min-width: 1080px">
+            <tr>
+                <th>学院</th>
+                <th>学号/工号</th>
+                <th>姓名</th>
+                <th>健康码颜色</th>
+                <th>备注</th>
+            </tr>
+        </table>
+    </div>
     <button class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent mdui-center"
-            onclick="window.location.assign('main.jsp')">
+            onclick="window.location.assign('main.jsp')" style="margin-bottom: 16px">
         回到首页
     </button>
 </div>

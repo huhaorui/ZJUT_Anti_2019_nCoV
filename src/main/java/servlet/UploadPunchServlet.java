@@ -103,8 +103,9 @@ public class UploadPunchServlet extends HttpServlet {
             if (result.next()) {
                 if (!result.getString("color").equals("green")) {
                     int timeInNeed = result.getString("color").equals("red") ? 14 : 7;
-                    sql = conn.prepareStatement("select * from punch_record where date=?");
+                    sql = conn.prepareStatement("select * from punch_record where date=? and uid=?");
                     sql.setDate(1, new java.sql.Date(System.currentTimeMillis()));
+                    sql.setString(2, id);
                     result = sql.executeQuery();
                     if (!result.next()) {
                         sql = conn.prepareStatement("insert into punch_record values (?,?,?,?,?)");

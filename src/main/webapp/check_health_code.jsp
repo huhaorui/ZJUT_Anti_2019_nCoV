@@ -179,7 +179,6 @@
             </td>
         </tr>
         <%
-            assert type != null;
             if (type.equals("学生")) {
         %>
         <tr>
