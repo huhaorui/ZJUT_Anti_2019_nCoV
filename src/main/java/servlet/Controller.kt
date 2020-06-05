@@ -54,8 +54,6 @@ class Controller : HttpServlet(), Router {
                     success = { admin, level, _ ->
                         val healthViews: List<Map<String, String>>
                         val fields = req.fields()
-                        val date = fields["date"]
-                        println(date)
 
                         when (level) {
                             SYSTEM, SCHOOL -> {

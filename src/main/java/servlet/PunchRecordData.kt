@@ -22,8 +22,8 @@ object PunchRecordData {
         return persons.map { HealthView(it, healthInfos.firstOrNull { info -> info.person == it.uid }) }
     }
 
-    fun punchViewAll(): List<PunchView> {
-        val punchRecords = sql.queryList(PunchRecord::class.java)
+    fun punchViewAll(date: SqlDate = SqlDate(System.currentTimeMillis())): List<PunchView> {
+        val punchRecords = sql.queryList(PunchRecord::class.java, "date" to date)
         val healthInfos = sql.queryList(HealthInfo::class.java)
         val persons = sql.queryList(Person::class.java).apply { sortBy { it.uid } }
         return persons.map { PunchView(it, healthInfos.firstOrNull { info -> info.person == it.uid }, punchRecords.firstOrNull { record -> record.person == it.uid }) }
@@ -35,8 +35,8 @@ object PunchRecordData {
         return persons.map { HealthView(it, healthInfos.firstOrNull { info -> info.person == it.uid }) }
     }
 
-    fun punchViewByCollage(collage: String): List<PunchView> {
-        val punchRecords = sql.queryList(PunchRecord::class.java)
+    fun punchViewByCollage(collage: String, date: SqlDate = SqlDate(System.currentTimeMillis())): List<PunchView> {
+        val punchRecords = sql.queryList(PunchRecord::class.java, "date" to date)
         val healthInfos = sql.queryList(HealthInfo::class.java)
         val persons = sql.queryList(Person::class.java, "collage" to collage.toIntOrDefault()).apply { sortBy { it.uid } }
         return persons.map { PunchView(it, healthInfos.firstOrNull { info -> info.person == it.uid }, punchRecords.firstOrNull { record -> record.person == it.uid }) }

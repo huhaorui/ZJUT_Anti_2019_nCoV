@@ -120,15 +120,8 @@
     <label for="collage_selector">学院</label>
     <select id="collage_selector" class="mdui-select" onchange="change_collage()"
             mdui-select="{position: 'bottom'}"></select>
-<%--    <label for="major_selector">专业</label>--%>
-<%--    <select id="major_selector" class="mdui-select" onchange="change_major()"--%>
-<%--            mdui-select="{position: 'bottom'}"></select>--%>
-<%--    <label for="class_selector">学院</label>--%>
-<%--    <select id="class_selector" class="mdui-select" onchange="change_class()"--%>
-<%--            mdui-select="{position: 'bottom'}"></select>--%>
-    <br>
     <label for="date_selector">日期</label>
-    <input id="date_selector" type="date">
+    <input id="date_selector" type="date" style="border: none;">
     <div class="mdui-table-fluid">
         <table id="punch_view_table" class="mdui-table mdui-table-hoverable " style="min-width: 1080px">
             <tr>

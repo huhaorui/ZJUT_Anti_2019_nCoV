@@ -72,12 +72,12 @@
         update(collage)
     }
 
-    function update(collage = -1, date = new Date()) {
+    function update(collage = -1) {
         let data
         if (collage > 0) {
-            data = {collage: collage, date: date}
+            data = {collage: collage}
         } else {
-            data = {date: date}
+            data = {}
         }
 
         $.ajax({
@@ -113,9 +113,6 @@
     <label for="collage_selector">学院</label>
     <select id="collage_selector" class="mdui-select" onchange="change_collage()"
             mdui-select="{position: 'bottom'}"></select>
-    <br>
-    <label for="date_selector">日期</label>
-    <input id="date_selector" type="date">
     <div class="mdui-table-fluid">
         <table id="over_view_table" class="mdui-table mdui-table-hoverable " style="min-width: 1080px">
             <tr>
