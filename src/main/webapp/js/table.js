@@ -14,18 +14,7 @@ class Table {
         items.forEach((item) => {
             console.log(item)
             let tr = document.createElement('tr')
-            // for (let i = 0; i < this.col; i++) {
-            //     let options
-            //     if (item.code !== 'null') {
-            //         options = {style: "color: " + item.code}
-            //     } else {
-            //         options = {}
-            //     }
-            //     let td = document.createElement('td', options)
-            //
-            // }
             for (let key in item) {
-                let options
                 let value = item[key]
                 let td = document.createElement('td')
                 if (key === 'code' && value !== 'null') {

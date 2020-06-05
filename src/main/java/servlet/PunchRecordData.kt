@@ -17,17 +17,15 @@ object PunchRecordData {
     }
 
 
-    @JvmStatic
     fun healthViewAll(): List<HealthView> {
         val healthInfos = sql.queryList(HealthInfo::class.java)
-        val persons = sql.queryList(Person::class.java)
+        val persons = sql.queryList(Person::class.java).apply { sortBy { it.uid } }.apply { sortBy { it.uid } }
         return persons.map { HealthView(it, healthInfos.firstOrNull { info -> info.person == it.uid }) }
     }
 
-    @JvmStatic
     fun healthViewByCollage(collage: String): List<HealthView> {
         val healthInfos = sql.queryList(HealthInfo::class.java)
-        val persons = sql.queryList(Person::class.java, "collage" to collage.toIntOrDefault())
+        val persons = sql.queryList(Person::class.java, "collage" to collage.toIntOrDefault()).apply { sortBy { it.uid } }
         return persons.map { HealthView(it, healthInfos.firstOrNull { info -> info.person == it.uid }) }
     }
 
@@ -59,6 +57,23 @@ object PunchRecordData {
             val info = when {
                 healthInfo == null -> "未进行健康申报"
                 code == CodeColor.GREEN -> "已经是绿码"
+                else -> ""
+            }
+            mapOf("collage" to collage.name, "uid" to uid, "name" to name, "code" to code.toString(), "info" to info)
+        }
+    }
+
+    fun List<PunchView>.punchInfo(): List<Map<String, String>> {
+        return map {
+            val person = it.person
+            val punchRecord = it.punchRecord
+            val collage = person.collage
+            val uid = person.uid
+            val name = person.name
+            val code = punchRecord?.color
+            val info = when {
+                code == "green" -> "已经是绿码"
+                punchRecord == null -> "当天未打卡"
                 else -> ""
             }
             mapOf("collage" to collage.name, "uid" to uid, "name" to name, "code" to code.toString(), "info" to info)
