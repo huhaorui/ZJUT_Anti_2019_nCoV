@@ -317,10 +317,6 @@ class Import(stream: MultipleForm.Stream) {
             return columns to values
         }
 
-        fun error(code: Int, msg: String): String {
-            return Gson().toJson(mapOf("code" to code, "msg" to msg))
-        }
-
         data class RawTeacher(val id: String, val name: String, val personId: String, val collage: String)
         data class RawStudent(val id: String, val name: String, val personId: String, val collage: String, val major: String, val clazz: String)
         data class RawAdmin(val id: String, val level: Int, val target: String?, val password: String, val email: String)

@@ -12,24 +12,30 @@
 <%
     List<Collage> collages;
     List<PunchRecordData.OverView> overViews;
+    String target = request.getParameter("collage");
     if (admin.equals(new Admin())) {
         collages = new ArrayList<>();
-        collages.add(new Collage(-1, "没有目标"));
+        collages.add(0, new Collage(-1, "没有目标"));
         overViews = new ArrayList<>();
     } else {
-        String target = request.getParameter("collage");
         FullTarget.Level level = admin.getFullTarget().getLevel();
 
         if (FullTarget.Level.SYSTEM == level || FullTarget.Level.SCHOOL == level) {
             collages = new SQL().queryList(Collage.class);
+            collages.add(0, new Collage(-1, "全部学院"));
             if (target == null) {
                 overViews = PunchRecordData.overViewDataAll();
             } else {
                 overViews = PunchRecordData.overViewDataCollage(target);
             }
-
-        } else if (FullTarget.Level.COLLAGE == level && target != null) {
+        } else if (FullTarget.Level.COLLAGE == level) {
             collages = PunchRecordData.availableCollage(admin);
+            Collage collage = collages.stream().findFirst().orElse(null);
+            if (collage == null) {
+                target = "";
+            } else {
+                target = collage.getId().toString();
+            }
             overViews = PunchRecordData.overViewDataCollage(target);
         } else {
             collages = new ArrayList<>();
@@ -47,14 +53,12 @@
     <link rel="stylesheet" type="text/css" href="css/mdui.min.css">
     <link rel="stylesheet" type="text/css" href="css/style.css">
     <script src="js/mdui.min.js"></script>
+    <script src="js/jquery-3.5.1.js"></script>
 </head>
 <script type="text/javascript">
-    let $$ = mdui.JQ
+    let $ = jQuery
     window.onload = () => {
-        let select_collage = document.getElementById('collage_selector')
-        select_collage.addEventListener('selectionchange', ev => {
-            console.log(select_collage.options.selectedItem.value)
-        })
+
     }
 
     class Collage {
@@ -62,6 +66,19 @@
             this.id = id;
             this.name = name;
         }
+    }
+
+    function change_collage() {
+        let target = document.getElementById('collage_selector');
+        let index = target.selectedIndex
+        let id = target.options[index].value
+        console.log(target)
+        if (id < 0) {
+            window.location.href = 'admin_overview.jsp'
+        } else {
+            window.location.href = 'admin_overview.jsp?collage=' + id
+        }
+
     }
 
     function update(collage) {
@@ -98,11 +115,15 @@
     <p class="mdui-text-center">打卡记录概览</p>
     <p class="mdui-text-color-grey">筛选</p>
     <label for="collage_selector">学院</label>
-    <select id="collage_selector" class="mdui-select" mdui-select="{position: 'bottom'}">
+    <select id="collage_selector" class="mdui-select" onchange="change_collage()" mdui-select="{position: 'bottom'}">
         <%
             for (Collage collage : collages) {
+                String selected = "";
+                if (collage.getId().toString().equals(target)) {
+                    selected = "selected";
+                }
         %>
-        <option id="<%=collage.getId()%>"><%=collage.getName()%>
+        <option <%=selected%> value="<%=collage.getId()%>"><%=collage.getName()%>
         </option>
         <%
             }
