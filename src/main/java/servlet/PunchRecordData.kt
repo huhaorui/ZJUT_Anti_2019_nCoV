@@ -16,17 +16,30 @@ object PunchRecordData {
                 .groupBy { it.getPerson()?.type ?: -1 }
     }
 
-
     fun healthViewAll(): List<HealthView> {
         val healthInfos = sql.queryList(HealthInfo::class.java)
         val persons = sql.queryList(Person::class.java).apply { sortBy { it.uid } }.apply { sortBy { it.uid } }
         return persons.map { HealthView(it, healthInfos.firstOrNull { info -> info.person == it.uid }) }
     }
 
+    fun punchViewAll(): List<PunchView> {
+        val punchRecords = sql.queryList(PunchRecord::class.java)
+        val healthInfos = sql.queryList(HealthInfo::class.java)
+        val persons = sql.queryList(Person::class.java).apply { sortBy { it.uid } }
+        return persons.map { PunchView(it, healthInfos.firstOrNull { info -> info.person == it.uid }, punchRecords.firstOrNull { record -> record.person == it.uid }) }
+    }
+
     fun healthViewByCollage(collage: String): List<HealthView> {
         val healthInfos = sql.queryList(HealthInfo::class.java)
         val persons = sql.queryList(Person::class.java, "collage" to collage.toIntOrDefault()).apply { sortBy { it.uid } }
         return persons.map { HealthView(it, healthInfos.firstOrNull { info -> info.person == it.uid }) }
+    }
+
+    fun punchViewByCollage(collage: String): List<PunchView> {
+        val punchRecords = sql.queryList(PunchRecord::class.java)
+        val healthInfos = sql.queryList(HealthInfo::class.java)
+        val persons = sql.queryList(Person::class.java, "collage" to collage.toIntOrDefault()).apply { sortBy { it.uid } }
+        return persons.map { PunchView(it, healthInfos.firstOrNull { info -> info.person == it.uid }, punchRecords.firstOrNull { record -> record.person == it.uid }) }
     }
 
     fun healthViewByCollage(collage: Collage): List<HealthView> {
@@ -67,13 +80,16 @@ object PunchRecordData {
         return map {
             val person = it.person
             val punchRecord = it.punchRecord
+            val healthInfo = it.healthInfo
             val collage = person.collage
             val uid = person.uid
             val name = person.name
             val code = punchRecord?.color
             val info = when {
-                code == "green" -> "已经是绿码"
+                healthInfo == null -> "未健康申报"
+                healthInfo.codeColor == CodeColor.GREEN -> "已经是绿码"
                 punchRecord == null -> "当天未打卡"
+                punchRecord.color != "green" -> "当天打卡异常"
                 else -> ""
             }
             mapOf("collage" to collage.name, "uid" to uid, "name" to name, "code" to code.toString(), "info" to info)
@@ -82,7 +98,7 @@ object PunchRecordData {
 
     class HealthView(val person: Person, val healthInfo: HealthInfo?)
 
-    class PunchView(val person: Person, val punchRecord: PunchRecord?)
+    class PunchView(val person: Person, val healthInfo: HealthInfo?, val punchRecord: PunchRecord?)
 
     private fun String.toIntOrDefault(value: Int = -1): Int {
         return toIntOrNull() ?: value

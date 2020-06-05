@@ -5,6 +5,7 @@ import model.Admin
 import model.Collage
 import model.FullTarget.Level.*
 import servlet.PunchRecordData.healthInfo
+import servlet.PunchRecordData.punchInfo
 import util.Router
 import java.io.IOException
 import javax.servlet.ServletException
@@ -43,14 +44,14 @@ class Controller : HttpServlet(), Router {
             resp.sendRedirect("$context/login.jsp?user=admin")
         }
 
-        request("/action/punch_record") { req, resp ->
+        request("/action/admin/overview") { req, resp ->
             resp.contentType = "application/json;charset=UTF-8"
 
             admin(req, resp, arrayListOf(SYSTEM, COLLAGE, SCHOOL),
-                    {
-                        resp.writer.write(gson.toJson(ArrayList<PunchRecordData.HealthView>()))
+                    fail =  {
+                        resp.writer.write(gson.toJson(ArrayList<PunchRecordData.HealthView>().healthInfo()))
                     },
-                    { admin, level, _ ->
+                    success = { admin, level, _ ->
                         val healthViews: List<Map<String, String>>
                         val fields = req.fields()
                         val date = fields["date"]
@@ -70,6 +71,46 @@ class Controller : HttpServlet(), Router {
                                 val target: Collage? = admin.target
                                 healthViews = if (target != null) {
                                     PunchRecordData.healthViewByCollage(target.id.toString()).healthInfo()
+                                } else {
+                                    ArrayList()
+                                }
+                            }
+                            else -> healthViews = ArrayList()
+                        }
+                        resp.writer.write(gson.toJson(healthViews))
+                    }
+            )
+
+
+        }
+
+        request("/action/admin/punchview") { req, resp ->
+            resp.contentType = "application/json;charset=UTF-8"
+
+            admin(req, resp, arrayListOf(SYSTEM, COLLAGE, SCHOOL),
+                    {
+                        resp.writer.write(gson.toJson(ArrayList<PunchRecordData.PunchView>().punchInfo()))
+                    },
+                    { admin, level, _ ->
+                        val healthViews: List<Map<String, String>>
+                        val fields = req.fields()
+                        val date = fields["date"]
+                        println(date)
+
+                        when (level) {
+                            SYSTEM, SCHOOL -> {
+                                val collage = fields["collage"]
+                                healthViews = if (collage == null) {
+                                    PunchRecordData.punchViewAll().punchInfo()
+                                } else {
+                                    PunchRecordData.punchViewByCollage(collage).punchInfo()
+                                }
+                            }
+
+                            COLLAGE -> {
+                                val target: Collage? = admin.target
+                                healthViews = if (target != null) {
+                                    PunchRecordData.punchViewByCollage(target.id.toString()).punchInfo()
                                 } else {
                                     ArrayList()
                                 }

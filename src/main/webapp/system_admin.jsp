@@ -68,7 +68,7 @@
         </div>
 
         <div style="padding: 8px" class="mdui-col-md-6 mdui-col-sm-12">
-            <div class="mdui-card" onclick="window.location.assign('punch_status.jsp')">
+            <div class="mdui-card" onclick="window.location.assign('admin_punchview.jsp')">
                 <div class="mdui-card-media">
                     <img src="image/card.jpg"/>
                     <div class="mdui-card-media-covered">

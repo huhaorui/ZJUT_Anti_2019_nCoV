@@ -47,11 +47,11 @@
 
     let selected = -1
     let overviews = []
-    let overview_table
+    let punchview_table
     let collage_selector
 
     window.onload = () => {
-        overview_table = new Table('over_view_table', 5)
+        punchview_table = new Table('punch_view_table', 5)
         collage_selector = new mdui.Select('#collage_selector');
         collages.forEach((item) => {
             console.log(item)
@@ -66,10 +66,18 @@
     }
 
     function change_collage() {
-        let target = document.getElementById('collage_selector');
+        let target = document.getElementById('collage_selector')
         let index = target.selectedIndex
         let collage = target.options[index].value
         update(collage)
+    }
+
+    function change_major() {
+
+    }
+
+    function change_class() {
+
     }
 
     function update(collage = -1, date = new Date()) {
@@ -81,13 +89,13 @@
         }
 
         $.ajax({
-            url: 'action/admin/overview',
+            url: 'action/admin/punchview',
             data: data,
             async: true, cache: false, type: 'post',
             success: (data) => {
                 console.log(data)
-                overview_table.removeAll()
-                overview_table.addAll(eval(data))
+                punchview_table.removeAll()
+                punchview_table.addAll(eval(data))
             }
         })
     }
@@ -107,22 +115,27 @@
     </div>
 </header>
 <div class="mdui-col-md-12 mdui-col-sm-12 mdui-typo">
-    <h1 class="mdui-center mdui-text-color-theme mdui-text-center">健康信息</h1>
-    <p class="mdui-text-center">健康码概览</p>
-    <p class="mdui-text-color-grey">筛选</p>
+    <h1 class="mdui-center mdui-text-color-theme mdui-text-center">打卡信息</h1>
+    <p class="mdui-text-center">打卡情况概览</p>
     <label for="collage_selector">学院</label>
     <select id="collage_selector" class="mdui-select" onchange="change_collage()"
             mdui-select="{position: 'bottom'}"></select>
+<%--    <label for="major_selector">专业</label>--%>
+<%--    <select id="major_selector" class="mdui-select" onchange="change_major()"--%>
+<%--            mdui-select="{position: 'bottom'}"></select>--%>
+<%--    <label for="class_selector">学院</label>--%>
+<%--    <select id="class_selector" class="mdui-select" onchange="change_class()"--%>
+<%--            mdui-select="{position: 'bottom'}"></select>--%>
     <br>
     <label for="date_selector">日期</label>
     <input id="date_selector" type="date">
     <div class="mdui-table-fluid">
-        <table id="over_view_table" class="mdui-table mdui-table-hoverable " style="min-width: 1080px">
+        <table id="punch_view_table" class="mdui-table mdui-table-hoverable " style="min-width: 1080px">
             <tr>
                 <th>学院</th>
                 <th>学号/工号</th>
                 <th>姓名</th>
-                <th>健康码颜色</th>
+                <th>打卡情况</th>
                 <th>备注</th>
             </tr>
         </table>
