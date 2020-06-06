@@ -82,6 +82,14 @@
         update()
     }
 
+    function export_data() {
+        if (selected > 0) {
+            window.location.assign('action/admin/punchview/export?date=' + date + '&collage=' + selected)
+        } else {
+            window.location.assign('action/admin/punchview/export?date=' + date)
+        }
+    }
+
     function update() {
         let data
         if (selected > 0) {
@@ -137,6 +145,10 @@
             </tr>
         </table>
     </div>
+    <button class="mdui-btn mdui-btn-raised mdui-ripple mdui-center"
+            onclick="export_data()" style="margin-bottom: 16px">
+        导出数据
+    </button>
     <button class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent mdui-center"
             onclick="window.location.assign('main.jsp')" style="margin-bottom: 16px">
         回到首页

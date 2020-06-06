@@ -68,14 +68,22 @@
     function change_collage() {
         let target = document.getElementById('collage_selector');
         let index = target.selectedIndex
-        let collage = target.options[index].value
-        update(collage)
+        selected = target.options[index].value
+        update()
     }
 
-    function update(collage = -1) {
+    function export_data() {
+        if (selected > 0) {
+            window.location.assign('action/admin/overview/export?collage=' + selected)
+        } else {
+            window.location.assign('action/admin/overview/export')
+        }
+    }
+
+    function update() {
         let data
-        if (collage > 0) {
-            data = {collage: collage}
+        if (selected > 0) {
+            data = {collage: selected}
         } else {
             data = {}
         }
@@ -113,6 +121,29 @@
     <label for="collage_selector">学院</label>
     <select id="collage_selector" class="mdui-select" onchange="change_collage()"
             mdui-select="{position: 'bottom'}"></select>
+    <label class="mdui-checkbox">
+        <input type="checkbox"/>
+        <i class="mdui-checkbox-icon"></i>
+        红码
+    </label>
+
+    <label class="mdui-checkbox">
+        <input type="checkbox"/>
+        <i class="mdui-checkbox-icon"></i>
+        黄码
+    </label>
+
+    <label class="mdui-checkbox">
+        <input type="checkbox"/>
+        <i class="mdui-checkbox-icon"></i>
+        绿码
+    </label>
+    <label class="mdui-checkbox">
+        <input type="checkbox"/>
+        <i class="mdui-checkbox-icon"></i>
+        未申报
+    </label>
+
     <div class="mdui-table-fluid">
         <table id="over_view_table" class="mdui-table mdui-table-hoverable " style="min-width: 1080px">
             <tr>
@@ -124,6 +155,10 @@
             </tr>
         </table>
     </div>
+    <button class="mdui-btn mdui-btn-raised mdui-ripple mdui-center"
+            onclick="export_data()" style="margin-bottom: 16px">
+        导出数据
+    </button>
     <button class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent mdui-center"
             onclick="window.location.assign('main.jsp')" style="margin-bottom: 16px">
         回到首页

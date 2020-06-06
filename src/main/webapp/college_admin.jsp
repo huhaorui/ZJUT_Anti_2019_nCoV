@@ -24,7 +24,7 @@
         document.getElementById("logout").submit();
     }
 </script>
-<body class="mdui-appbar-with-toolbar  mdui-loaded mdui-theme-primary-indigo   mdui-theme-accent-deep-purple">
+<body class="mdui-appbar-with-toolbar  mdui-loaded mdui-theme-primary-indigo mdui-theme-accent-deep-purple">
 <header class="mdui-appbar mdui-appbar-fixed" id="header">
     <div class="mdui-toolbar mdui-color-theme">
        <span class="mdui-btn mdui-btn-icon mdui-ripple mdui-ripple-white"
@@ -50,25 +50,37 @@
 %>
 
 <div class="mdui-container">
-    <div style="height: 64px" class="mdui-hidden-md-down"></div>
     <div class="mdui-row">
-        <div class="mdui-col-md-6 mdui-col-sm-12 ">
+        <div style="padding: 8px" class="mdui-col-md-6 mdui-col-sm-12">
             <div class="mdui-card" onclick="window.location.assign('college_information.jsp')">
                 <div class="mdui-card-media">
                     <img src="image/card.jpg"/>
                     <div class="mdui-card-media-covered">
                         <div class="mdui-card-primary">
                             <div class="mdui-card-primary-title">学院信息</div>
-                            <div class="mdui-card-primary-subtitle">college information</div>
+                            <div class="mdui-card-primary-subtitle">College Information</div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="mdui-hidden-sm-up" style="height: 16px"></div>
 
-        <div class="mdui-col-md-6 mdui-col-sm-12">
-            <div class="mdui-card" onclick="window.location.assign('punch_status.jsp')">
+        <div style="padding: 8px" class="mdui-col-md-6 mdui-col-sm-12">
+            <div class="mdui-card" onclick="window.location.assign('admin_overview.jsp')">
+                <div class="mdui-card-media">
+                    <img src="image/card.jpg"/>
+                    <div class="mdui-card-media-covered">
+                        <div class="mdui-card-primary">
+                            <div class="mdui-card-primary-title">信息概览</div>
+                            <div class="mdui-card-primary-subtitle">Overview</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div style="padding: 8px" class="mdui-col-md-6 mdui-col-sm-12">
+            <div class="mdui-card" onclick="window.location.assign('admin_punchview.jsp')">
                 <div class="mdui-card-media">
                     <img src="image/card.jpg"/>
                     <div class="mdui-card-media-covered">

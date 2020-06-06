@@ -1,10 +1,16 @@
 package servlet
 
 import model.*
+import org.apache.poi.ss.usermodel.Color
+import org.apache.poi.ss.usermodel.IndexedColors
+import org.apache.poi.xssf.usermodel.DefaultIndexedColorMap
+import org.apache.poi.xssf.usermodel.XSSFColor
+import org.apache.poi.xssf.usermodel.XSSFWorkbook
 import java.sql.Date as SqlDate
 
 object PunchRecordData {
     private val sql = SQL()
+
     fun allGroupCollage(date: SqlDate = SqlDate(System.currentTimeMillis())): Map<Collage, List<PunchRecord>> {
         return sql.queryList(PunchRecord::class.java, "date" to date)
                 .groupBy { it.getPerson()?.collage ?: Collage() }
@@ -68,9 +74,9 @@ object PunchRecordData {
             val name = person.name
             val code = healthInfo?.codeColor
             val info = when {
-                healthInfo == null -> "未进行健康申报"
+                healthInfo == null -> "未申报"
                 code == CodeColor.GREEN -> "已经是绿码"
-                else -> ""
+                else -> "健康状况异常"
             }
             mapOf("collage" to collage.name, "uid" to uid, "name" to name, "code" to code.toString(), "info" to info)
         }
@@ -86,14 +92,87 @@ object PunchRecordData {
             val name = person.name
             val code = punchRecord?.color
             val info = when {
-                healthInfo == null -> "未健康申报"
+                healthInfo == null -> "未申报"
                 healthInfo.codeColor == CodeColor.GREEN -> "已经是绿码"
                 punchRecord == null -> "当天未打卡"
-                punchRecord.color != "green" -> "当天打卡异常"
-                else -> ""
+                punchRecord.color != "green" -> "当天健康状况异常"
+                else -> "当天健康状况正常"
             }
             mapOf("collage" to collage.name, "uid" to uid, "name" to name, "code" to code.toString(), "info" to info)
         }
+    }
+
+    fun List<PunchView>.exportPunchView(): XSSFWorkbook {
+        val map = punchInfo()
+        val header = listOf("collage" to "学院", "uid" to "工号/学号", "name" to "姓名", "code" to "打卡状况", "info" to "备注")
+        val workbook = XSSFWorkbook()
+        val sheet = workbook.createSheet("数据")
+        sheet.createRow(0).let {
+            header.forEachIndexed { index, value ->
+                it.createCell(index).setCellValue(value.second)
+            }
+        }
+
+        for (index in 1..size) {
+            val row = map[index - 1]
+            sheet.createRow(index).let {
+                header.forEachIndexed { index, value ->
+                    if (value.first == "code") {
+                        it.createCell(index).also {
+                            when (row[value.first]) {
+                                "red" -> it.setCellValue("红色")
+                                "yellow" -> it.setCellValue("黄色")
+                                "green" -> it.setCellValue("正常")
+                                else -> it.setCellValue("未打卡")
+                            }
+                        }
+                    } else {
+                        it.createCell(index).also { it.setCellValue(row[value.first]) }
+                    }
+                }
+            }
+        }
+
+        sheet.defaultColumnWidth = 30
+
+        return workbook
+    }
+
+    fun List<HealthView>.exportHealthView(): XSSFWorkbook {
+        val map = healthInfo()
+        val header = listOf("collage" to "学院", "uid" to "工号/学号", "name" to "姓名", "code" to "健康码颜色", "info" to "备注")
+        val workbook = XSSFWorkbook()
+        val sheet = workbook.createSheet("数据")
+        sheet.createRow(0).let {
+            header.forEachIndexed { index, value ->
+                it.createCell(index).setCellValue(value.second)
+            }
+        }
+
+        for (index in 1..size) {
+            val row = map[index - 1]
+            sheet.createRow(index).let {
+                header.forEachIndexed { index, value ->
+                    if (value.first == "code") {
+                        it.createCell(index).also {
+                            when (row[value.first]) {
+                                "red" -> it.setCellValue("红色")
+                                "yellow" -> it.setCellValue("黄色")
+                                "green" -> it.setCellValue("绿色")
+                                else -> it.setCellValue("未健康申报")
+                            }
+                        }
+                    } else {
+                        it.createCell(index).also { it.setCellValue(row[value.first]) }
+                    }
+
+                }
+            }
+        }
+
+        sheet.defaultColumnWidth = 30
+
+        return workbook
     }
 
     class HealthView(val person: Person, val healthInfo: HealthInfo?)
@@ -103,4 +182,5 @@ object PunchRecordData {
     private fun String.toIntOrDefault(value: Int = -1): Int {
         return toIntOrNull() ?: value
     }
+
 }
