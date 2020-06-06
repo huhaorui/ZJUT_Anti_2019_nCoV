@@ -46,11 +46,16 @@
     %>
 
     let selected = -1
+    let date = new Date()
     let overviews = []
     let punchview_table
     let collage_selector
+    let date_selector
 
     window.onload = () => {
+        date_selector = document.getElementById('date_selector')
+        date_selector.value = date.getFullYear() + "-" + ("0" + (date.getMonth() + 1)).slice(-2) + "-" + ("0" + date.getDate()).slice(-2)
+        date = date_selector.value
         punchview_table = new Table('punch_view_table', 5)
         collage_selector = new mdui.Select('#collage_selector');
         collages.forEach((item) => {
@@ -62,31 +67,30 @@
             }
         })
         collage_selector.handleUpdate()
-        update(selected)
+        update()
     }
 
     function change_collage() {
         let target = document.getElementById('collage_selector')
         let index = target.selectedIndex
-        let collage = target.options[index].value
-        update(collage)
+        selected = target.options[index].value
+        update()
     }
 
-    function change_major() {
-
+    function change_date() {
+        date = document.getElementById('date_selector').value
+        update()
     }
 
-    function change_class() {
-
-    }
-
-    function update(collage = -1, date = new Date()) {
+    function update() {
         let data
-        if (collage > 0) {
-            data = {collage: collage, date: date}
+        if (selected > 0) {
+            data = {collage: selected, date: date}
         } else {
             data = {date: date}
         }
+
+        console.log(data)
 
         $.ajax({
             url: 'action/admin/punchview',
@@ -121,7 +125,7 @@
     <select id="collage_selector" class="mdui-select" onchange="change_collage()"
             mdui-select="{position: 'bottom'}"></select>
     <label for="date_selector">日期</label>
-    <input id="date_selector" type="date" style="border: none;">
+    <input onchange="change_date()" id="date_selector" type="date" style="border: none;">
     <div class="mdui-table-fluid">
         <table id="punch_view_table" class="mdui-table mdui-table-hoverable " style="min-width: 1080px">
             <tr>

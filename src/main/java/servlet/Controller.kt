@@ -1,5 +1,6 @@
 package servlet
 
+import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import model.Admin
 import model.Collage
@@ -8,11 +9,16 @@ import servlet.PunchRecordData.healthInfo
 import servlet.PunchRecordData.punchInfo
 import util.Router
 import java.io.IOException
+import java.text.SimpleDateFormat
+import java.util.*
 import javax.servlet.ServletException
 import javax.servlet.annotation.WebServlet
 import javax.servlet.http.HttpServlet
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
+import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
+import java.sql.Date as SqlDate
 
 /**
  * @author wcf
@@ -92,23 +98,23 @@ class Controller : HttpServlet(), Router {
                     { admin, level, _ ->
                         val healthViews: List<Map<String, String>>
                         val fields = req.fields()
-                        val date = fields["date"]
+                        val date = fields["date"]?:""
                         println(date)
 
                         when (level) {
                             SYSTEM, SCHOOL -> {
                                 val collage = fields["collage"]
                                 healthViews = if (collage == null) {
-                                    PunchRecordData.punchViewAll().punchInfo()
+                                    PunchRecordData.punchViewAll(date.sqlDate()).punchInfo()
                                 } else {
-                                    PunchRecordData.punchViewByCollage(collage).punchInfo()
+                                    PunchRecordData.punchViewByCollage(collage, date.sqlDate()).punchInfo()
                                 }
                             }
 
                             COLLAGE -> {
                                 val target: Collage? = admin.target
                                 healthViews = if (target != null) {
-                                    PunchRecordData.punchViewByCollage(target.id.toString()).punchInfo()
+                                    PunchRecordData.punchViewByCollage(target.id.toString(), date.sqlDate()).punchInfo()
                                 } else {
                                     ArrayList()
                                 }
@@ -175,6 +181,12 @@ class Controller : HttpServlet(), Router {
     }
 
     companion object {
-        val gson = GsonBuilder().setPrettyPrinting().enableComplexMapKeySerialization().serializeNulls().create()
+        val gson: Gson = GsonBuilder().setPrettyPrinting().enableComplexMapKeySerialization().serializeNulls().create()
+
+        fun String.sqlDate() = SqlDate(try {
+            SimpleDateFormat("yyyy-MM-dd").parse(this).time
+        } catch (e: Exception) {
+            Date().time
+        })
     }
 }
