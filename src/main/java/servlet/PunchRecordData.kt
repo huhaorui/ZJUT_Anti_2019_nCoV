@@ -72,13 +72,13 @@ object PunchRecordData {
             val collage = person.collage
             val uid = person.uid
             val name = person.name
-            val code = healthInfo?.codeColor
+            val code = healthInfo?.codeColor?.toString()?:"lightgray"
             val info = when {
                 healthInfo == null -> "未申报"
-                code == CodeColor.GREEN -> "已经是绿码"
+                code == "green" -> "已经是绿码"
                 else -> "健康状况异常"
             }
-            mapOf("collage" to collage.name, "uid" to uid, "name" to name, "code" to code.toString(), "info" to info)
+            mapOf("collage" to collage.name, "uid" to uid, "name" to name, "code" to code, "info" to info)
         }
     }
 
@@ -90,11 +90,20 @@ object PunchRecordData {
             val collage = person.collage
             val uid = person.uid
             val name = person.name
-            val code = punchRecord?.color
+            var code = punchRecord?.color
             val info = when {
-                healthInfo == null -> "未申报"
-                healthInfo.codeColor == CodeColor.GREEN -> "已经是绿码"
-                punchRecord == null -> "当天未打卡"
+                healthInfo == null -> {
+                    code = "lightgray"
+                    "未申报"
+                }
+                healthInfo.codeColor == CodeColor.GREEN -> {
+                    code = "aquamarine"
+                    "已经是绿码"
+                }
+                punchRecord == null -> {
+                    code = "wheat"
+                    "当天未打卡"
+                }
                 punchRecord.color != "green" -> "当天健康状况异常"
                 else -> "当天健康状况正常"
             }

@@ -9,7 +9,6 @@ class Table {
         mdui.updateTables()
     }
 
-
     addAll(items) {
         items.forEach((item) => {
             console.log(item)
@@ -20,9 +19,6 @@ class Table {
                 if (key === 'code' && value !== 'null') {
                     td.style.color = value
                     value = '████████'
-                } else if (key === 'code') {
-                    td.style.color = '#e3e3e3'
-                    value = '████████'
                 }
                 td.innerHTML = value
                 tr.appendChild(td)
@@ -31,5 +27,18 @@ class Table {
         })
 
         mdui.updateTables()
+    }
+
+    filter_color(data, colors) {
+        let items = data.filter((item) =>
+            (colors.red && item.code === 'red')
+            || (colors.yellow && item.code === 'yellow')
+            || (colors.green && item.code === 'green')
+            || (colors.lightgray && item.code === 'lightgray')
+            || (colors.aquamarine && item.code === 'aquamarine')
+            || (colors.wheat && item.code === 'wheat')
+        )
+        this.removeAll()
+        this.addAll(items)
     }
 }

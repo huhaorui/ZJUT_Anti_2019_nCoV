@@ -50,6 +50,16 @@
     let overview_table
     let collage_selector
 
+    let filter = {
+        red: true,
+        yellow: true,
+        green: true,
+        gray: true,
+        lightgray: true,
+        aquamarine: true,
+        wheat: true
+    }
+
     window.onload = () => {
         overview_table = new Table('over_view_table', 5)
         collage_selector = new mdui.Select('#collage_selector');
@@ -63,6 +73,10 @@
         })
         collage_selector.handleUpdate()
         update(selected)
+    }
+
+    function _filter() {
+        overview_table.filter_color(overviews, filter)
     }
 
     function change_collage() {
@@ -94,8 +108,9 @@
             async: true, cache: false, type: 'post',
             success: (data) => {
                 console.log(data)
-                overview_table.removeAll()
-                overview_table.addAll(eval(data))
+                overviews = eval(data)
+
+                overview_table.filter_color(overviews, filter)
             }
         })
     }
@@ -122,24 +137,25 @@
     <select id="collage_selector" class="mdui-select" onchange="change_collage()"
             mdui-select="{position: 'bottom'}"></select>
     <label class="mdui-checkbox">
-        <input type="checkbox"/>
+        <input checked id="red_filter" onchange="filter.red = document.getElementById('red_filter').checked;_filter();" type="checkbox"/>
         <i class="mdui-checkbox-icon"></i>
         红码
     </label>
 
     <label class="mdui-checkbox">
-        <input type="checkbox"/>
+        <input id="yellow_filter" checked onchange="filter.yellow = document.getElementById('yellow_filter').checked;_filter();" type="checkbox"/>
         <i class="mdui-checkbox-icon"></i>
         黄码
     </label>
 
     <label class="mdui-checkbox">
-        <input type="checkbox"/>
+        <input id="green_filter" checked onchange="filter.green = document.getElementById('green_filter').checked;_filter();" type="checkbox"/>
         <i class="mdui-checkbox-icon"></i>
         绿码
     </label>
+
     <label class="mdui-checkbox">
-        <input type="checkbox"/>
+        <input id="lightgray_filter" checked onchange="filter.lightgray = document.getElementById('lightgray_filter').checked;_filter();" type="checkbox"/>
         <i class="mdui-checkbox-icon"></i>
         未申报
     </label>

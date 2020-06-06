@@ -47,10 +47,20 @@
 
     let selected = -1
     let date = new Date()
-    let overviews = []
+    let punchviews = []
     let punchview_table
     let collage_selector
     let date_selector
+
+    let filter = {
+        red: true,
+        yellow: true,
+        green: true,
+        gray: true,
+        lightgray: true,
+        aquamarine: true,
+        wheat: true
+    }
 
     window.onload = () => {
         date_selector = document.getElementById('date_selector')
@@ -82,6 +92,10 @@
         update()
     }
 
+    function _filter() {
+        punchview_table.filter_color(punchviews, filter)
+    }
+
     function export_data() {
         if (selected > 0) {
             window.location.assign('action/admin/punchview/export?date=' + date + '&collage=' + selected)
@@ -106,8 +120,8 @@
             async: true, cache: false, type: 'post',
             success: (data) => {
                 console.log(data)
-                punchview_table.removeAll()
-                punchview_table.addAll(eval(data))
+                punchviews = eval(data)
+                punchview_table.filter_color(punchviews, filter)
             }
         })
     }
@@ -134,6 +148,49 @@
             mdui-select="{position: 'bottom'}"></select>
     <label for="date_selector">日期</label>
     <input onchange="change_date()" id="date_selector" type="date" style="border: none;">
+
+    <label class="mdui-checkbox">
+        <input checked id="red_filter" onchange="filter.red = document.getElementById('red_filter').checked;_filter();"
+               type="checkbox"/>
+        <i class="mdui-checkbox-icon"></i>
+        红码
+    </label>
+
+    <label class="mdui-checkbox">
+        <input id="yellow_filter" checked
+               onchange="filter.yellow = document.getElementById('yellow_filter').checked;_filter();" type="checkbox"/>
+        <i class="mdui-checkbox-icon"></i>
+        黄码
+    </label>
+
+    <label class="mdui-checkbox">
+        <input id="green_filter" checked
+               onchange="filter.green = document.getElementById('green_filter').checked;_filter();" type="checkbox"/>
+        <i class="mdui-checkbox-icon"></i>
+        绿码
+    </label>
+
+    <label class="mdui-checkbox">
+        <input id="wheat_filter" checked
+               onchange="filter.wheat = document.getElementById('wheat_filter').checked;_filter();" type="checkbox"/>
+        <i class="mdui-checkbox-icon"></i>
+        未打卡
+    </label>
+
+    <label class="mdui-checkbox">
+        <input id="lightgray_filter" checked
+               onchange="filter.lightgray = document.getElementById('lightgray_filter').checked;_filter();" type="checkbox"/>
+        <i class="mdui-checkbox-icon"></i>
+        未申报
+    </label>
+
+    <label class="mdui-checkbox">
+        <input id="aquamarine_filter" checked
+               onchange="filter.aquamarine = document.getElementById('aquamarine_filter').checked;_filter();" type="checkbox"/>
+        <i class="mdui-checkbox-icon"></i>
+        无需打卡
+    </label>
+
     <div class="mdui-table-fluid">
         <table id="punch_view_table" class="mdui-table mdui-table-hoverable " style="min-width: 1080px">
             <tr>
