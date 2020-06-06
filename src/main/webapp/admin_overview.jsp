@@ -131,42 +131,13 @@
 </header>
 <div class="mdui-col-md-12 mdui-col-sm-12 mdui-typo">
     <h1 class="mdui-center mdui-text-color-theme mdui-text-center">健康信息</h1>
-    <p class="mdui-text-center">健康码概览</p>
-    <p class="mdui-text-color-grey">筛选</p>
-    <label for="collage_selector">学院</label>
-    <select id="collage_selector" class="mdui-select" onchange="change_collage()"
-            mdui-select="{position: 'bottom'}"></select>
-    <label class="mdui-checkbox">
-        <input checked id="red_filter" onchange="filter.red = document.getElementById('red_filter').checked;_filter();" type="checkbox"/>
-        <i class="mdui-checkbox-icon"></i>
-        红码
-    </label>
-
-    <label class="mdui-checkbox">
-        <input id="yellow_filter" checked onchange="filter.yellow = document.getElementById('yellow_filter').checked;_filter();" type="checkbox"/>
-        <i class="mdui-checkbox-icon"></i>
-        黄码
-    </label>
-
-    <label class="mdui-checkbox">
-        <input id="green_filter" checked onchange="filter.green = document.getElementById('green_filter').checked;_filter();" type="checkbox"/>
-        <i class="mdui-checkbox-icon"></i>
-        绿码
-    </label>
-
-    <label class="mdui-checkbox">
-        <input id="lightgray_filter" checked onchange="filter.lightgray = document.getElementById('lightgray_filter').checked;_filter();" type="checkbox"/>
-        <i class="mdui-checkbox-icon"></i>
-        未申报
-    </label>
-
     <div class="mdui-table-fluid">
         <table id="over_view_table" class="mdui-table mdui-table-hoverable " style="min-width: 1080px">
             <tr>
-                <th>学院</th>
+                <th id="college">学院&nbsp;<i class="mdui-icon material-icons">filter_list</i></th>
                 <th>学号/工号</th>
                 <th>姓名</th>
-                <th>健康码颜色</th>
+                <th id="color">健康码颜色&nbsp;<i class="mdui-icon material-icons">filter_list</i></th>
                 <th>备注</th>
             </tr>
         </table>
@@ -180,6 +151,113 @@
         回到首页
     </button>
 </div>
+<div class="mdui-dialog" id="dialog" style="min-height: 30%">
+    <div class="mdui-container">
+        <div style="height: 32px"></div>
+        <h2 class="mdui-text-center mdui-text-color-theme-accent">
+            筛选信息
+        </h2>
+        <div class="mdui-col-md-3">
+
+        </div>
+        <div class="mdui-col-md-6">
+            <div style="display: block">
+                <label for="collage_selector">学院</label>
+                <select id="collage_selector" class="mdui-select" onchange="change_collage()"
+                        mdui-select="{position: 'bottom'}"></select>
+            </div>
+            <div style="display: block;margin-top: 16px">
+                <div class="mdui-container">
+                    <div class="mdui-col-md-6">
+                        <label class="mdui-checkbox">
+                            <input checked id="red_filter"
+                                   onchange="filter.red = document.getElementById('red_filter').checked;_filter();"
+                                   type="checkbox"/>
+                            <i class="mdui-checkbox-icon"></i>
+                            红码
+                        </label>
+                    </div>
+                    <div class="mdui-col-md-6">
+                        <label class="mdui-checkbox">
+                            <input id="yellow_filter" checked
+                                   onchange="filter.yellow = document.getElementById('yellow_filter').checked;_filter();"
+                                   type="checkbox"/>
+                            <i class="mdui-checkbox-icon"></i>
+                            黄码
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div style="display: block">
+                <div class="mdui-container">
+                    <div class="mdui-col-md-6">
+                        <label class="mdui-checkbox">
+                            <input id="green_filter" checked
+                                   onchange="filter.green = document.getElementById('green_filter').checked;_filter();"
+                                   type="checkbox"/>
+                            <i class="mdui-checkbox-icon"></i>
+                            绿码
+                        </label>
+                    </div>
+                    <div class="mdui-col-md-6">
+                        <label class="mdui-checkbox">
+                            <input id="lightgray_filter" checked
+                                   onchange="filter.lightgray = document.getElementById('lightgray_filter').checked;_filter();"
+                                   type="checkbox"/>
+                            <i class="mdui-checkbox-icon"></i>
+                            未申报
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <button class="mdui-btn mdui-color-theme-accent mdui-center" id="close_dialog"
+                    style="margin-top: 16px;margin-bottom: 16px">
+                确定
+            </button>
+        </div>
+        <div class="mdui-col-md-3">
+
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    const inst = new mdui.Dialog('#dialog');
+    document.getElementById('college').addEventListener('click', function () {
+        inst.open();
+    });
+    document.getElementById('color').addEventListener('click', function () {
+        inst.open();
+    });
+    document.getElementById('close_dialog').addEventListener('click', function () {
+        inst.close();
+    })
+    const dialog = document.getElementById('dialog');
+
+    dialog.addEventListener('open.mdui.dialog', function () {
+        console.log('open');
+    });
+
+    dialog.addEventListener('opened.mdui.dialog', function () {
+        console.log('opened');
+    });
+
+    dialog.addEventListener('close.mdui.dialog', function () {
+        console.log('close');
+    });
+
+    dialog.addEventListener('closed.mdui.dialog', function () {
+        console.log('closed');
+    });
+
+    dialog.addEventListener('cancel.mdui.dialog', function () {
+        console.log('cancel');
+    });
+
+    dialog.addEventListener('confirm.mdui.dialog', function () {
+        console.log('confirm');
+    });
+
+</script>
 </body>
 <script src="js/script.js"></script>
 </html>
