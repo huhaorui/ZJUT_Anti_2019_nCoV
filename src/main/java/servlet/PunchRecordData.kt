@@ -131,8 +131,11 @@ object PunchRecordData {
                             when (row[value.first]) {
                                 "red" -> it.setCellValue("红色")
                                 "yellow" -> it.setCellValue("黄色")
-                                "green" -> it.setCellValue("正常")
-                                else -> it.setCellValue("未打卡")
+                                "green" -> it.setCellValue("绿色")
+                                "wheat" -> it.setCellValue("未打卡")
+                                "lightgray" -> it.setCellValue("未申报")
+                                "aquamarine" -> it.setCellValue("无需打卡")
+                                else -> it.setCellValue("其他")
                             }
                         }
                     } else {
@@ -168,7 +171,10 @@ object PunchRecordData {
                                 "red" -> it.setCellValue("红色")
                                 "yellow" -> it.setCellValue("黄色")
                                 "green" -> it.setCellValue("绿色")
-                                else -> it.setCellValue("未健康申报")
+                                "wheat" -> it.setCellValue("未打卡")
+                                "lightgray" -> it.setCellValue("未申报")
+                                "aquamarine" -> it.setCellValue("无需打卡")
+                                else -> it.setCellValue("其他")
                             }
                         }
                     } else {
