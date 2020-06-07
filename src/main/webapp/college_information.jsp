@@ -12,10 +12,36 @@
     <link rel="stylesheet" type="text/css" href="css/style.css">
     <script src="js/mdui.min.js"></script>
     <script src="js/jquery-3.5.1.js"></script>
-    <script src="js/table.js"></script>
 </head>
 <script type="text/javascript">
     $ = jQuery
+
+    class Table {
+        constructor(id, col) {
+            this.id = id
+            this.col = col
+        }
+
+        removeAll() {
+            $('#' + this.id + ' tr:not(:first)').remove();
+            mdui.updateTables()
+        }
+
+        addAll(items) {
+            items.forEach((item) => {
+                let tr = document.createElement('tr')
+                this.col.forEach(key => {
+                    let value = item[key]
+                    let td = document.createElement('td')
+                    td.innerHTML = value
+                    tr.appendChild(td)
+                })
+                $('#' + this.id).append(tr)
+            })
+
+            mdui.updateTables()
+        }
+    }
 
     class Selector {
         constructor(id) {
@@ -51,19 +77,16 @@
         }
     }
 
-    // let collage = -1
-    // let major = -1
-    // let clazz = -1
-    //
-    // let collages = [{id: -1, name: ""}]
-    // let majors = [{id: -1, name: ""}]
-    // let clazzes = [{id: -1, name: ""}]
     let select_collage
     let select_major
     let select_class
 
+    let table_student
+    let table_teacher
 
     window.onload = () => {
+        table_student = new Table('table_students', ['id', 'name', 'personId'])
+        table_teacher = new Table('table_teachers', ['id', 'name', 'personId'])
         select_collage = new Selector('collage_selector')
         select_collage.init()
         select_major = new Selector('major_selector')
@@ -119,6 +142,8 @@
             async: true, cache: false, type: 'post',
             success: (data) => {
                 console.log(data)
+                table_student.removeAll()
+                table_student.addAll(data)
             }
         })
     }
@@ -129,6 +154,8 @@
             async: true, cache: false, type: 'post',
             success: (data) => {
                 console.log(data)
+                table_teacher.removeAll()
+                table_teacher.addAll(data)
             }
         })
     }
@@ -146,7 +173,8 @@
         <div class="mdui-toolbar-spacer"></div>
     </div>
 </header>
-<div class="mdui-col-md-12 mdui-col-sm-12 mdui-typo">
+<div class="mdui-col-md-2 mdui-hidden-sm-down"></div>
+<div class="mdui-col-md-8 mdui-col-sm-12 mdui-typo">
     <h1 class="mdui-center mdui-text-color-theme mdui-text-center">学院信息</h1>
 
     <label for="collage_selector">学院</label>
@@ -162,16 +190,26 @@
             mdui-select="{position: 'bottom'}"></select>
 
     <div class="mdui-table-fluid">
-        <table id="over_view_table" class="mdui-table mdui-table-hoverable">
+        <table id="table_teachers" class="mdui-table mdui-table-hoverable">
             <tr>
-                <th id="college">学院</th>
-                <th>学号/工号</th>
+                <th>工号</th>
                 <th>姓名</th>
-                <th>备注</th>
+                <th>身份证</th>
+            </tr>
+        </table>
+    </div>
+
+    <div class="mdui-table-fluid">
+        <table id="table_students" class="mdui-table mdui-table-hoverable">
+            <tr>
+                <th>学号</th>
+                <th>姓名</th>
+                <th>身份证</th>
             </tr>
         </table>
     </div>
 </div>
+<div class="mdui-col-md-2 mdui-hidden-sm-down"></div>
 </body>
 <script src="js/script.js"></script>
 </html>
