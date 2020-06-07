@@ -10,6 +10,10 @@
 
 <jsp:useBean id="admin" scope="session" class="model.Admin"/>
 <%
+    if (admin.equals(new Admin())) {
+        response.sendRedirect("login.jsp?user=admin");
+        return;
+    }
     List<Collage> collages = PunchRecordData.availableCollage(admin);
 %>
 <html>
@@ -151,7 +155,7 @@
         回到首页
     </button>
 </div>
-<div class="mdui-dialog" id="dialog" style="min-height: 30%">
+<div class="mdui-dialog" id="dialog" style="min-height: 40%">
     <div class="mdui-container">
         <div style="height: 32px"></div>
         <h2 class="mdui-text-center mdui-text-color-theme-accent">

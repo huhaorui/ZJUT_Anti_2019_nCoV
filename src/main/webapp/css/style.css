@@ -17,3 +17,7 @@ p:hover .clickable {
     position: absolute;
     z-index: -1;
 }
+
+.mdui-select-menu {
+    max-height: 200px !important;
+}
