@@ -63,7 +63,7 @@ public class GetQrCode extends HttpServlet {
         int white = 0xFFFFFFFF;
         int width = 400;
         int height = 400;
-        String text, token = null;
+        String text, token;
         text = request.getParameter("text");
         token = request.getParameter("token");
         String format = "png";

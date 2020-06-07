@@ -97,6 +97,10 @@ public class LoginServlet extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        if (request.getParameter("card") != null) {
+            doPost(request, response);
+            return;
+        }
         response.sendRedirect("login.jsp");
     }
 }
