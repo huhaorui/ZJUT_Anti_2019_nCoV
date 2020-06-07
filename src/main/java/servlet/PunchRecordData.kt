@@ -22,6 +22,22 @@ object PunchRecordData {
                 .groupBy { it.getPerson()?.type ?: -1 }
     }
 
+    fun majorOfCollage(collage: Int): ArrayList<Major> {
+        return sql.queryList(Major::class.java, "collage" to collage)
+    }
+
+    fun classOfMajor(major: Int): ArrayList<Clazz> {
+        return sql.queryList(Clazz::class.java, "major" to major)
+    }
+
+    fun studentOfClass(clazz: Int): ArrayList<Student> {
+        return sql.queryList(Student::class.java, "class" to clazz)
+    }
+
+    fun teacherOfCollage(collage: Int): ArrayList<Teacher> {
+        return sql.queryList(Teacher::class.java, "collage" to collage)
+    }
+
     fun healthViewAll(): List<HealthView> {
         val healthInfos = sql.queryList(HealthInfo::class.java)
         val persons = sql.queryList(Person::class.java).apply { sortBy { it.uid } }.apply { sortBy { it.uid } }
@@ -72,7 +88,7 @@ object PunchRecordData {
             val collage = person.collage
             val uid = person.uid
             val name = person.name
-            val code = healthInfo?.codeColor?.toString()?:"lightgray"
+            val code = healthInfo?.codeColor?.toString() ?: "lightgray"
             val info = when {
                 healthInfo == null -> "未申报"
                 code == "green" -> "已经是绿码"
@@ -194,7 +210,7 @@ object PunchRecordData {
 
     class PunchView(val person: Person, val healthInfo: HealthInfo?, val punchRecord: PunchRecord?)
 
-    private fun String.toIntOrDefault(value: Int = -1): Int {
+    fun String.toIntOrDefault(value: Int = -1): Int {
         return toIntOrNull() ?: value
     }
 

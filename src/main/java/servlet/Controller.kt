@@ -2,13 +2,14 @@ package servlet
 
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
-import model.Admin
-import model.Collage
+import model.*
 import model.FullTarget.Level.*
+import servlet.PunchRecordData.availableCollage
 import servlet.PunchRecordData.healthInfo
 import servlet.PunchRecordData.punchInfo
 import servlet.PunchRecordData.exportHealthView
 import servlet.PunchRecordData.exportPunchView
+import servlet.PunchRecordData.toIntOrDefault
 import util.Router
 import java.io.IOException
 import java.net.URLEncoder
@@ -90,44 +91,41 @@ class Controller : HttpServlet(), Router {
         }
 
         request("/action/admin/overview/export") { req, resp ->
-            admin(req, resp, arrayListOf(SYSTEM, COLLAGE, SCHOOL),
-                    { println("权限不足") },
-                    { admin, level, _ ->
-                        val healthViews: List<PunchRecordData.HealthView>
-                        val fields = req.fields()
+            admin(req, resp, arrayListOf(SYSTEM, COLLAGE, SCHOOL)) { admin, level, _ ->
+                val healthViews: List<PunchRecordData.HealthView>
+                val fields = req.fields()
 
-                        when (level) {
-                            SYSTEM, SCHOOL -> {
-                                val collage = fields["collage"]
-                                healthViews = if (collage == null) {
-                                    PunchRecordData.healthViewAll()
-                                } else {
-                                    PunchRecordData.healthViewByCollage(collage)
-                                }
-                            }
-
-                            COLLAGE -> {
-                                val target: Collage? = admin.target
-                                healthViews = if (target != null) {
-                                    PunchRecordData.healthViewByCollage(target.id.toString())
-                                } else {
-                                    ArrayList()
-                                }
-                            }
-                            else -> healthViews = ArrayList()
+                when (level) {
+                    SYSTEM, SCHOOL -> {
+                        val collage = fields["collage"]
+                        healthViews = if (collage == null) {
+                            PunchRecordData.healthViewAll()
+                        } else {
+                            PunchRecordData.healthViewByCollage(collage)
                         }
-
-                        val workbook = healthViews.exportHealthView()
-
-                        resp.reset()
-                        resp.setHeader("Content-Disposition", "attachment;filename=${URLEncoder.encode("健康码数据.xlsx", "utf-8")}")
-                        resp.setHeader("Connection", "close")
-                        resp.setHeader("Content-Type", "application/octet-stream")
-                        val stream = resp.outputStream
-                        workbook.write(stream)
-                        stream.close()
                     }
-            )
+
+                    COLLAGE -> {
+                        val target: Collage? = admin.target
+                        healthViews = if (target != null) {
+                            PunchRecordData.healthViewByCollage(target.id.toString())
+                        } else {
+                            ArrayList()
+                        }
+                    }
+                    else -> healthViews = ArrayList()
+                }
+
+                val workbook = healthViews.exportHealthView()
+
+                resp.reset()
+                resp.setHeader("Content-Disposition", "attachment;filename=${URLEncoder.encode("健康码数据.xlsx", "utf-8")}")
+                resp.setHeader("Connection", "close")
+                resp.setHeader("Content-Type", "application/octet-stream")
+                val stream = resp.outputStream
+                workbook.write(stream)
+                stream.close()
+            }
         }
 
         request("/action/admin/punchview") { req, resp ->
@@ -171,55 +169,120 @@ class Controller : HttpServlet(), Router {
         }
 
         request("/action/admin/punchview/export") { req, resp ->
-            admin(req, resp, arrayListOf(SYSTEM, COLLAGE, SCHOOL),
-                    { println("权限不足") },
-                    { admin, level, _ ->
-                        val punchViews: List<PunchRecordData.PunchView>
-                        val fields = req.fields()
-                        val date = fields["date"] ?: ""
+            admin(req, resp, arrayListOf(SYSTEM, COLLAGE, SCHOOL)) { admin, level, _ ->
+                val punchViews: List<PunchRecordData.PunchView>
+                val fields = req.fields()
+                val date = fields["date"] ?: ""
 
-                        when (level) {
-                            SYSTEM, SCHOOL -> {
-                                val collage = fields["collage"]
-                                punchViews = if (collage == null) {
-                                    PunchRecordData.punchViewAll(date.sqlDate())
-                                } else {
-                                    PunchRecordData.punchViewByCollage(collage, date.sqlDate())
-                                }
-                            }
-
-                            COLLAGE -> {
-                                val target: Collage? = admin.target
-                                punchViews = if (target != null) {
-                                    PunchRecordData.punchViewByCollage(target.id.toString(), date.sqlDate())
-                                } else {
-                                    ArrayList()
-                                }
-                            }
-                            else -> punchViews = ArrayList()
+                when (level) {
+                    SYSTEM, SCHOOL -> {
+                        val collage = fields["collage"]
+                        punchViews = if (collage == null) {
+                            PunchRecordData.punchViewAll(date.sqlDate())
+                        } else {
+                            PunchRecordData.punchViewByCollage(collage, date.sqlDate())
                         }
-
-                        val workbook = punchViews.exportPunchView()
-
-                        resp.reset()
-                        resp.setHeader("Content-Disposition", "attachment;filename=${URLEncoder.encode(date + "健康打卡数据.xlsx", "utf-8")}")
-                        resp.setHeader("Connection", "close")
-                        resp.setHeader("Content-Type", "application/octet-stream")
-                        val stream = resp.outputStream
-                        workbook.write(stream)
-                        stream.close()
                     }
-            )
+
+                    COLLAGE -> {
+                        val target: Collage? = admin.target
+                        punchViews = if (target != null) {
+                            PunchRecordData.punchViewByCollage(target.id.toString(), date.sqlDate())
+                        } else {
+                            ArrayList()
+                        }
+                    }
+                    else -> punchViews = ArrayList()
+                }
+
+                val workbook = punchViews.exportPunchView()
+
+                resp.reset()
+                resp.setHeader("Content-Disposition", "attachment;filename=${URLEncoder.encode(date + "健康打卡数据.xlsx", "utf-8")}")
+                resp.setHeader("Connection", "close")
+                resp.setHeader("Content-Type", "application/octet-stream")
+                val stream = resp.outputStream
+                workbook.write(stream)
+                stream.close()
+            }
+        }
+
+        request("/action/admin/view/collage") { req, resp ->
+            resp.contentType = "application/json;charset=UTF-8"
+            admin(req, resp, arrayListOf(SYSTEM, SCHOOL, COLLAGE)) { admin, _, _ ->
+                resp.writer.write(gson.toJson(availableCollage(admin)))
+            }
+        }
+
+        request("/action/admin/view/major") { req, resp ->
+            resp.contentType = "application/json;charset=UTF-8"
+            admin(req, resp, arrayListOf(SYSTEM, SCHOOL, COLLAGE)) { admin, _, _ ->
+                val fields = req.fields()
+                val collage = (fields["collage"] ?: "-1").toIntOrDefault()
+                val collages = availableCollage(admin)
+                if (collage !in collages.map { it.id }) {
+                    resp.writer.write(gson.toJson(ArrayList<Major>()))
+                } else {
+                    val majors = PunchRecordData.majorOfCollage(collage)
+                    resp.writer.write(gson.toJson(majors))
+                }
+            }
+        }
+
+        request("/action/admin/view/class") { req, resp ->
+            resp.contentType = "application/json;charset=UTF-8"
+            admin(req, resp, arrayListOf(SYSTEM, SCHOOL, COLLAGE)) { admin, _, _ ->
+                val fields = req.fields()
+                val majorId = (fields["major"] ?: "-1").toIntOrDefault()
+                val major = SQL().query(Major::class.java, "id" to majorId)
+                val collage = major?.collage
+                if (collage == null || collage !in availableCollage(admin)) {
+                    resp.writer.write(gson.toJson(ArrayList<Clazz>()))
+                } else {
+                    val classes = PunchRecordData.classOfMajor(major.id)
+                    resp.writer.write(gson.toJson(classes))
+                }
+            }
+        }
+
+        request("/action/admin/view/student") { req, resp ->
+            resp.contentType = "application/json;charset=UTF-8"
+            admin(req, resp, arrayListOf(SYSTEM, SCHOOL, COLLAGE)) { admin, _, _ ->
+                val fields = req.fields()
+                val clazzId = (fields["class"] ?: "-1").toIntOrDefault()
+                val clazz = SQL().query(Clazz::class.java, "id" to clazzId)
+                val collage = clazz?.major?.collage
+                if (clazz == null || collage !in availableCollage(admin)) {
+                    resp.writer.write(gson.toJson(ArrayList<Student>()))
+                } else {
+                    val students = PunchRecordData.studentOfClass(clazz.id)
+                    resp.writer.write(gson.toJson(students))
+                }
+            }
+        }
+
+        request("/action/admin/view/teacher") { req, resp ->
+            resp.contentType = "application/json;charset=UTF-8"
+            admin(req, resp, arrayListOf(SYSTEM, SCHOOL, COLLAGE)) { admin, _, _ ->
+                val fields = req.fields()
+                val collageId = (fields["collage"] ?: "-1").toIntOrDefault()
+                val collage = availableCollage(admin).firstOrNull { it.id == collageId }
+                if (collage == null) {
+                    resp.writer.write(gson.toJson(ArrayList<Teacher>()))
+                } else {
+                    val teachers = PunchRecordData.teacherOfCollage(collage.id)
+                    resp.writer.write(gson.toJson(teachers))
+                }
+            }
         }
 
         request("/action/punch_record/avail_list") { req, resp ->
             resp.contentType = "application/json;charset=UTF-8"
             val admin = req.session.getAttribute("admin")
             if (admin !is Admin || admin == Admin()) {
-                println("admin不存在")
-                resp.writer.write(gson.toJson(ArrayList<PunchRecordData.HealthView>()))
+                resp.writer.write(gson.toJson(ArrayList<Collage>()))
             } else {
-                resp.writer.write(gson.toJson(PunchRecordData.availableCollage(admin)))
+                resp.writer.write(gson.toJson(availableCollage(admin)))
             }
         }
     }

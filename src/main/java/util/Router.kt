@@ -44,6 +44,13 @@ interface Router {
         }
     }
 
+    fun admin(req: HttpServletRequest, resp: HttpServletResponse, require: ArrayList<Level>, success: (Admin, Level, Boolean) -> Unit) {
+        val admin = req.session.getAttribute("admin")
+        if (admin is Admin && admin != Admin() && admin.fullTarget.level in require) {
+            success.invoke(admin, admin.fullTarget.level, admin.fullTarget.healthCode)
+        }
+    }
+
     fun admin(admin: Admin, require: ArrayList<Level>, fail: () -> Unit, success: (Admin, Level, Boolean) -> Unit) {
         if (admin.fullTarget.level !in require) {
             fail.invoke()

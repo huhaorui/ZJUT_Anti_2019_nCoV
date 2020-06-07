@@ -1,5 +1,7 @@
 package model;
 
+import kotlin.Pair;
+
 import java.text.MessageFormat;
 
 @Model("major")
@@ -12,8 +14,8 @@ public class Major {
     private String name;
 
     @Field("collage")
-    @ForeignKey("id")
-    private Collage collage;
+//    @ForeignKey("id")
+    private Integer collage;
 
     public Major() {
     }
@@ -21,15 +23,15 @@ public class Major {
     public Major(Integer id, String name, Collage collage) {
         this.id = id;
         this.name = name;
-        this.collage = collage;
+        this.collage = collage.getId();
     }
 
     public Collage getCollage() {
-        return collage;
+        return new SQL().query(Collage.class, new Pair<>("id", collage));
     }
 
     public void setCollage(Collage collage) {
-        this.collage = collage;
+        this.collage = collage.getId();
     }
 
     @Override

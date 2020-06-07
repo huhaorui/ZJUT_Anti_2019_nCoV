@@ -1,6 +1,7 @@
 package model;
 
 import java.text.MessageFormat;
+import java.util.Objects;
 
 @Model("collage")
 @Cached
@@ -39,5 +40,20 @@ public class Collage {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Collage collage = (Collage) o;
+
+        return Objects.equals(id, collage.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return id != null ? id.hashCode() : 0;
     }
 }

@@ -1,8 +1,7 @@
-<%@ page import="kotlin.Pair" %>
-<%@ page import="model.Major" %>
-<%@ page import="model.SQL" %>
-<%@ page import="java.util.ArrayList" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%--
+    @author wcf
+--%>
 <html>
 <head>
     <meta charset="UTF-8">
@@ -12,10 +11,126 @@
     <link rel="stylesheet" type="text/css" href="css/mdui.min.css">
     <link rel="stylesheet" type="text/css" href="css/style.css">
     <script src="js/mdui.min.js"></script>
+    <script src="js/jquery-3.5.1.js"></script>
+    <script src="js/table.js"></script>
 </head>
 <script type="text/javascript">
-    window.onload = () => {
+    $ = jQuery
 
+    class Selector {
+        constructor(id) {
+            this.id = id
+            this.inst = new mdui.Select('#' + this.id)
+            this.data = []
+        }
+
+        removeAll() {
+            // $('#' + this.id + ' option:not(:first)').remove();
+            $('#' + this.id).empty()
+            this.inst.handleUpdate()
+        }
+
+        init() {
+            $('#' + this.id).append('<option selected="selected" value="-1">请选择</option>')
+            this.data.forEach((item) => {
+                $('#' + this.id).append('<option value="' + item.id + '">' + item.name + '</option>')
+            })
+            this.inst.handleUpdate()
+        }
+
+        curr() {
+            let target = document.getElementById(this.id)
+            let index = target.selectedIndex
+            return target.options[index].value
+        }
+
+        update(data) {
+            this.data = data
+            this.removeAll()
+            this.init()
+        }
+    }
+
+    // let collage = -1
+    // let major = -1
+    // let clazz = -1
+    //
+    // let collages = [{id: -1, name: ""}]
+    // let majors = [{id: -1, name: ""}]
+    // let clazzes = [{id: -1, name: ""}]
+    let select_collage
+    let select_major
+    let select_class
+
+
+    window.onload = () => {
+        select_collage = new Selector('collage_selector')
+        select_collage.init()
+        select_major = new Selector('major_selector')
+        select_major.init()
+        select_class = new Selector('class_selector')
+        select_class.init()
+        get_collage()
+    }
+
+    function get_collage() {
+        collage_selector.selected = -1
+        $.ajax({
+            url: 'action/admin/view/collage',
+            async: true, cache: false, type: 'post',
+            success: (data) => {
+                console.log(data)
+                select_collage.update(data)
+                get_major()
+            }
+        })
+    }
+
+    function get_major() {
+        get_teacher()
+        select_major.selected = -1
+        $.ajax({
+            url: 'action/admin/view/major', data: {collage: select_collage.curr()},
+            async: true, cache: false, type: 'post',
+            success: (data) => {
+                console.log(data)
+                select_major.update(data)
+                get_clazz()
+            }
+        })
+    }
+
+    function get_clazz() {
+        select_class.selected = -1
+        $.ajax({
+            url: 'action/admin/view/class', data: {major: select_major.curr()},
+            async: true, cache: false, type: 'post',
+            success: (data) => {
+                console.log(data)
+                select_class.update(data)
+                get_student()
+            }
+        })
+    }
+
+    function get_student() {
+        $.ajax({
+            url: 'action/admin/view/student', data: {class: select_class.curr()},
+            async: true, cache: false, type: 'post',
+            success: (data) => {
+                console.log(data)
+            }
+        })
+    }
+
+    function get_teacher() {
+        $.ajax({
+            url: 'action/admin/view/teacher', data: {collage: select_collage.curr()},
+            async: true, cache: false, type: 'post',
+            success: (data) => {
+                console.log(data)
+            }
+        })
     }
 </script>
 <body class="mdui-appbar-with-toolbar mdui-loaded mdui-theme-primary-indigo mdui-theme-accent-deep-purple">
@@ -31,17 +146,21 @@
         <div class="mdui-toolbar-spacer"></div>
     </div>
 </header>
-<%
-    SQL sql = new SQL();
-    int collegeId = -1;
-    try {
-        collegeId = Integer.parseInt(request.getParameter("collage"));
-    } catch (Exception ignore) {
-    }
-    
-%>
 <div class="mdui-col-md-12 mdui-col-sm-12 mdui-typo">
     <h1 class="mdui-center mdui-text-color-theme mdui-text-center">学院信息</h1>
+
+    <label for="collage_selector">学院</label>
+    <select id="collage_selector" class="mdui-select" onchange="get_major()"
+            mdui-select="{position: 'bottom'}"></select>
+
+    <label for="major_selector">专业</label>
+    <select id="major_selector" class="mdui-select" onchange="get_clazz()"
+            mdui-select="{position: 'bottom'}"></select>
+
+    <label for="class_selector">班级</label>
+    <select id="class_selector" class="mdui-select" onchange="get_student()"
+            mdui-select="{position: 'bottom'}"></select>
+
     <div class="mdui-table-fluid">
         <table id="over_view_table" class="mdui-table mdui-table-hoverable">
             <tr>
