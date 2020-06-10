@@ -56,7 +56,6 @@ class Controller : HttpServlet(), Router {
 
         request("/action/admin/overview") { req, resp ->
             resp.contentType = "application/json;charset=UTF-8"
-
             admin(req, resp, arrayListOf(SYSTEM, COLLAGE, SCHOOL),
                     {
                         resp.writer.write(gson.toJson(ArrayList<PunchRecordData.HealthView>().healthInfo()))

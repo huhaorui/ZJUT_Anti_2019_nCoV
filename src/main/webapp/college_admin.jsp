@@ -78,7 +78,7 @@
                 </div>
             </div>
         </div>
-
+        <div class="mdui-col-md-3 mdui-col-sm-12"></div>
         <div style="padding: 8px" class="mdui-col-md-6 mdui-col-sm-12">
             <div class="mdui-card" onclick="window.location.assign('admin_punchview.jsp')">
                 <div class="mdui-card-media">
@@ -92,6 +92,7 @@
                 </div>
             </div>
         </div>
+        <div class="mdui-col-md-3 mdui-col-sm-12"></div>
     </div>
     <div style="height: 16px"></div>
 </div>

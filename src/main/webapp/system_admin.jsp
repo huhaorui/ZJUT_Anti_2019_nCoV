@@ -82,19 +82,7 @@
         </div>
     </div>
     <div class="mdui-row">
-        <div style="padding: 8px" class="mdui-col-md-6 mdui-col-sm-12">
-            <div class="mdui-card" onclick="window.location.assign('health_code_manager.jsp')">
-                <div class="mdui-card-media">
-                    <img src="image/card.jpg"/>
-                    <div class="mdui-card-media-covered">
-                        <div class="mdui-card-primary">
-                            <div class="mdui-card-primary-title">健康码管理</div>
-                            <div class="mdui-card-primary-subtitle">Health code</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <div class="mdui-col-md-3 mdui-col-sm-12"></div>
         <div style="padding: 8px" class="mdui-col-md-6 mdui-col-sm-12">
             <div class="mdui-card" onclick="window.location.assign('upload_database.jsp')">
                 <div class="mdui-card-media">
@@ -108,6 +96,7 @@
                 </div>
             </div>
         </div>
+        <div class="mdui-col-md-3 mdui-col-sm-12"></div>
     </div>
 </div>
 <form id="logout" method="post" action="logOut">
