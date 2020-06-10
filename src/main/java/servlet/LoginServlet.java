@@ -101,6 +101,6 @@ public class LoginServlet extends HttpServlet {
             doPost(request, response);
             return;
         }
-        response.sendRedirect("login");
+        response.sendRedirect("login/student");
     }
 }
