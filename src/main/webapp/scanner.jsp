@@ -12,10 +12,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0, user-scalable=no"/>
     <meta name="theme-color" content="#3f51b5">
     <title>浙江工业大学</title>
-    <link rel="stylesheet" type="text/css" href="css/mdui.min.css">
-    <link rel="stylesheet" type="text/css" href="css/style.css">
-    <script src="js/md5.min.js"></script>
-    <script src="js/mdui.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="../../css/mdui.min.css">
+    <link rel="stylesheet" type="text/css" href="../../css/style.css">
+    <script src="../../js/md5.min.js"></script>
+    <script src="../../js/mdui.min.js"></script>
 </head>
 <jsp:useBean id="person" class="model.Person" scope="session"/>
 <jsp:useBean id="admin" class="model.Admin" scope="session"/>
@@ -28,7 +28,7 @@
 <header class="mdui-appbar mdui-appbar-fixed" id="header">
     <div class="mdui-toolbar mdui-color-theme">
        <span class="mdui-btn mdui-btn-icon mdui-ripple mdui-ripple-white"
-             onclick="window.location.assign('main.jsp')">
+             onclick="window.location.assign('router')">
             <i class="mdui-icon material-icons">home</i>
         </span>
         <a href="" class="mdui-typo-headline mdui-hidden-xs"
@@ -44,7 +44,7 @@
 </header>
 <%
     if (admin.equals(new Admin())) {
-        response.sendRedirect("adminRouter");
+        response.sendRedirect("router");
         return;
     }
 %>
@@ -66,7 +66,7 @@
 
     <div class="mdui-row">
         <div class="mdui-col-md-3"></div>
-        <div class="mdui-card mdui-col-md-6" onclick="window.location.assign('student_information.jsp')">
+        <div class="mdui-card mdui-col-md-6" onclick="window.location.assign('information')">
             <div class="mdui-card-media">
                 <img src="image/card.jpg"/>
                 <div class="mdui-card-media-covered">
@@ -81,5 +81,5 @@
     </div>
 </div>
 </body>
-<script src="js/script.js"></script>
+<script src="../../js/script.js"></script>
 </html>

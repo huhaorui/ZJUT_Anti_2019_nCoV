@@ -14,16 +14,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0, user-scalable=no"/>
     <meta name="theme-color" content="#3f51b5">
     <title>浙江工业大学</title>
-    <link rel="stylesheet" type="text/css" href="css/mdui.min.css">
-    <link rel="stylesheet" type="text/css" href="css/style.css">
-    <script src="js/md5.min.js"></script>
-    <script src="js/mdui.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="../../css/mdui.min.css">
+    <link rel="stylesheet" type="text/css" href="../../css/style.css">
+    <script src="../../js/md5.min.js"></script>
+    <script src="../../js/mdui.min.js"></script>
 </head>
 <body class="mdui-appbar-with-toolbar  mdui-loaded mdui-theme-primary-indigo  mdui-theme-accent-deep-purple">
 <header class="mdui-appbar mdui-appbar-fixed" id="header">
     <div class="mdui-toolbar mdui-color-theme">
        <span class="mdui-btn mdui-btn-icon mdui-ripple mdui-ripple-white"
-             onclick="window.location.assign('main.jsp')">
+             onclick="window.location.assign('router')">
             <i class="mdui-icon material-icons">home</i>
         </span>
         <a href="" class="mdui-typo-headline mdui-hidden-xs"
@@ -34,7 +34,7 @@
 </header>
 <%
     if (admin.equals(new Admin())) {
-        response.sendRedirect("login.jsp?user=admin");
+        response.sendRedirect("../login/admin");
         return;
     }
 %>
@@ -47,7 +47,7 @@
                 document.getElementById("display").innerHTML = ajax.responseText;
             }
         }
-        ajax.open("GET", "getInfoById?id=" + id, true);
+        ajax.open("GET", "../getinfo?id=" + id, true);
         ajax.send();
     }
 </script>
@@ -77,5 +77,5 @@
 </div>
 </body>
 <script>const $$ = mdui.JQ;</script>
-<script src="js/script.js"></script>
+<script src="../../js/script.js"></script>
 </html>

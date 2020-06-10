@@ -28,7 +28,7 @@ class UploadDatabaseServlet : HttpServlet() {
         sql.setString(2, password)
         var resultSet = sql.executeQuery()
         if (!resultSet.next()) {
-            resp.sendRedirect("adminRouter")
+            resp.sendRedirect("../admin/router")
             return
         }
         sql = conn.prepareStatement("select * from captcha where session=? and captcha=?")
@@ -40,7 +40,7 @@ class UploadDatabaseServlet : HttpServlet() {
             sql.setString(1, session)
             sql.execute()
         } else {
-            resp.sendRedirect("adminRouter")
+            resp.sendRedirect("../admin/router")
             return
         }
         resp.contentType = "application/json;charset=UTF-8"
@@ -49,10 +49,10 @@ class UploadDatabaseServlet : HttpServlet() {
         val result = streams.firstOrNull { it.field == "data" && (it.filename.endsWith(".xls") || it.filename.endsWith(".xlsx")) }?.let { Import(it) }?.insert()
         multiFields.close()
         if (result?.firstOrNull { it.first.first == 0 } != null) {
-            resp.sendRedirect("logOut")
+            resp.sendRedirect("../logout")
             return
         } else {
-            resp.sendRedirect("uploadDatabase.jsp")
+            resp.sendRedirect("upload")
             return
         }
 //        val gson = GsonBuilder().setPrettyPrinting().enableComplexMapKeySerialization().serializeNulls().create()
@@ -61,6 +61,6 @@ class UploadDatabaseServlet : HttpServlet() {
 
     @Throws(ServletException::class, IOException::class)
     override fun doGet(request: HttpServletRequest, response: HttpServletResponse) {
-        response.sendRedirect("adminRouter")
+        response.sendRedirect("../admin/router")
     }
 }

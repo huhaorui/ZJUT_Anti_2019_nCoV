@@ -22,7 +22,7 @@
                 }
             ],
             onClosed: function () {
-                window.location.assign("main.jsp")
+                window.location.assign("action/student/main")
             },
             history: false,
         });
@@ -32,7 +32,7 @@
 <header class="mdui-appbar mdui-appbar-fixed" id="header">
     <div class="mdui-toolbar mdui-color-theme">
        <span class="mdui-btn mdui-btn-icon mdui-ripple mdui-ripple-white"
-             onclick="window.location.assign('main.jsp')">
+             onclick="window.location.assign('action/student/main')">
             <i class="mdui-icon material-icons">home</i>
         </span>
         <a href="" class="mdui-typo-headline mdui-hidden-xs"

@@ -12,15 +12,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0, user-scalable=no"/>
     <meta name="theme-color" content="#3f51b5">
     <title>浙江工业大学</title>
-    <link rel="stylesheet" type="text/css" href="css/mdui.min.css">
-    <link rel="stylesheet" type="text/css" href="css/style.css">
-    <script src="js/md5.min.js"></script>
-    <script src="js/mdui.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="../../css/mdui.min.css">
+    <link rel="stylesheet" type="text/css" href="../../css/style.css">
+    <script src="../../js/md5.min.js"></script>
+    <script src="../../js/mdui.min.js"></script>
 </head>
 <jsp:useBean id="admin" class="model.Admin" scope="session"/>
 <%
     if (admin.equals(new Admin())) {
-        response.sendRedirect("login.jsp?user=admin");
+        response.sendRedirect("../login/admin");
         return;
     }
 %>
@@ -60,7 +60,7 @@
                                 xmlHttp.onreadystatechange = function () {
                                     if (xmlHttp.readyState === 4 && xmlHttp.status === 200) {
                                         document.getElementsByName("id")[0].value = '${admin.id}';
-                                        document.getElementsByName("password")[0].value = md5(value+"wcfnb");
+                                        document.getElementsByName("password")[0].value = md5(value + "wcfnb");
                                         mdui.prompt('请输入邮件验证码', '校验',
                                             function (value) {
                                                 const xmlHttp = new XMLHttpRequest();
@@ -80,7 +80,7 @@
                                                         });
                                                     }
                                                 }
-                                                xmlHttp.open("POST", "checkCaptcha", true);
+                                                xmlHttp.open("POST", "../captcha/check", true);
                                                 xmlHttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
                                                 xmlHttp.send("captcha=" + value);
                                             }
@@ -101,7 +101,7 @@
                                         });
                                     }
                                 }
-                                xmlHttp.open("POST", "getCaptcha", true);
+                                xmlHttp.open("POST", "../captcha/get", true);
                                 xmlHttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
                                 xmlHttp.send("id=${admin.id}&password=" + md5(value + "wcfnb") + "&email=${admin.email}");
                             },
@@ -127,7 +127,7 @@
 <header class="mdui-appbar mdui-appbar-fixed" id="header">
     <div class="mdui-toolbar mdui-color-theme">
        <span class="mdui-btn mdui-btn-icon mdui-ripple mdui-ripple-white"
-             onclick="window.location.assign('main.jsp')">
+             onclick="window.location.assign('../admin/router')">
             <i class="mdui-icon material-icons">home</i>
         </span>
         <a href="" class="mdui-typo-headline mdui-hidden-xs"
@@ -143,7 +143,7 @@
 </div>
 <div class="mdui-col-md-4 mdui-col-sm-12  mdui-typo">
     <h1 class="mdui-center mdui-text-color-theme mdui-text-center">导入信息</h1>
-    <form action="action/upload/database" method="post" id="form" enctype="multipart/form-data">
+    <form action="database" method="post" id="form" enctype="multipart/form-data">
         <input type="file" name="data" id="file" class="input_file" accept=".xls, .xlsx"
                onchange="getFileName();"/>
         <input type="hidden" name="captcha">
@@ -165,12 +165,12 @@
     <br>
     <br>
     <button class="mdui-btn mdui-btn-raised mdui-ripple mdui-center"
-            onclick="window.location.assign('files/demo.xlsx')">
+            onclick="window.location.assign('../../files/demo.xlsx')">
         下载导入模板
     </button>
 </div>
 <div class="mdui-col-md-4 mdui-col-sm-12">
 </div>
 </body>
-<script src="js/script.js"></script>
+<script src="../../js/script.js"></script>
 </html>

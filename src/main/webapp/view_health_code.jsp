@@ -20,15 +20,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0, user-scalable=no"/>
     <meta name="theme-color" content="#3f51b5">
     <title>浙江工业大学</title>
-    <link rel="stylesheet" type="text/css" href="css/mdui.min.css">
-    <link rel="stylesheet" type="text/css" href="css/style.css">
-    <script src="js/md5.min.js"></script>
-    <script src="js/mdui.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="../../css/mdui.min.css">
+    <link rel="stylesheet" type="text/css" href="../../css/style.css">
+    <script src="../../js/md5.min.js"></script>
+    <script src="../../js/mdui.min.js"></script>
 </head>
 <jsp:useBean id="person" class="model.Person" scope="session"/>
 <%
     if (person.equals(new Person())) {
-        response.sendRedirect("index.jsp");
+        response.sendRedirect("../login/student");
         return;
     }
     String id = person.getUid();
@@ -47,12 +47,12 @@
             used = result.getString(2);
             if (used.equals("true")) {
                 conn.close();
-                response.sendRedirect("main.jsp?error=used");
+                response.sendRedirect("../student/main?error=used");
                 return;
             }
         } else {
             conn.close();
-            response.sendRedirect("get_health_code.jsp");
+            response.sendRedirect("../healthcode/get");
             return;
         }
         result.close();
@@ -82,7 +82,7 @@
     } catch (SQLException throwables) {
         throwables.printStackTrace();
     }
-    String text = "https://javaweb.huhaorui.com" + request.getContextPath() + "/check_health_code.jsp?id=" + id + "&token=" + token;
+    String text = "https://javaweb.huhaorui.com" + request.getContextPath() + "/action/healthcode/check?id=" + id + "&token=" + token;
     text = text + "&black=" + color;
 %>
 
@@ -90,7 +90,7 @@
 <header class="mdui-appbar mdui-appbar-fixed" id="header">
     <div class="mdui-toolbar mdui-color-theme">
        <span class="mdui-btn mdui-btn-icon mdui-ripple mdui-ripple-white"
-             onclick="window.location.assign('main.jsp')">
+             onclick="window.location.assign('../student/main')">
             <i class="mdui-icon material-icons">home</i>
         </span>
         <a href="" class="mdui-typo-headline mdui-hidden-xs"
@@ -109,7 +109,7 @@
     <p class="mdui-text-center mdui-text-color-theme" style="font-size: large">
         生成时间:<%=time%>
     </p>
-    <img class="mdui-center" style="max-width: 80%" src="GetQrCode?text=<%=text%>" alt="health code">
+    <img class="mdui-center" style="max-width: 80%" src="../qrcode/get?text=<%=text%>" alt="health code">
     <p class="mdui-text-center mdui-text-color-theme" style="font-size: large">
         姓名: ${person.name}
     </p>

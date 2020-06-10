@@ -18,16 +18,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0, user-scalable=no"/>
     <meta name="theme-color" content="#3f51b5">
     <title>浙江工业大学</title>
-    <link rel="stylesheet" type="text/css" href="css/mdui.min.css">
-    <link rel="stylesheet" type="text/css" href="css/style.css">
-    <script src="js/md5.min.js"></script>
-    <script src="js/mdui.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="../../css/mdui.min.css">
+    <link rel="stylesheet" type="text/css" href="../../css/style.css">
+    <script src="../../js/md5.min.js"></script>
+    <script src="../../js/mdui.min.js"></script>
 </head>
 <body class="mdui-appbar-with-toolbar  mdui-loaded mdui-theme-primary-indigo   mdui-theme-accent-deep-purple">
 <header class="mdui-appbar mdui-appbar-fixed" id="header">
     <div class="mdui-toolbar mdui-color-theme">
        <span class="mdui-btn mdui-btn-icon mdui-ripple mdui-ripple-white"
-             onclick="window.location.assign('main.jsp')">
+             onclick="window.location.assign('../student/main')">
             <i class="mdui-icon material-icons">home</i>
         </span>
         <a href="" class="mdui-typo-headline mdui-hidden-xs"
@@ -38,7 +38,7 @@
 </header>
 <%
     if (person.equals(new Person())) {
-        response.sendRedirect("main.jsp");
+        response.sendRedirect("../student/main");
         return;
     }
     Connection conn = DatabaseProvider.getConn();
@@ -47,7 +47,7 @@
         sql.setString(1, person.getUid());
         ResultSet result = sql.executeQuery();
         if (!result.next()) {
-            response.sendRedirect("main.jsp?error=noPunched");
+            response.sendRedirect("../student/main?error=noPunched");
             sql.close();
             result.close();
             conn.close();
@@ -59,7 +59,7 @@
         sql.setString(1, person.getUid());
         result = sql.executeQuery();
         if (result.next()) {
-            response.sendRedirect("main.jsp?error=got");
+            response.sendRedirect("../student/main?error=got");
             conn.close();
             return;
         }
@@ -77,7 +77,7 @@
                 {
                     text: '取消',
                     onClick: function (inst) {
-                        window.location.assign("main.jsp")
+                        window.location.assign("../student/main")
                     }
                 },
                 {
@@ -91,7 +91,7 @@
         });
     }
 </script>
-<form action="getHealthCode" method="post" id="form">
+<form action="../healthcode/get" method="post" id="form">
     <input type="hidden" name="name" value="${person.name}">
     <input type="hidden" name="id" value="${person.uid}">
     <input type="hidden" name="person_id" value="${person.personId}">

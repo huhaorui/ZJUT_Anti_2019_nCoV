@@ -47,9 +47,9 @@ public class LoginServlet extends HttpServlet {
                         request.getSession().setAttribute("admin", admin);
                         request.getSession().setAttribute("person", new Person());
                     }
-                    response.sendRedirect("adminRouter");
+                    response.sendRedirect("admin/router");
                 } else {
-                    response.sendRedirect("error.jsp?user=admin");
+                    response.sendRedirect("login/error?user=admin");
                 }
                 result.close();
                 sql.close();
@@ -83,9 +83,9 @@ public class LoginServlet extends HttpServlet {
                         request.getSession().setAttribute("person", person);
                         request.getSession().setAttribute("admin", new Admin());
                     }
-                    response.sendRedirect("main.jsp");
+                    response.sendRedirect("student/main");
                 } else {
-                    response.sendRedirect("error.jsp?user=user");
+                    response.sendRedirect("login/error?user=student");
                 }
                 result.close();
                 sql.close();
@@ -101,6 +101,6 @@ public class LoginServlet extends HttpServlet {
             doPost(request, response);
             return;
         }
-        response.sendRedirect("login.jsp");
+        response.sendRedirect("login");
     }
 }

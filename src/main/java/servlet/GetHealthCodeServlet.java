@@ -15,7 +15,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.UUID;
 
-@WebServlet(name = "GetHealthCodeServlet", urlPatterns = "/getHealthCode")
+@WebServlet(name = "GetHealthCodeServlet", urlPatterns = "/GetHealthCode")
 public class GetHealthCodeServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
@@ -33,7 +33,7 @@ public class GetHealthCodeServlet extends HttpServlet {
             System.out.println(name);
             ResultSet result = sql.executeQuery();
             if (!result.next()) {
-                response.sendRedirect("main.jsp");
+                response.sendRedirect("../login/student");
                 return;
             }
             sql.close();
@@ -44,13 +44,13 @@ public class GetHealthCodeServlet extends HttpServlet {
             sql.execute();
             sql.close();
             conn.close();
-            response.sendRedirect("view_health_code.jsp");
+            response.sendRedirect("view");
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        response.sendRedirect("main.jsp");
+        response.sendRedirect("../login/student");
     }
 }

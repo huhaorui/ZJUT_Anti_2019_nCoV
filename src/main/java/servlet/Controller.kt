@@ -54,7 +54,7 @@ class Controller : HttpServlet(), Router {
         get("/action/admin/punchview") { req, resp ->
             req.getRequestDispatcher("/admin_punchview.jsp").forward(req, resp)
         }
-        post("/action/admin/router") { req, resp ->
+        request("/action/admin/router") { req, resp ->
             req.getRequestDispatcher("/adminRouter").forward(req, resp)
         }
         get("/action/admin/scanner") { req, resp ->
@@ -62,6 +62,9 @@ class Controller : HttpServlet(), Router {
         }
         get("/action/admin/school") { req, resp ->
             req.getRequestDispatcher("/school_admin.jsp").forward(req, resp)
+        }
+        get("/action/admin/system") { req, resp ->
+            req.getRequestDispatcher("/system_admin.jsp").forward(req, resp)
         }
         request("/action/captcha/check") { req, resp ->
             req.getRequestDispatcher("/checkCaptcha").forward(req, resp)

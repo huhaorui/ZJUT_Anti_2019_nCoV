@@ -8,10 +8,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0, user-scalable=no"/>
     <meta name="theme-color" content="#3f51b5">
     <title>浙江工业大学</title>
-    <link rel="stylesheet" type="text/css" href="css/mdui.min.css">
-    <link rel="stylesheet" type="text/css" href="css/style.css">
-    <script src="js/mdui.min.js"></script>
-    <script src="js/jquery-3.5.1.js"></script>
+    <link rel="stylesheet" type="text/css" href="../../css/mdui.min.css">
+    <link rel="stylesheet" type="text/css" href="../../css/style.css">
+    <script src="../../js/mdui.min.js"></script>
+    <script src="../../js/jquery-3.5.1.js"></script>
 </head>
 <script type="text/javascript">
     $ = jQuery
@@ -99,7 +99,7 @@
     function get_collage() {
         collage_selector.selected = -1
         $.ajax({
-            url: 'action/admin/view/collage',
+            url: '../admin/view/collage',
             async: true, cache: false, type: 'post',
             success: (data) => {
                 console.log(data)
@@ -113,7 +113,7 @@
         get_teacher()
         select_major.selected = -1
         $.ajax({
-            url: 'action/admin/view/major', data: {collage: select_collage.curr()},
+            url: '../admin/view/major', data: {collage: select_collage.curr()},
             async: true, cache: false, type: 'post',
             success: (data) => {
                 console.log(data)
@@ -126,7 +126,7 @@
     function get_clazz() {
         select_class.selected = -1
         $.ajax({
-            url: 'action/admin/view/class', data: {major: select_major.curr()},
+            url: '../admin/view/class', data: {major: select_major.curr()},
             async: true, cache: false, type: 'post',
             success: (data) => {
                 console.log(data)
@@ -138,7 +138,7 @@
 
     function get_student() {
         $.ajax({
-            url: 'action/admin/view/student', data: {class: select_class.curr()},
+            url: '../admin/view/student', data: {class: select_class.curr()},
             async: true, cache: false, type: 'post',
             success: (data) => {
                 console.log(data)
@@ -150,7 +150,7 @@
 
     function get_teacher() {
         $.ajax({
-            url: 'action/admin/view/teacher', data: {collage: select_collage.curr()},
+            url: '../admin/view/teacher', data: {collage: select_collage.curr()},
             async: true, cache: false, type: 'post',
             success: (data) => {
                 console.log(data)
@@ -164,7 +164,7 @@
 <header class="mdui-appbar mdui-appbar-fixed" id="header">
     <div class="mdui-toolbar mdui-color-theme">
     <span class="mdui-btn mdui-btn-icon mdui-ripple mdui-ripple-white"
-          onclick="window.location.assign('main.jsp')">
+          onclick="window.location.assign('../admin/router')">
       <i class="mdui-icon material-icons">home</i>
     </span>
         <a href="" class="mdui-typo-headline mdui-hidden-xs"
@@ -211,5 +211,5 @@
 </div>
 <div class="mdui-col-md-2 mdui-hidden-sm-down"></div>
 </body>
-<script src="js/script.js"></script>
+<script src="../../js/script.js"></script>
 </html>

@@ -12,26 +12,27 @@ import javax.servlet.http.HttpServletResponse
 class AdminRouterServlet : HttpServlet() {
     @Throws(ServletException::class, IOException::class)
     override fun doPost(request: HttpServletRequest, response: HttpServletResponse) {
-        val admin: Admin = request.session.getAttribute("admin") as Admin
-        if (admin == Admin()) {
-            response.sendRedirect("login.jsp?user=admin")
+        if (request.session.getAttribute("admin") == null) {
+            response.sendRedirect("../login/admin")
             return
         }
+        val admin: Admin = request.session.getAttribute("admin") as Admin
+
         when (admin.level) {
             9, 8 -> {
-                response.sendRedirect("system_admin.jsp")
+                response.sendRedirect("system")
             }
             5, 4 -> {
-                response.sendRedirect("school_admin.jsp")
+                response.sendRedirect("school")
             }
             3, 2 -> {
-                response.sendRedirect("college_admin.jsp")
+                response.sendRedirect("college")
             }
             1 -> {
-                response.sendRedirect("scanner.jsp")
+                response.sendRedirect("scanner")
             }
             else -> {
-                response.sendRedirect("login.jsp?user=admin")
+                response.sendRedirect("../login/admin")
             }
         }
     }

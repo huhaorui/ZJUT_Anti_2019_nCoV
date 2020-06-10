@@ -39,7 +39,7 @@ public class ResetPasswordServlet extends HttpServlet {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-        response.sendRedirect("login.jsp?reset=ok&user=admin");
+        response.sendRedirect("../login/admin?reset=ok");
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -56,9 +56,9 @@ public class ResetPasswordServlet extends HttpServlet {
             sql.setString(2, token);
             ResultSet result = sql.executeQuery();
             if (result.next()) {
-                request.getRequestDispatcher("reset_password.jsp").forward(request, response);
+                request.getRequestDispatcher("reset").forward(request, response);
             } else {
-                response.sendRedirect("forget_password.jsp");
+                response.sendRedirect("forget");
             }
             result.close();
             sql.close();

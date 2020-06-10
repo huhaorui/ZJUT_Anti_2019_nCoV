@@ -12,10 +12,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0, user-scalable=no"/>
     <meta name="theme-color" content="#3f51b5">
     <title>浙江工业大学</title>
-    <link rel="stylesheet" type="text/css" href="css/mdui.min.css">
-    <link rel="stylesheet" type="text/css" href="css/style.css">
-    <script src="js/md5.min.js"></script>
-    <script src="js/mdui.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="../../css/mdui.min.css">
+    <link rel="stylesheet" type="text/css" href="../../css/style.css">
+    <script src="../../js/md5.min.js"></script>
+    <script src="../../js/mdui.min.js"></script>
 </head>
 <jsp:useBean id="person" class="model.Person" scope="session"/>
 <jsp:useBean id="admin" class="model.Admin" scope="session"/>
@@ -28,7 +28,7 @@
 <header class="mdui-appbar mdui-appbar-fixed" id="header">
     <div class="mdui-toolbar mdui-color-theme">
        <span class="mdui-btn mdui-btn-icon mdui-ripple mdui-ripple-white"
-             onclick="window.location.assign('main.jsp')">
+             onclick="window.location.assign('router')">
             <i class="mdui-icon material-icons">home</i>
         </span>
         <a href="" class="mdui-typo-headline mdui-hidden-xs"
@@ -44,7 +44,7 @@
 </header>
 <%
     if (admin.equals(new Admin())) {
-        response.sendRedirect("adminRouter");
+        response.sendRedirect("router");
         return;
     }
 %>
@@ -54,9 +54,9 @@
     <div style="height: 24px"></div>
     <div class="mdui-row">
         <div style="padding: 8px" class="mdui-col-md-6 mdui-col-sm-12 ">
-            <div class="mdui-card" onclick="window.location.assign('admin_overview.jsp')">
+            <div class="mdui-card" onclick="window.location.assign('overview')">
                 <div class="mdui-card-media">
-                    <img src="image/card.jpg"/>
+                    <img src="../../image/card.jpg"/>
                     <div class="mdui-card-media-covered">
                         <div class="mdui-card-primary">
                             <div class="mdui-card-primary-title">信息概览</div>
@@ -68,9 +68,9 @@
         </div>
 
         <div style="padding: 8px" class="mdui-col-md-6 mdui-col-sm-12">
-            <div class="mdui-card" onclick="window.location.assign('admin_punchview.jsp')">
+            <div class="mdui-card" onclick="window.location.assign('punchview')">
                 <div class="mdui-card-media">
-                    <img src="image/card.jpg"/>
+                    <img src="../../image/card.jpg"/>
                     <div class="mdui-card-media-covered">
                         <div class="mdui-card-primary">
                             <div class="mdui-card-primary-title">打卡情况</div>
@@ -87,9 +87,9 @@
         <div class="mdui-col-md-3 mdui-col-sm-12"></div>
 
         <div style="padding: 8px" class="mdui-col-md-6 mdui-col-sm-12">
-            <div class="mdui-card" onclick="window.location.assign('college_information.jsp')">
+            <div class="mdui-card" onclick="window.location.assign('../information/college')">
                 <div class="mdui-card-media">
-                    <img src="image/card.jpg"/>
+                    <img src="../../image/card.jpg"/>
                     <div class="mdui-card-media-covered">
                         <div class="mdui-card-primary">
                             <div class="mdui-card-primary-title">信息管理</div>
@@ -103,8 +103,8 @@
 
     </div>
 </div>
-<form id="logout" method="post" action="logOut">
+<form id="logout" method="post" action="../logout">
 </form>
 </body>
-<script src="js/script.js"></script>
+<script src="../../js/script.js"></script>
 </html>

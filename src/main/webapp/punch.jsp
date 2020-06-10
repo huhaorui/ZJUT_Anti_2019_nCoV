@@ -17,16 +17,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0, user-scalable=no"/>
     <meta name="theme-color" content="#3f51b5">
     <title>浙江工业大学</title>
-    <link rel="stylesheet" type="text/css" href="css/mdui.min.css">
-    <link rel="stylesheet" type="text/css" href="css/style.css">
-    <script src="js/md5.min.js"></script>
-    <script src="js/mdui.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="../../css/mdui.min.css">
+    <link rel="stylesheet" type="text/css" href="../../css/style.css">
+    <script src="../../js/md5.min.js"></script>
+    <script src="../../js/mdui.min.js"></script>
 </head>
 <jsp:useBean id="person" class="model.Person" scope="session"/>
 <%
     String tel = "";
     if (person.equals(new Person())) {
-        response.sendRedirect("main.jsp");
+        response.sendRedirect("../login/student");
         return;
     } else {
         Connection conn = DatabaseProvider.getConn();
@@ -38,7 +38,7 @@
                 sql.close();
                 result.close();
                 conn.close();
-                response.sendRedirect("main.jsp?error=punched");
+                response.sendRedirect("main?error=punched");
                 return;
             }
             sql = conn.prepareStatement("select tel from health_info where uid=?");
@@ -55,7 +55,7 @@
                 sql.close();
                 result.close();
                 conn.close();
-                response.sendRedirect("main.jsp?error=punched");
+                response.sendRedirect("main?error=punched");
                 return;
             }
         } catch (SQLException throwables) {
@@ -140,7 +140,7 @@
 <header class="mdui-appbar mdui-appbar-fixed" id="header">
     <div class="mdui-toolbar mdui-color-theme">
        <span class="mdui-btn mdui-btn-icon mdui-ripple mdui-ripple-white"
-             onclick="window.location.assign('main.jsp')">
+             onclick="window.location.assign('main')">
             <i class="mdui-icon material-icons">home</i>
         </span>
         <a href="" class="mdui-typo-headline mdui-hidden-xs"
@@ -157,7 +157,7 @@
 </div>
 <div class="mdui-col-md-4 mdui-col-sm-12  mdui-typo">
     <h1 class="mdui-center mdui-text-color-theme mdui-text-center">健康申报</h1>
-    <form action="uploadPunch" id="form" method="post">
+    <form action="../upload/punch" id="form" method="post">
         <div class="mdui-textfield mdui-textfield-floating-label">
             <i class="mdui-icon material-icons">people</i>
             <label class="mdui-textfield-label">姓名</label>

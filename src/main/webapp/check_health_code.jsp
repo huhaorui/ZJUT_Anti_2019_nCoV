@@ -16,10 +16,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0, user-scalable=no"/>
     <meta name="theme-color" content="#3f51b5">
     <title>浙江工业大学</title>
-    <link rel="stylesheet" type="text/css" href="css/mdui.min.css">
-    <link rel="stylesheet" type="text/css" href="css/style.css">
-    <script src="js/md5.min.js"></script>
-    <script src="js/mdui.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="../../css/mdui.min.css">
+    <link rel="stylesheet" type="text/css" href="../../css/style.css">
+    <script src="../../js/md5.min.js"></script>
+    <script src="../../js/mdui.min.js"></script>
 </head>
 <script type="text/javascript">
     function check() {
@@ -77,7 +77,7 @@
             sql.close();
             result.close();
         } else {
-            response.sendRedirect("error_code.jsp");
+            response.sendRedirect("error");
             return;
         }
         sql = conn.prepareStatement("select color from health_info where uid=?");
@@ -136,7 +136,7 @@
 <header class="mdui-appbar mdui-appbar-fixed" id="header">
     <div class="mdui-toolbar mdui-color-theme">
        <span class="mdui-btn mdui-btn-icon mdui-ripple mdui-ripple-white"
-             onclick="window.location.assign('main.jsp')">
+             onclick="window.location.assign('router')">
             <i class="mdui-icon material-icons">home</i>
         </span>
         <a href="" class="mdui-typo-headline mdui-hidden-xs"
@@ -202,7 +202,7 @@
             onclick="check()">
         确认入校
     </button>
-    <form id="form" action="DestroyHealthCode" method="post">
+    <form id="form" action="destory" method="post">
         <input type="hidden" name="id" value="<%=id%>">
         <input type="hidden" name="token" value="<%=token%>">
     </form>
@@ -216,7 +216,7 @@
     } else {
     %>
     <button class="mdui-center mdui-btn mdui-ripple  mdui-color-theme-accent"
-            onclick="window.location.assign('login.jsp?user=admin')">
+            onclick="window.location.assign('../login/admin')">
         管理员登陆
     </button>
     <%

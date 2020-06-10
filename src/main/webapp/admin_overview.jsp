@@ -11,7 +11,7 @@
 <jsp:useBean id="admin" scope="session" class="model.Admin"/>
 <%
     if (admin.equals(new Admin())) {
-        response.sendRedirect("login.jsp?user=admin");
+        response.sendRedirect("../login/admin");
         return;
     }
     List<Collage> collages = PunchRecordData.availableCollage(admin);
@@ -22,11 +22,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0, user-scalable=no"/>
     <meta name="theme-color" content="#3f51b5">
     <title>浙江工业大学</title>
-    <link rel="stylesheet" type="text/css" href="css/mdui.min.css">
-    <link rel="stylesheet" type="text/css" href="css/style.css">
-    <script src="js/mdui.min.js"></script>
-    <script src="js/jquery-3.5.1.js"></script>
-    <script src="js/table.js"></script>
+    <link rel="stylesheet" type="text/css" href="../../css/mdui.min.css">
+    <link rel="stylesheet" type="text/css" href="../../css/style.css">
+    <script src="../../js/mdui.min.js"></script>
+    <script src="../../js/jquery-3.5.1.js"></script>
+    <script src="../../js/table.js"></script>
 </head>
 <script type="text/javascript">
     let $ = jQuery
@@ -92,9 +92,9 @@
 
     function export_data() {
         if (selected > 0) {
-            window.location.assign('action/admin/overview/export?collage=' + selected)
+            window.location.assign('overview/export?collage=' + selected)
         } else {
-            window.location.assign('action/admin/overview/export')
+            window.location.assign('overview/export')
         }
     }
 
@@ -107,7 +107,7 @@
         }
 
         $.ajax({
-            url: 'action/admin/overview',
+            url: 'overview',
             data: data,
             async: true, cache: false, type: 'post',
             success: (data) => {
@@ -124,7 +124,7 @@
 <header class="mdui-appbar mdui-appbar-fixed" id="header">
     <div class="mdui-toolbar mdui-color-theme">
     <span class="mdui-btn mdui-btn-icon mdui-ripple mdui-ripple-white"
-          onclick="window.location.assign('main.jsp')">
+          onclick="window.location.assign('router')">
     <i class="mdui-icon material-icons">home</i>
     </span>
         <a href="" class="mdui-typo-headline mdui-hidden-xs"
@@ -151,7 +151,7 @@
         导出数据
     </button>
     <button class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent mdui-center"
-            onclick="window.location.assign('main.jsp')" style="margin-bottom: 16px">
+            onclick="window.location.assign('router')" style="margin-bottom: 16px">
         回到首页
     </button>
 </div>
@@ -263,5 +263,5 @@
 
 </script>
 </body>
-<script src="js/script.js"></script>
+<script src="../../js/script.js"></script>
 </html>

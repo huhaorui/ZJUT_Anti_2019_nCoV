@@ -24,7 +24,7 @@ public class DestroyHealthCodeServlet extends HttpServlet {
             sql.setString(2, token);
             sql.execute();
             sql.close();
-            response.sendRedirect("check_health_code.jsp?id=" + id + "&token=" + token);
+            response.sendRedirect("check?id=" + id + "&token=" + token);
             conn.close();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -32,6 +32,6 @@ public class DestroyHealthCodeServlet extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        response.sendRedirect("index.jsp");
+        response.sendRedirect("../login");
     }
 }

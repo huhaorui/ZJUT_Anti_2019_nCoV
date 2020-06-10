@@ -19,7 +19,7 @@ import java.util.UUID;
 public class ForgetPasswordServlet extends HttpServlet {
     String getResetLink(String email, HttpServletRequest request) {
         String id = null, token = null;
-        String URL = "https://javaweb.huhaorui.com" + request.getContextPath() + "/resetPassword?";
+        String URL = "https://javaweb.huhaorui.com" + request.getContextPath() + "/action/password/reset?";
         Connection conn = DatabaseProvider.getConn();
         try {
             PreparedStatement sql = conn.prepareStatement("select id from admin where email=?");
@@ -58,12 +58,12 @@ public class ForgetPasswordServlet extends HttpServlet {
             sql.setString(2, email);
             ResultSet result = sql.executeQuery();
             if (!result.next()) {
-                response.sendRedirect("forget_password.jsp?reset=error");
+                response.sendRedirect("forget?reset=error");
             } else {
                 if (Mail.mail(getResetLink(email, request), email)) {
-                    response.sendRedirect("forget_password.jsp?reset=ok");
+                    response.sendRedirect("forget?reset=ok");
                 } else {
-                    response.sendRedirect("forget_password.jsp?reset=error");
+                    response.sendRedirect("forget?reset=error");
                 }
             }
             result.close();
@@ -75,6 +75,6 @@ public class ForgetPasswordServlet extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        response.sendRedirect("forget_password.jsp");
+        response.sendRedirect("forget.jsp");
     }
 }

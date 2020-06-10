@@ -66,7 +66,7 @@ public class UploadPunchServlet extends HttpServlet {
             ill14 = request.getParameter("ill14");
             problem = request.getParameter("problem");
         } catch (NullPointerException e) {
-            response.sendRedirect("main.jsp");
+            response.sendRedirect("../student/main");
             return;
         }
         Connection conn = DatabaseProvider.getConn();
@@ -80,7 +80,7 @@ public class UploadPunchServlet extends HttpServlet {
             if (!result.next()) {
                 result.close();
                 sql.close();
-                response.sendRedirect("main.jsp");
+                response.sendRedirect("../student/main");
                 return;
             }
         } catch (SQLException e) {
@@ -128,7 +128,7 @@ public class UploadPunchServlet extends HttpServlet {
                         while (n-- > 0 && result.next()) {
                             if (first == null) first = result.getDate("date");
                             if (!result.getString("color").equals("green")) {
-                                response.sendRedirect("main.jsp?ok=punch");
+                                response.sendRedirect("../student/main?ok=punch");
                                 sql.close();
                                 result.close();
                                 conn.close();
@@ -138,20 +138,20 @@ public class UploadPunchServlet extends HttpServlet {
                         last = result.getDate("date");
                         assert first != null;
                         if ((first.getTime() - last.getTime()) / 86400000 > timeInNeed - 1) {
-                            response.sendRedirect("main.jsp?ok=punch");
+                            response.sendRedirect("../student/main?ok=punch");
                         } else if (n == -1) {
                             sql = conn.prepareStatement("update health_info set color='green' where uid=?");
                             sql.setString(1, id);
                             sql.execute();
-                            response.sendRedirect("recover.jsp?time=" + timeInNeed + "&name=" + URLEncoder.encode(name, StandardCharsets.UTF_8));
+                            response.sendRedirect("../student/recover?time=" + timeInNeed + "&name=" + URLEncoder.encode(name, StandardCharsets.UTF_8));
                         } else {
-                            response.sendRedirect("main.jsp?ok=punch");
+                            response.sendRedirect("../student/main?ok=punch");
                         }
                     } else {
-                        response.sendRedirect("main.jsp?error=punched");
+                        response.sendRedirect("../stuedent/main?error=punched");
                     }
                 } else {
-                    response.sendRedirect("main.jsp?error=punched");
+                    response.sendRedirect("../student/main?error=punched");
                 }
             } else {
                 sql = conn.prepareStatement("insert into health_info values(?,?,?,?,?,?,?,?)");
@@ -171,7 +171,7 @@ public class UploadPunchServlet extends HttpServlet {
                 sql.setInt(4, problemNumber);
                 sql.setString(5, getColorByStatus(danger14, aboard14, touch14, ill14, problemNumber));
                 sql.execute();
-                response.sendRedirect("main.jsp?ok=punch");
+                response.sendRedirect("../student/main?ok=punch");
             }
             sql.close();
             result.close();
@@ -183,6 +183,6 @@ public class UploadPunchServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        response.sendRedirect("main.jsp");
+        response.sendRedirect("../student/main");
     }
 }

@@ -5,10 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0, user-scalable=no"/>
     <meta name="theme-color" content="#3f51b5">
     <title>浙江工业大学</title>
-    <link rel="stylesheet" type="text/css" href="css/mdui.min.css">
-    <link rel="stylesheet" type="text/css" href="css/style.css">
-    <script src="js/md5.min.js"></script>
-    <script src="js/mdui.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="../../css/mdui.min.css">
+    <link rel="stylesheet" type="text/css" href="../../css/style.css">
+    <script src="../../js/md5.min.js"></script>
+    <script src="../../js/mdui.min.js"></script>
 </head>
 
 <script type="text/javascript">
@@ -58,7 +58,7 @@
 <header class="mdui-appbar mdui-appbar-fixed" id="header">
     <div class="mdui-toolbar mdui-color-theme">
        <span class="mdui-btn mdui-btn-icon mdui-ripple mdui-ripple-white"
-             onclick="window.location.assign('main.jsp')">
+             onclick="window.location.assign('../student/main')">
             <i class="mdui-icon material-icons">home</i>
         </span>
         <a href="" class="mdui-typo-headline mdui-hidden-xs"
@@ -78,7 +78,7 @@
 <div class="mdui-col-md-4 mdui-col-sm-12  mdui-typo">
     <h1 class="mdui-center mdui-text-color-theme mdui-text-center">管理员登陆</h1>
     <div class="mdui-container-fluid mdui-center" id="content" style="margin: 64px">
-        <form action="login" method="post">
+        <form action="../login" method="post">
             <div class="mdui-textfield mdui-textfield-floating-label">
                 <i class="mdui-icon material-icons">account_circle</i>
                 <label class="mdui-textfield-label">工号</label>
@@ -94,7 +94,7 @@
                     style="margin-top: 32px" onclick="return  login()">登陆
             </button>
         </form>
-        <button class="mdui-btn mdui-ripple mdui-center" onclick="window.location.assign('forget_password.jsp')">
+        <button class="mdui-btn mdui-ripple mdui-center" onclick="window.location.assign('../password/forget')">
             忘记密码
         </button>
     </div>
@@ -105,7 +105,7 @@
 <div class="mdui-col-md-4 mdui-col-sm-12  mdui-typo">
     <h1 class="mdui-center mdui-text-color-theme mdui-text-center">师生登陆</h1>
     <div class="mdui-container-fluid mdui-center" id="" style="margin: 64px">
-        <form action="login" method="post">
+        <form action="../login" method="post">
             <div class="mdui-textfield mdui-textfield-floating-label">
                 <i class="mdui-icon material-icons">account_circle</i>
                 <label class="mdui-textfield-label">姓名</label>
@@ -127,7 +127,7 @@
                     style="margin-top: 32px" onclick="return check()">登陆
             </button>
         </form>
-        <button class="mdui-btn mdui-ripple mdui-center" onclick="window.location.assign('login.jsp?user=admin')">
+        <button class="mdui-btn mdui-ripple mdui-center" onclick="window.location.assign('admin')">
             后台管理
         </button>
     </div>
