@@ -202,7 +202,7 @@
             onclick="check()">
         确认入校
     </button>
-    <form id="form" action="destory" method="post">
+    <form id="form" action="destroy" method="post">
         <input type="hidden" name="id" value="<%=id%>">
         <input type="hidden" name="token" value="<%=token%>">
     </form>
