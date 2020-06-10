@@ -149,10 +149,10 @@
     <div class="mdui-table-fluid">
         <table id="punch_view_table" class="mdui-table mdui-table-hoverable " style="min-width: 1080px">
             <tr>
-                <th id="college">学院</th>
+                <th id="college">学院&nbsp;<i class="mdui-icon material-icons">filter_list</i></th>
                 <th>学号/工号</th>
                 <th>姓名</th>
-                <th id="color">打卡情况</th>
+                <th id="color">打卡情况&nbsp;<i class="mdui-icon material-icons">filter_list</i></th>
                 <th>备注</th>
             </tr>
         </table>

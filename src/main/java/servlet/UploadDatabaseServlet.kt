@@ -49,14 +49,14 @@ class UploadDatabaseServlet : HttpServlet() {
         val result = streams.firstOrNull { it.field == "data" && (it.filename.endsWith(".xls") || it.filename.endsWith(".xlsx")) }?.let { Import(it) }?.insert()
         multiFields.close()
         if (result?.firstOrNull { it.first.first == 0 } != null) {
-            //成功
-            print(result)
+            resp.sendRedirect("logOut")
+            return
         } else {
-            //失败lou
-            print(result)
+            resp.sendRedirect("uploadDatabase.jsp")
+            return
         }
-        val gson = GsonBuilder().setPrettyPrinting().enableComplexMapKeySerialization().serializeNulls().create()
-        resp.writer.write(gson.toJson(result))
+//        val gson = GsonBuilder().setPrettyPrinting().enableComplexMapKeySerialization().serializeNulls().create()
+//        resp.writer.write(gson.toJson(result))
     }
 
     @Throws(ServletException::class, IOException::class)

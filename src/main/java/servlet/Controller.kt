@@ -45,16 +45,107 @@ class Controller : HttpServlet(), Router {
             val name = req.fields()["name"]
             resp.writer.println("hello world, $name")
         }
-
+        get("/action/admin/college") { req, resp ->
+            req.getRequestDispatcher("/college_admin.jsp").forward(req, resp)
+        }
+        get("/action/admin/overview") { req, resp ->
+            req.getRequestDispatcher("/admin_overview.jsp").forward(req, resp)
+        }
+        get("/action/admin/punchview") { req, resp ->
+            req.getRequestDispatcher("/admin_punchview.jsp").forward(req, resp)
+        }
+        post("/action/admin/router") { req, resp ->
+            req.getRequestDispatcher("/adminRouter").forward(req, resp)
+        }
+        get("/action/admin/scanner") { req, resp ->
+            req.getRequestDispatcher("/scanner.jsp").forward(req, resp)
+        }
+        get("/action/admin/school") { req, resp ->
+            req.getRequestDispatcher("/school_admin.jsp").forward(req, resp)
+        }
+        request("/action/captcha/check") { req, resp ->
+            req.getRequestDispatcher("/checkCaptcha").forward(req, resp)
+        }
+        request("/action/captcha/get") { req, resp ->
+            req.getRequestDispatcher("/getCaptcha").forward(req, resp)
+        }
+        request("/action/getinfo") { req, resp ->
+            req.getRequestDispatcher("/getInfoById").forward(req, resp)
+        }
+        request("/action/healthcode/check") { req, resp ->
+            req.getRequestDispatcher("/check_health_code.jsp").forward(req, resp)
+        }
+        request("/action/healthcode/destroy") { req, resp ->
+            req.getRequestDispatcher("DestroyHealthCode").forward(req, resp)
+        }
+        request("/action/healthcode/error") { req, resp ->
+            req.getRequestDispatcher("/error_code.jsp").forward(req, resp)
+        }
+        post("/action/healthcode/get") { req, resp ->
+            req.getRequestDispatcher("/GetHealthCode").forward(req, resp)
+        }
+        get("/action/healthcode/get") { req, resp ->
+            req.getRequestDispatcher("/get_health_code.jsp").forward(req, resp)
+        }
+        request("/action/healthcode/view") { req, resp ->
+            req.getRequestDispatcher("/view_health_code.jsp").forward(req, resp)
+        }
+        request("/action/information/college") { req, resp ->
+            req.getRequestDispatcher("/college_information.jsp").forward(req, resp)
+        }
+        request("/action/login") { req, resp ->
+            req.getRequestDispatcher("/login").forward(req, resp)
+        }
+        request("/action/login/student") { req, resp ->
+            req.getRequestDispatcher("/login.jsp?user=student").forward(req, resp)
+        }
+        request("/action/login/admin") { req, resp ->
+            req.getRequestDispatcher("/login.jsp?user=admin").forward(req, resp)
+        }
+        request("/action/login/error") { req, resp ->
+            req.getRequestDispatcher("/error.jsp").forward(req, resp)
+        }
+        request("/action/logout") { req, resp ->
+            req.getRequestDispatcher("/logOut").forward(req, resp)
+        }
+        post("/action/password/forget") { req, resp ->
+            req.getRequestDispatcher("/forgetPassword").forward(req, resp)
+        }
+        get("/action/password/forget") { req, resp ->
+            req.getRequestDispatcher("/forget_password.jsp").forward(req, resp)
+        }
+        post("/action/password/reset") { req, resp ->
+            req.getRequestDispatcher("/resetPassword").forward(req, resp)
+        }
+        get("/action/password/reset") { req, resp ->
+            req.getRequestDispatcher("/reset_password.jsp").forward(req, resp)
+        }
+        request("/action/qrcode/get") { req, resp ->
+            req.getRequestDispatcher("/GetQrCode").forward(req, resp)
+        }
+        request("/action/student/history") { req, resp ->
+            req.getRequestDispatcher("/punch_history.jsp").forward(req, resp)
+        }
+        request("/action/student/main") { req, resp ->
+            req.getRequestDispatcher("/main.jsp").forward(req, resp)
+        }
+        request("/action/student/punch") { req, resp ->
+            req.getRequestDispatcher("/punch.jsp").forward(req, resp)
+        }
+        request("/action/student/recover") { req, resp ->
+            req.getRequestDispatcher("/recover.jsp").forward(req, resp)
+        }
+        get("/action/upload/database") { req, resp ->
+            req.getRequestDispatcher("/upload_database.jsp").forward(req, resp)
+        }
         post("/action/upload/database") { req, resp ->
             req.getRequestDispatcher("/uploadDatabase").forward(req, resp)
         }
-
-        request("/action/login/admin") { _, resp ->
-            resp.sendRedirect("$context/login.jsp?user=admin")
+        request("/action/upload/punch") { req, resp ->
+            req.getRequestDispatcher("/uploadPunch").forward(req, resp)
         }
 
-        request("/action/admin/overview") { req, resp ->
+        post("/action/admin/overview") { req, resp ->
             resp.contentType = "application/json;charset=UTF-8"
             admin(req, resp, arrayListOf(SYSTEM, COLLAGE, SCHOOL),
                     {
@@ -127,7 +218,7 @@ class Controller : HttpServlet(), Router {
             }
         }
 
-        request("/action/admin/punchview") { req, resp ->
+        post("/action/admin/punchview") { req, resp ->
             resp.contentType = "application/json;charset=UTF-8"
 
             admin(req, resp, arrayListOf(SYSTEM, COLLAGE, SCHOOL),
