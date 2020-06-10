@@ -79,7 +79,7 @@ class Controller : HttpServlet(), Router {
             req.getRequestDispatcher("/check_health_code.jsp").forward(req, resp)
         }
         request("/action/healthcode/destroy") { req, resp ->
-            req.getRequestDispatcher("DestroyHealthCode").forward(req, resp)
+            req.getRequestDispatcher("/DestroyHealthCode").forward(req, resp)
         }
         request("/action/healthcode/error") { req, resp ->
             req.getRequestDispatcher("/error_code.jsp").forward(req, resp)
