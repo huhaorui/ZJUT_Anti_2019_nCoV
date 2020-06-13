@@ -32,7 +32,7 @@ public class LoginServlet extends HttpServlet {
                 password = request.getParameter("password");
                 response.getWriter().println(password);
             }
-            PreparedStatement sql = null;
+            PreparedStatement sql;
             try {
                 sql = conn.prepareStatement("select * from admin where id=? and password=?");
                 sql.setString(1, id);

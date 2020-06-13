@@ -24,7 +24,27 @@
         return;
     }
 %>
+<jsp:useBean id="log" class="java.lang.String" scope="session"/>
 <script type="text/javascript">
+    <%
+        if(request.getParameter("error")!=null){
+    %>
+    window.onload = () => {
+        mdui.dialog({
+            title: '文件校验错误,请检查后重新上传',
+            buttons: [
+                {
+                    text: '确认',
+                }
+            ],
+            history: false,
+        });
+        console.log((decodeURIComponent("${log}")))
+    }
+    <%
+        }
+    %>
+
     function getFileName() {
         try {
             document.getElementById('file_name').innerText = document.getElementById('file').files[0].name

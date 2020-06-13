@@ -2,11 +2,15 @@ package servlet
 
 import com.google.gson.GsonBuilder
 import conn.DatabaseProvider
+import model.Admin
+import model.Person
 import util.Import
 import util.Router.Companion.multiFields
 import java.io.IOException
+import java.net.URLEncoder
+import java.nio.charset.Charset
+import java.util.*
 import javax.servlet.ServletException
-import javax.servlet.annotation.MultipartConfig
 import javax.servlet.annotation.WebServlet
 import javax.servlet.http.HttpServlet
 import javax.servlet.http.HttpServletRequest
@@ -52,11 +56,12 @@ class UploadDatabaseServlet : HttpServlet() {
             resp.sendRedirect("../logout")
             return
         } else {
-            resp.sendRedirect("upload")
+            val gson = GsonBuilder().setPrettyPrinting().enableComplexMapKeySerialization().serializeNulls().create()
+            req.session.setAttribute("log", URLEncoder.encode(gson.toJson(result), Charsets.UTF_8).replace("+", "%20"))
+            resp.sendRedirect("database?error")
             return
         }
-//        val gson = GsonBuilder().setPrettyPrinting().enableComplexMapKeySerialization().serializeNulls().create()
-//        resp.writer.write(gson.toJson(result))
+
     }
 
     @Throws(ServletException::class, IOException::class)
