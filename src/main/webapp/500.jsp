@@ -10,6 +10,9 @@
     <script src="js/md5.min.js"></script>
     <script src="js/mdui.min.js"></script>
 </head>
+<%
+    response.setStatus(500);
+%>
 <script type="text/javascript">
     window.onload = function () {
         checkIfEmpty();

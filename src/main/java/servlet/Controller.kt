@@ -385,7 +385,7 @@ class Controller : HttpServlet(), Router {
         request.characterEncoding = "utf-8"
         response.contentType = "text/html;charset=UTF-8"
         val uri = request.requestURI
-        post[uri]?.invoke(request, response)
+        post[uri]?.invoke(request, response) //?: response.sendRedirect(servletContext.contextPath + "/404.jsp")
     }
 
     @Throws(ServletException::class, IOException::class)
@@ -393,31 +393,7 @@ class Controller : HttpServlet(), Router {
         request.characterEncoding = "utf-8"
         response.contentType = "text/html;charset=UTF-8"
         val uri = request.requestURI
-        get[uri]?.invoke(request, response)
-
-        //region sample
-//        val teacher = SQL().query(Teacher::class.java, "id" to "00001")
-//        val student = SQL().query(Student::class.java, Pair("id", "201806061108"))
-//        val admin = SQL().query(Admin::class.java, Pair("id", "000000"))
-//        val major = SQL().query(Major::class.java, Pair("name", "计算机科学与技术"))
-//        val collage = SQL().query(Collage::class.java, Pair("id", 580))
-//        val clazz = SQL().query(Clazz::class.java, Pair("id", 1055))
-//        val healthInfo = SQL().query(HealthInfo::class.java, "uid" to "201806061219")
-//        val punchRecord = SQL().queryList(PunchRecord::class.java, "uid" to "201806061219")
-//        val collages = SQL().queryList(Collage::class.java)
-//        println(MessageFormat.format(
-//                "teacher[000001]:{0}\n\nstudent[201806061108]:{1}\n\nadmin[1]:{2}\n\nmajor[1]:{3}\n\ncollage[1]:{4}\n\nclass[5]:{5}\n\nhealth_info[201806061219]:{6}\n\npunch_record[201806061219]:{7}\n\ncollages:{8}\n\n",
-//                gson.toJson(teacher),
-//                gson.toJson(student),
-//                gson.toJson(admin),
-//                gson.toJson(major),
-//                gson.toJson(collage),
-//                gson.toJson(clazz),
-//                gson.toJson(healthInfo),
-//                gson.toJson(punchRecord),
-//                gson.toJson(collages)
-//        ))
-        //endregion
+        get[uri]?.invoke(request, response) ?: response.sendRedirect(servletContext.contextPath + "/404.jsp")
     }
 
     companion object {
