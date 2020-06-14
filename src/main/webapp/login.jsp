@@ -140,7 +140,7 @@
 </div>
 </body>
 <script>const $$ = mdui.JQ;</script>
-<script src="js/script.js"></script>
+<script src="../../js/script.js"></script>
 <%
     if (request.getParameter("reset") != null && request.getParameter("reset").equals("ok")) {
 %>

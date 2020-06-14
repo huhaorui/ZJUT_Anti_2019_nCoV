@@ -71,6 +71,7 @@
 %>
 <script type="text/javascript">
     window.onload = function () {
+        var flag = true
         mdui.dialog({
             title: '你确定要申领健康码嘛？',
             buttons: [
@@ -83,10 +84,16 @@
                 {
                     text: '确认',
                     onClick: function (inst) {
+                        flag = false
                         document.getElementById("form").submit()
                     }
                 }
             ],
+            onClosed: function (inst) {
+                if (flag) {
+                    window.location.assign("../student/main")
+                }
+            },
             history: false,
         });
     }

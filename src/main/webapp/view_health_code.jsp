@@ -120,6 +120,5 @@
 <div class="mdui-col-md-4 mdui-col-sm-12">
 </div>
 </body>
-<script>const $$ = mdui.JQ;</script>
-<script src="js/script.js"></script>
+<script src="../../js/script.js"></script>
 </html>

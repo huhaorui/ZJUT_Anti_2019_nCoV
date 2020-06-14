@@ -68,7 +68,7 @@
         <div class="mdui-col-md-3"></div>
         <div class="mdui-card mdui-col-md-6" onclick="window.location.assign('information')">
             <div class="mdui-card-media">
-                <img src="image/card.jpg"/>
+                <img src="../../image/card.jpg"/>
                 <div class="mdui-card-media-covered">
                     <div class="mdui-card-primary">
                         <div class="mdui-card-primary-title">学生查询</div>
@@ -80,6 +80,7 @@
         <div class="mdui-col-md-3"></div>
     </div>
 </div>
+<form id="logout" method="post" action="../logout"></form>
 </body>
 <script src="../../js/script.js"></script>
 </html>

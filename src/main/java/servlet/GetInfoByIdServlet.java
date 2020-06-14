@@ -39,7 +39,7 @@ public class GetInfoByIdServlet extends HttpServlet {
                             "<p>班级:" + result.getString("class") + "</p>\n";
                     response.getWriter().write(ans);
                 } else {
-                    response.getWriter().write("<p>未找到该学生</p>");
+                    response.getWriter().write("<br><p>未找到该学生</p>");
                 }
             }
         } catch (SQLException throwables) {

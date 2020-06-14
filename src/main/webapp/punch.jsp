@@ -360,6 +360,6 @@
 </div>
 </body>
 <script>const $$ = mdui.JQ;</script>
-<script src="js/script.js"></script>
+<script src="../../js/script.js"></script>
 </html>
 

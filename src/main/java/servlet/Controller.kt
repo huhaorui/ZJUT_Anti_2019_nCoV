@@ -72,6 +72,9 @@ class Controller : HttpServlet(), Router {
         request("/action/captcha/get") { req, resp ->
             req.getRequestDispatcher("/getCaptcha").forward(req, resp)
         }
+        request("/action/admin/information") { req, resp ->
+            req.getRequestDispatcher("/student_information.jsp").forward(req, resp)
+        }
         request("/action/getinfo") { req, resp ->
             req.getRequestDispatcher("/getInfoById").forward(req, resp)
         }
